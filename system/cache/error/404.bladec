@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<!--begin::Head-->
+
+<head>
+ <title> <?php echo \htmlentities($title, ENT_QUOTES|ENT_SUBSTITUTE); ?> | <?php echo \htmlentities($_ENV['APP_NAME'], ENT_QUOTES|ENT_SUBSTITUTE); ?> </title>
+ <meta charset="utf-8" />
+ <meta name="description" content="Canthink Framework by Canthink Solution" />
+ <meta name="keywords" content="" />
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+ <link rel="shortcut icon" href="<?php echo \htmlentities(asset('framework/favicon.ico'), ENT_QUOTES|ENT_SUBSTITUTE); ?>" />
+</head>
+<!--end::Head-->
+<!--begin::Body-->
+
+<h1><?php echo \htmlentities($title, ENT_QUOTES|ENT_SUBSTITUTE); ?></h1>
+<h3 class="mb-10" style="color: #A3A3C7">Seems there is nothing here</h3>
+<a href="<?php echo \htmlentities(url('user'), ENT_QUOTES|ENT_SUBSTITUTE); ?>" class="btn btn-primary">Return</a>
