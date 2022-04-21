@@ -2,9 +2,9 @@
 
 class User_model extends Model
 {
-    protected $table      = 'users';
+    protected $table      = 'user';
     protected $primaryKey = 'user_id';
-    protected $uniqueKey = ['user_code', 'user_email', 'user_username'];
+    protected $uniqueKey = ['user_email', 'user_username'];
     protected $foreignKey = [];
 
     /**
@@ -13,15 +13,23 @@ class User_model extends Model
      * @var array
      */
     protected $fillable = [
-        'user_code', // <--- if this not in fillable it will not save in db, remove this if want to test
-        'user_full_name',
+        'user_fullname',
         'user_preferred_name',
+        'user_nric',
         'user_gender',
         'user_email',
+        'user_contact_no',
+        'user_address',
+        'user_postcode',
+        'user_city',
+        'user_state',
+        'user_race',
+        'user_religion',
         'user_username',
         'user_password',
         'user_avatar',
         'user_status',
+        'role_id',
     ];
 
     /**
@@ -31,8 +39,6 @@ class User_model extends Model
      */
     protected $rules = [
         'user_id' => 'numeric',
-        'user_code' => 'required|min:1|max:3',
-        'user_full_name' => 'required|min:20|max:30',
     ];
 
     /**
@@ -41,8 +47,20 @@ class User_model extends Model
      * @return array
      */
     protected $messages = [
-        'user_code' => 'Code',
-        'user_full_name' => 'Full Name'
+        'user_fullname' => 'name',
+        'user_preferred_name' => 'preferred name',
+        'user_gender' => 'gender',
+        'user_email' => 'email',
+        'user_contact_no' => 'contact no',
+        'user_address' => 'address',
+        'user_postcode' => 'postcode',
+        'user_city' => 'city',
+        'user_state' => 'state',
+        'user_race' => 'race',
+        'user_religion' => 'religion',
+        'user_username' => 'username',
+        'user_password' => 'password',
+        'role_id' => 'role',
     ];
 
     ###################################################################

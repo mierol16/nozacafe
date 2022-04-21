@@ -1,42 +1,37 @@
 <?php
 
-class UsersRole
+class MasterLeave
 {
-    protected $table = 'pmo_user_role';
+    protected $table = 'master_leave';
 
     public function up()
     {
         $column =  [
-            'user_role_id' => array(
+            'leave_id' => array(
                 'type' => 'BIGINT',
                 'unsigned' => TRUE,
                 'auto_increment' => TRUE,
                 'null' => FALSE,
             ),
-            'user_code' => array(
+            'leave_name' => array(
                 'type' => 'VARCHAR',
                 'length' => 50,
-                'comment' => 'Refer table pmo_user',
                 'null' => TRUE
             ),
-            'role_id' => array(
-                'type' => 'BIGINT',
-                'unsigned' => TRUE,
-                'comment' => 'Refer table pmo_master_roles',
-                'null' => TRUE,
+            'leave_description' => array(
+                'type' => 'TEXT',
+                'null' => TRUE
             ),
-            'role_status' => array(
-                'type' => 'TINYINT',
-                'null' => TRUE,
-                'comment' => '0 - Inactive, 1 - Active',
-                'default' => '1',
-            )
+            'leave_carry' => array(
+                'type' => 'DECIMAL',
+                'length' => '10,1',
+                'default' => '0',
+                'null' => TRUE
+            ),
         ];
 
         $key = [
-            1 => ['type' => 'PRIMARY KEY', 'reference' => 'user_role_id'],
-            2 => ['type' => 'INDEX', 'reference' => 'user_code'],
-            3 => ['type' => 'INDEX', 'reference' => 'role_id'],
+            1 => ['type' => 'PRIMARY KEY', 'reference' => 'leave_id'],
         ];
 
         migrate($this->table, $column, $key);
@@ -51,7 +46,7 @@ class UsersRole
 
     public function relation()
     {
-        // empty
+        
     }
 }
 

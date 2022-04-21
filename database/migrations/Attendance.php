@@ -1,13 +1,13 @@
 <?php
 
-class AuditTrail
+class Attendance
 {
-    protected $table = 'audit_trails';
+    protected $table = 'staff_attendance';
 
     public function up()
     {
         $column =  [
-            'id' => array(
+            'attendance_id' => array(
                 'type' => 'BIGINT',
                 'unsigned' => TRUE,
                 'auto_increment' => TRUE,
@@ -19,56 +19,45 @@ class AuditTrail
                 'comment' => 'Refer table user',
                 'null' => TRUE
             ),
-            'role_id' => array(
-                'type' => 'BIGINT',
-                'unsigned' => TRUE,
-                'comment' => 'Refer table master_role',
+            'attendance_date' => array(
+                'type' => 'DATE',
                 'null' => TRUE
             ),
-            'user_fullname' => array(
+            'attendance_time' => array(
+                'type' => 'TIME',
+                'null' => TRUE
+            ),
+            'attendance_day' => array(
+                'type' => 'VARCHAR',
+                'length' => 15,
+                'null' => TRUE,
+            ),
+            'attendance_month' => array(
+                'type' => 'VARCHAR',
+                'length' => 15,
+                'null' => TRUE,
+            ),
+            'attendance_year' => array(
+                'type' => 'VARCHAR',
+                'length' => 15,
+                'null' => TRUE,
+            ),
+            'attendance_status' => array(
+                'type' => 'TINYINT',
+                'null' => TRUE,
+                'comment' => '0-no record, 1-present, 2-absent, 3-Others',
+                'default' => '0',
+            ),
+            'attendance_remark' => array(
                 'type' => 'VARCHAR',
                 'length' => 255,
-                'null' => TRUE
+                'null' => TRUE,
             ),
-            'event' => array(
-                'type' => 'ENUM',
-                'length' => "'insert','update','delete'",
-                'null' => TRUE
-            ),
-            'table_name' => array(
-                'type' => 'VARCHAR',
-                'length' => 128,
-                'null' => TRUE
-            ),
-            'old_values' => array(
-                'type' => 'LONGTEXT',
-                'null' => TRUE
-            ),
-            'new_values' => array(
-                'type' => 'LONGTEXT',
-                'null' => TRUE
-            ),
-            'url' => array(
-                'type' => 'VARCHAR',
-                'length' => 255,
-                'null' => TRUE
-            ),
-            'ip_address' => array(
-                'type' => 'VARCHAR',
-                'length' => 50,
-                'null' => TRUE
-            ),
-            'user_agent' => array(
-                'type' => 'VARCHAR',
-                'length' => 255,
-                'null' => TRUE
-            )
         ];
 
         $key = [
-            1 => ['type' => 'PRIMARY KEY', 'reference' => 'id'],
+            1 => ['type' => 'PRIMARY KEY', 'reference' => 'attendance_id'],
             2 => ['type' => 'INDEX', 'reference' => 'user_id'],
-            3 => ['type' => 'INDEX', 'reference' => 'role_id'],
         ];
 
         migrate($this->table, $column, $key);
@@ -83,7 +72,18 @@ class AuditTrail
 
     public function relation()
     {
-        // empty
+        $relation = [
+            'ATTENDANCE_USER' => array(
+                'FOREIGN_KEY' => 'user_id',
+                'REFERENCES_TABLE' => 'user',
+                'REFERENCES_KEY' => 'user_id',
+                'ON_DELETE' => 'CASCADE',
+                'ON_UPDATE' => 'NO ACTION',
+            ),
+        ];
+
+        addRelation($this->table, $relation);
+        echo "Table <b style='color:red'><i>{$this->table}</i></b> relation added <br>";
     }
 }
 

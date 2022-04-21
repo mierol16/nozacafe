@@ -21,11 +21,19 @@ class UserSeeder extends Seeder
         foreach ($users as $id => $user) {
             Users::save([
                 'user_id' => $id,
-                'user_full_name' => $user['name'],
+                'user_fullname' => $user['name'],
                 'user_preferred_name' => $user['nickname'],
                 'user_email' => $user['email'],
                 'user_avatar' => 'default/user.png',
                 'user_status' => '1',
+                'user_username' => $user['username'],
+                'user_gender' => $user['gender'],
+                'user_contact_no' => $user['contact'],
+                'user_address' => $user['address'],
+                'user_postcode' => $user['postcode'],
+                'user_city' => $user['city'],
+                'user_state' => $user['state'],
+                'role_id' => $user['role'],
                 'user_password' => password_hash('password', PASSWORD_DEFAULT)
             ]);
         }
@@ -38,8 +46,45 @@ class UserSeeder extends Seeder
     public function _dataSeed()
     {
         return [
-            1 => ['name' => 'CanThink Administrator', 'nickname' => 'Administrator', 'email' => 'admin@developer.com'],
-            2 => ['name' => 'Mohd Fahmy Izwan', 'nickname' => 'Fahmy', 'email' => 'fahmy@developer.com'],
+            1 => [
+                'name' => 'Super Administrator',
+                'nickname' => 'Superadmin',
+                'email' => 'sysadmin@developer.com',
+                'username' => 'superadmin',
+                'gender' => 'Male',
+                'contact' => '0',
+                'address' => '0',
+                'postcode' => '0',
+                'city' => '0',
+                'state' => '0',
+                'role' => '1',
+            ],
+            2 => [
+                'name' => 'Administrator',
+                'nickname' => 'Administrator',
+                'email' => 'adminsuria@gmail.com',
+                'username' => 'admin',
+                'gender' => 'Male',
+                'contact' => '0',
+                'address' => '0',
+                'postcode' => '0',
+                'city' => '0',
+                'state' => '0',
+                'role' => '2',
+            ],
+            3 => [
+                'name' => 'Admission Noza 1',
+                'nickname' => 'admission1',
+                'email' => 'admission1@gmail.com',
+                'username' => 'admission1',
+                'gender' => 'Female',
+                'contact' => '0',
+                'address' => '0',
+                'postcode' => '0',
+                'city' => '0',
+                'state' => '0',
+                'role' => '3',
+            ],
         ];
     }
 }

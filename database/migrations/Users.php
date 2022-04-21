@@ -2,7 +2,7 @@
 
 class Users
 {
-    protected $table = 'pmo_user';
+    protected $table = 'user';
 
     public function up()
     {
@@ -13,26 +13,21 @@ class Users
                 'auto_increment' => TRUE,
                 'null' => FALSE,
             ),
-            'user_code' => array(
-                'type' => 'VARCHAR',
-                'length' => 50,
-                'comment' => 'Auto Generate, Use for system reference',
-                'null' => TRUE
-            ),
-            'user_salutation' => array(
-                'type' => 'VARCHAR',
-                'length' => 10,
-                'null' => TRUE
-            ),
-            'user_full_name' => array(
+            'user_fullname' => array(
                 'type' => 'VARCHAR',
                 'length' => 255,
                 'null' => TRUE
             ),
             'user_preferred_name' => array(
                 'type' => 'VARCHAR',
-                'length' => 30,
+                'length' => 20,
                 'null' => TRUE
+            ),
+            'user_nric' => array(
+                'type' => 'VARCHAR',
+                'length' => 15,
+                'null' => TRUE,
+                'after' => 'user_preferred_name',
             ),
             'user_gender' => array(
                 'type' => 'VARCHAR',
@@ -42,6 +37,45 @@ class Users
             'user_email' => array(
                 'type' => 'VARCHAR',
                 'length' => 255,
+                'null' => TRUE
+            ),
+            'user_contact_no' => array(
+                'type' => 'VARCHAR',
+                'length' => 15,
+                'null' => TRUE
+            ),
+            'user_dob' => array(
+                'type' => 'DATE',
+                'null' => TRUE
+            ),
+            'user_address' => array(
+                'type' => 'VARCHAR',
+                'length' => 255,
+                'null' => TRUE
+            ),
+            'user_postcode' => array(
+                'type' => 'VARCHAR',
+                'length' => 10,
+                'null' => TRUE
+            ),
+            'user_city' => array(
+                'type' => 'VARCHAR',
+                'length' => 100,
+                'null' => TRUE
+            ),
+            'user_state' => array(
+                'type' => 'VARCHAR',
+                'length' => 100,
+                'null' => TRUE
+            ),
+            'user_race' => array(
+                'type' => 'VARCHAR',
+                'length' => 20,
+                'null' => TRUE
+            ),
+            'user_religion' => array(
+                'type' => 'VARCHAR',
+                'length' => 20,
                 'null' => TRUE
             ),
             'user_username' => array(
@@ -59,18 +93,23 @@ class Users
                 'length' => 255,
                 'null' => TRUE
             ),
+            'role_id' => array(
+                'type' => 'BIGINT',
+                'unsigned' => TRUE,
+                'comment' => 'Refer table master_role',
+                'null' => TRUE,
+            ),
             'user_status' => array(
                 'type' => 'TINYINT',
                 'null' => TRUE,
-                'comment' => '0 - Inactive, 1 - Active',
+                'comment' => '0 - Inactive, 1 - Active, 2-Block',
                 'default' => '1',
             )
         ];
 
         $key = [
             1 => ['type' => 'PRIMARY KEY', 'reference' => 'user_id'],
-            2 => ['type' => 'INDEX', 'reference' => 'user_code'],
-            3 => ['type' => 'INDEX', 'reference' => 'cpy_code'],
+            2 => ['type' => 'INDEX', 'reference' => 'role_id'],
         ];
 
         migrate($this->table, $column, $key);
@@ -85,7 +124,18 @@ class Users
 
     public function relation()
     {
-        // empty
+        $relation = [
+            'USER_ROLE' => array(
+                'FOREIGN_KEY' => 'role_id',
+                'REFERENCES_TABLE' => 'master_role',
+                'REFERENCES_KEY' => 'role_id',
+                'ON_DELETE' => 'CASCADE',
+                'ON_UPDATE' => 'NO ACTION',
+            ),
+        ];
+
+        addRelation($this->table, $relation);
+        echo "Table <b style='color:red'><i>{$this->table}</i></b> relation added <br>";
     }
 }
 
