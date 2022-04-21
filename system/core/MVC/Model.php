@@ -62,7 +62,7 @@ class Model
         $db = db();
 
         foreach($conditions as $con => $value){
-            $db->where($con, $value);
+            $db->where($con, escape($value));
         }
 
         if ($type == 'get') {
@@ -82,9 +82,9 @@ class Model
         $count = 0;
         foreach($conditions as $con => $value){
             if ($count == 0) {
-                $db->where($con, $value);
+                $db->where($con, escape($value));
             }else if ($count > 0) {
-                $db->orWhere($con, $value);
+                $db->orWhere($con, escape($value));
             }
             $count++;
         }
