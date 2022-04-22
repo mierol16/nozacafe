@@ -72,19 +72,6 @@ class UserSeeder extends Seeder
                 'state' => '0',
                 'role' => '2',
             ],
-            3 => [
-                'name' => 'Admission Noza 1',
-                'nickname' => 'admission1',
-                'email' => 'admission1@gmail.com',
-                'username' => 'admission1',
-                'gender' => 'Female',
-                'contact' => '0',
-                'address' => '0',
-                'postcode' => '0',
-                'city' => '0',
-                'state' => '0',
-                'role' => '3',
-            ],
         ];
     }
 }
