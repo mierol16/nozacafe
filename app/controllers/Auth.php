@@ -1,13 +1,85 @@
 <?php
 
 use User_model as users;
+use Master_role_model as roles;
 
 class Auth extends Controller
 {
-	public function index()
-	{
-		redirect('user/list', true);
-	}
+    public function index()
+    {
+        redirect('auth/login', true);
+    }
+
+    public function login()
+    {
+        view('auth/login', ['title' => 'Login']);
+    }
+
+    public function register()
+    {
+        view('auth/register', ['title' => 'Register']);
+    }
+
+    public function authorize()
+    {
+        $username = escape($_POST['username']);
+        $enteredPassword = escape($_POST['password']);
+
+        $data = $this->users->getUserLogin($username);
+
+        $redirectUrl = NULL;
+
+        if (!empty($data)) {
+
+            $status = $data['user_status'];
+            $roleid = $data['role_id'];
+            $avatar = (!empty($data['user_avatar'])) ? $data['user_avatar'] : 'default/user.png';
+            $current_password = $data['user_password'];
+
+            // role profile
+            $role = roles::find($roleid);
+            $rolename = $role['role_name'];
+
+            $result = passDecrypt($current_password, $enteredPassword);
+
+            if ($result) {
+                if ($status == '1') {
+                    // Set session a USING SESSION MANAGER
+                    $this->session->set('userID', $data['user_id']);
+                    $this->session->set('userFullname', $data['user_fullname']);
+                    $this->session->set('userPreferredName', $data['user_preferred_name']);
+                    $this->session->set('userEmail', $data['user_email']);
+                    $this->session->set('avatar', $data['user_avatar']);
+                    $this->session->set('roleID', $roleid);
+                    $this->session->set('roleName', $rolename);
+                    $this->session->set('avatar', $avatar);
+                    $this->session->set('isLoggedIn', TRUE);
+
+                    $response = 200;
+                    $message = 'Login successful';
+                    $redirectUrl = url('dashboard');
+                } else {
+                    $response = 500;
+                    $message = 'Your account is inactive';
+                }
+            } else {
+                $response = 500;
+                $message = 'Invalid username or password';
+            }
+        } else {
+            $response = 500;
+            $message = 'Invalid username or password';
+        }
+
+        json(["response" => $response, "message" => $message, "redirectUrl" => $redirectUrl]);
+    }
+
+    public function logout()
+    {
+        $this->session->clear();
+        redirect('auth/login', true);
+        exit;
+    }
 }
 
 

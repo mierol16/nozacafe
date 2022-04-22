@@ -35,9 +35,8 @@ class RoleSeeder extends Seeder
         return [
             1 => ['name' => 'System Administrator'],
             2 => ['name' => 'Administrator'],
-            3 => ['name' => 'Admission'],
-            4 => ['name' => 'Supervisor'],
-            5 => ['name' => 'Staff'],
+            3 => ['name' => 'Supervisor'],
+            4 => ['name' => 'Staff'],
         ];
     }
 }

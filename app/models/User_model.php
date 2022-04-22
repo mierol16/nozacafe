@@ -110,4 +110,11 @@ class User_model extends Model
 
         echo $this->serversideDt->generate();
     }
+
+    public function getUserLogin($params = NULL)
+    {
+        $this->db->where('user_email', $params);
+        $this->db->orWhere('user_username', $params);
+        return $this->db->fetchRow($this->table);
+    }
 }
