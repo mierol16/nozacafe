@@ -3,7 +3,7 @@
 @section('content')
 
 <h4 class="py-3 breadcrumb-wrapper mb-4">
-    <span class="text-muted fw-light"> Users /</span> Administrator
+    <span class="text-muted fw-light"> Users /</span> Employee
 </h4>
 
 <!-- Users List Table -->
@@ -12,12 +12,12 @@
         <div class="card">
             <div class="card-header">
                 <h5 class="card-title">
-                    List Admin
+                    List Employee
                     <button type="button" class="btn btn-warning btn-sm float-end ms-2" onclick="getDataList()" title="Refresh">
                         <i class="fas fa-redo-alt"></i>
                     </button>
                     <button type="button" class="btn btn-secondary btn-sm float-end" onclick="formModal()">
-                        <i class="fas fa-plus"></i> Add Admin
+                        <i class="fas fa-plus"></i> Add Employee
                     </button>
                 </h5>
             </div>
@@ -50,7 +50,7 @@
 
     // server side datatable
     async function getDataList() {
-        generateDatatable('dataList', 'serverside', 'user/getListAdminDt', 'nodatadiv');
+        generateDatatable('dataList', 'serverside', 'user/getListStaffDt', 'nodatadiv');
     }
 
     async function viewRecord(id, encodeID, baseURL) {
@@ -87,10 +87,10 @@
     function formModal(type = 'create', data = null) {
         if (!data) {
             data = {
-                role_id: 2
+                role_id: 3
             };
         }
-        const modalTitle = (type == 'create') ? 'Register Admin' : 'Update Admin';
+        const modalTitle = (type == 'create') ? 'Register Employee' : 'Update Employee';
         loadFileContent('user/_form.php', 'generalContent', 'fullscreen', modalTitle, data);
     }
 </script>

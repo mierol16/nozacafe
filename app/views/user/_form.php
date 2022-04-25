@@ -157,10 +157,48 @@
 
 <script>
     function getPassData(baseUrl, token, data) {
+        console.log(data);
+        $('#user_id').val(data.user_id);
         $('#role_id').val(data.role_id);
+
+        $('#user_fullname').val(data.user_fullname);
+        $('#user_nric').val(data.user_nric);
+        $('#user_preferred_name').val(data.user_preferred_name);
+        $('#user_dob').val(data.user_dob);
+        $('#user_email').val(data.user_email);
+        $('#user_contact_no').val(data.user_contact_no);
+        $('#user_address').val(data.user_address);
+        $('#user_city').val(data.user_city);
+        $('#user_state').val(data.user_state);
+        $('#user_postcode').val(data.user_postcode);
+        $('#user_gender').val(data.user_gender);
+        $('#user_religion').val(data.user_religion);
+        $('#user_race').val(data.user_race);
+
         $('#user_avatar').val("default/user.png");
-        addEducation();
-        addContact();
+
+        if (data.education || data.contact) {
+            for (i = 0; i < data.education.length; i++) {
+                addEducation(data.education);
+                $('#education_id' + i).val(data.education[i].education_id);
+                $('#education_level' + i).val(data.education[i].education_level);
+                $('#education_course' + i).val(data.education[i].education_course);
+                $('#education_university' + i).val(data.education[i].education_university);
+            }
+
+            for (i = 0; i < data.contact.length; i++) {
+                addContact(data.contact);
+                $('#contact_id' + i).val(data.contact[i].contact_id);
+                $('#contact_name' + i).val(data.contact[i].contact_name);
+                $('#contact_relation' + i).val(data.contact[i].contact_relation);
+                $('#contact_phone_1' + i).val(data.contact[i].contact_phone_1);
+                $('#contact_phone_2' + i).val(data.contact[i].contact_phone_2);
+            }
+        } else {
+            addEducation();
+            addContact();
+        }
+
     }
 
     function ucfirstVal(value, id) {
@@ -218,6 +256,12 @@
                 <div class="col-md-4">\
                     <label class="form-label">University<span class="text-danger">*</span></label>\
                     <input type="text" id="education_university' + i +'" name="education_university[]" class="form-control maxlength-input" maxlength="50" autocomplete="off" required>\
+                </div>\
+                <div class="col-md-12 mt-2">\
+                    <div class="form-group">\
+                        <label> Upload Attachement </label>\
+                        <input type="file" id="education_file' + i +'" name="education_file[]" class="form-control" accept="image/x-png,image/jpeg,image/jpg, .pdf">\
+                    </div>\
                 </div>\
             </div>');
         i++;

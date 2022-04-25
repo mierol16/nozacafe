@@ -13,7 +13,7 @@
                     <a href="{{ url('user/admin') }}">Administrator</a>
                 </li>
                 <li class="menuitem-<?= ($currentSubSidebar == 'staff') ? 'active' : '' ?>">
-                    <a href="{{ url('user/staff') }}">Employee</a>
+                    <a href="{{ url('user/employee') }}">Employee</a>
                 </li>
             </ul>
         </div>

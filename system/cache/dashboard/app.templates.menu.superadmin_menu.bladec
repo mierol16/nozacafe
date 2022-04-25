@@ -13,7 +13,7 @@
  <a href="<?php echo \htmlentities(url('user/admin'), ENT_QUOTES|ENT_SUBSTITUTE); ?>">Administrator</a>
  </li>
  <li class="menuitem-<?= ($currentSubSidebar == 'staff') ? 'active' : '' ?>">
- <a href="<?php echo \htmlentities(url('user/staff'), ENT_QUOTES|ENT_SUBSTITUTE); ?>">Employee</a>
+ <a href="<?php echo \htmlentities(url('user/employee'), ENT_QUOTES|ENT_SUBSTITUTE); ?>">Employee</a>
  </li>
  </ul>
  </div>

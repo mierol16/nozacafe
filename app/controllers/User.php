@@ -5,6 +5,7 @@
 use User_model as users;
 use Education_info_model as Edu;
 use Contact_info_model as Contact;
+use Files_model as Files;
 
 class User extends Controller
 {
@@ -13,7 +14,7 @@ class User extends Controller
         error('404'); // redirect to page error 404
     }
 
-    // open page list 
+    // admin list 
     public function admin()
     {
         $data = [
@@ -26,15 +27,15 @@ class User extends Controller
     }
 
     // open page list 2
-    public function list2()
+    public function employee()
     {
         $data = [
-            'title' => 'User List',
-            'currentSidebar' => 'User',
-            'currentSubSidebar' => 'List',
+            'title' => 'Employee List',
+            'currentSidebar' => 'user',
+            'currentSubSidebar' => 'staff',
         ];
 
-        render('user/list_user2', $data);
+        render('user/staff_list', $data);
     }
 
     public function getAll()
@@ -47,10 +48,17 @@ class User extends Controller
         echo $this->users->listAdmin();
     }
 
+    public function getListStaffDt()
+    {
+        echo $this->users->listStaff();
+    }
+
     public function getUsersByID()
     {
         $id = escape($_POST['id']);
         $data = users::find($id); // call static function
+        $data['education'] = Edu::where(['user_id' => $id]);
+        $data['contact'] = Contact::where(['user_id' => $id]); 
         json($data);
     }
 
@@ -81,8 +89,9 @@ class User extends Controller
         $data = users::updateOrInsert($_POST); // call static function
 
         $userID = $data['id'];
-        Edu::delete('user_id', $userID);
-        Contact::delete('user_id', $userID);
+        Edu::delete($userID, 'user_id');
+        Contact::delete($userID, 'user_id');
+        Files::delete($userID, 'user_id');
 
         foreach($_POST['education_level'] as $key => $value) {
             $education = Edu::insert(
@@ -90,6 +99,32 @@ class User extends Controller
                     'education_level' => $_POST['education_level'][$key],
                     'education_course' => $_POST['education_course'][$key],
                     'education_university' => $_POST['education_university'][$key],
+                    'user_id' => $userID,
+                ]
+            );
+
+            $fileName = $fileExtension = $path = '';
+            var_dump($_FILES['education_file']['name'][$key]);
+            if (isset($_FILES['education_file'])) {
+                // get details of the uploaded file
+                $fileTmpPath = $_FILES['education_file']['tmp_name'][$key];
+                $fileName = $_FILES['education_file']['name'][$key];
+                $fileSize = $_FILES['education_file']['size'][$key];
+                $fileType = $_FILES['education_file']['type'][$key];
+                $fileNameCmps = explode(".", $fileName);
+                $fileExtension = strtolower(end($fileNameCmps));
+                $fileNameNew = $userID . "_" . date('dFY') . "_" . date('his') . '.' . $fileExtension;
+                $folder = 'upload/education';
+                $path = $folder . '/' . $fileNameNew;
+                move_uploaded_file($fileTmpPath, $path);
+            }
+
+            Files::insert(
+                [
+                    'files_type' => $fileExtension,
+                    'files_folder' => $folder,
+                    'files_extension' => $fileExtension,
+                    'files_path' => $path,
                     'user_id' => $userID,
                 ]
             );
