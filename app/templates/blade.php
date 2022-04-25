@@ -26,6 +26,9 @@
     <script src="{{ asset('framework/vendor/cute-alert/cute-alert.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('framework/vendor/cute-alert/style.css') }}">
 
+    <link href="{{ asset('libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
+
     <!-- END : THIS NEED TO REPLACE FROM TEMPLATE ASSET -->
 
     <!--begin::Fonts-->
@@ -34,15 +37,22 @@
 
     <!--begin::Global Stylesheets Bundle(used by all pages)-->
     <link href="{{ asset('framework/css/pre.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('framework/css/jquery.skeleton.css') }}" rel="stylesheet" type="text/css" />
 
     <!--end::Global Stylesheets Bundle-->
+
+    <!-- Vendor -->
+    <script src="{{ asset('libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('libs/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('libs/simplebar/simplebar.min.js') }}"></script>
+    <script src="{{ asset('libs/node-waves/waves.min.js') }}"></script>
+    <script src="{{ asset('libs/waypoints/lib/jquery.waypoints.min.js') }}"></script>
+    <!-- <script src="{{ asset('libs/jquery.counterup/jquery.counterup.min.js') }}"></script> -->
+    <script src="{{ asset('libs/feather-icons/feather.min.js') }}"></script>
 
     <!--begin::Javascript-->
     <!--begin::Global Javascript Bundle(used by all pages)-->
     <script src="{{ asset('framework/js/axios.min.js') }}"></script>
     <script src="{{ asset('framework/js/common.js') }}"></script>
-    <script src="{{ asset('framework/js/jquery.scheletrone.js') }}"></script>
     <!--end::Global Javascript Bundle-->
 
 
@@ -290,8 +300,6 @@
                         <?php } else if (session()->get('roleID') == 2) { ?>
                             @include('app.templates.menu.administrator_menu')
                         <?php } else if (session()->get('roleID') == 3) { ?>
-                            @include('app.templates.menu.supervisor_menu')
-                        <?php } else if (session()->get('roleID') == 4) { ?>
                             @include('app.templates.menu.staff_menu')
                         <?php }  ?>
 
@@ -351,24 +359,13 @@
     </div>
     <!-- END wrapper -->
 
-    <!-- Vendor -->
-    <script src="{{ asset('libs/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('libs/simplebar/simplebar.min.js') }}"></script>
-    <script src="{{ asset('libs/node-waves/waves.min.js') }}"></script>
-    <script src="{{ asset('libs/waypoints/lib/jquery.waypoints.min.js') }}"></script>
-    <script src="{{ asset('libs/jquery.counterup/jquery.counterup.min.js') }}"></script>
-    <script src="{{ asset('libs/feather-icons/feather.min.js') }}"></script>
-
-    <!-- knob plugin -->
-    <script src="{{ asset('libs/jquery-knob/jquery.knob.min.js') }}"></script>
-
-    <!--Morris Chart-->
-    <script src="{{ asset('libs/morris.js06/morris.min.js') }}"></script>
-    <script src="{{ asset('libs/raphael/raphael.min.js') }}"></script>
-
     <!-- Dashboar init js-->
-    <script src="{{ asset('js/pages/dashboard.init.js') }}"></script>
+    <!-- <script src="{{ asset('js/pages/dashboard.init.js') }}"></script> -->
+
+    <script src="{{ asset('libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js') }}"></script>
 
     <!-- App js-->
     <script src="{{ asset('js/app.min.js') }}"></script>

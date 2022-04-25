@@ -11,8 +11,6 @@ class Dashboard extends Controller
         } else if ($roleID == 2) {
             $page = 'administrator';
         } else if ($roleID == 3) {
-            $page = 'supervisor';
-        } else if ($roleID == 4) {
             $page = 'staff';
         } else {
             error('404');

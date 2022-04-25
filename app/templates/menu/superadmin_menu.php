@@ -9,11 +9,11 @@
         </a>
         <div class="collapse <?= ($currentSidebar == 'user') ? 'show' : '' ?>" id="user">
             <ul class="nav-second-level">
-                <li class="menuitem-<?= ($currentSubSidebar == 'supervisor') ? 'active' : '' ?>">
-                    <a href="{{ url('user/supervisor') }}">Supervisor</a>
+                <li class="menuitem-<?= ($currentSubSidebar == 'admin') ? 'active' : '' ?>">
+                    <a href="{{ url('user/admin') }}">Administrator</a>
                 </li>
                 <li class="menuitem-<?= ($currentSubSidebar == 'staff') ? 'active' : '' ?>">
-                    <a href="{{ url('user/staff') }}">Staff</a>
+                    <a href="{{ url('user/staff') }}">Employee</a>
                 </li>
             </ul>
         </div>

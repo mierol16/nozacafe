@@ -3,6 +3,8 @@
 // Import all model want to use
 // REMINDER : Make sure alias or 'as' are not same as any class name
 use User_model as users;
+use Education_info_model as Edu;
+use Contact_info_model as Contact;
 
 class User extends Controller
 {
@@ -12,15 +14,15 @@ class User extends Controller
     }
 
     // open page list 
-    public function list()
+    public function admin()
     {
         $data = [
-            'title' => 'User List',
-            'currentSidebar' => 'User',
-            'currentSubSidebar' => 'List',
+            'title' => 'Administrator List',
+            'currentSidebar' => 'user',
+            'currentSubSidebar' => 'admin',
         ];
 
-        render('user/list_user', $data);
+        render('user/admin_list', $data);
     }
 
     // open page list 2
@@ -35,16 +37,14 @@ class User extends Controller
         render('user/list_user2', $data);
     }
 
-    // use in list_user for client side datatable (with csrf)
     public function getAll()
     {
         json(users::all());
     }
 
-    // use in list_user2 for server side datatable
-    public function getAllServerSide()
+    public function getListAdminDt()
     {
-        echo $this->users->getlist();
+        echo $this->users->listAdmin();
     }
 
     public function getUsersByID()
@@ -75,8 +75,38 @@ class User extends Controller
 
     public function save()
     {
+        $_POST['user_password'] = password_hash($_POST['user_nric'], PASSWORD_DEFAULT);
+        
         // $data = users::save($_POST);
         $data = users::updateOrInsert($_POST); // call static function
+
+        $userID = $data['id'];
+        Edu::delete('user_id', $userID);
+        Contact::delete('user_id', $userID);
+
+        foreach($_POST['education_level'] as $key => $value) {
+            $education = Edu::insert(
+                [
+                    'education_level' => $_POST['education_level'][$key],
+                    'education_course' => $_POST['education_course'][$key],
+                    'education_university' => $_POST['education_university'][$key],
+                    'user_id' => $userID,
+                ]
+            );
+        }
+
+        foreach($_POST['contact_name'] as $key => $value) {
+            $contact = Contact::insert(
+                [
+                    'contact_name' => $_POST['contact_name'][$key],
+                    'contact_relation' => $_POST['contact_relation'][$key],
+                    'contact_phone_1' => $_POST['contact_phone_1'][$key],
+                    'contact_phone_2' => $_POST['contact_phone_2'][$key],
+                    'user_id' => $userID,
+                ]
+            );
+        }
+
         json($data);
     }
 

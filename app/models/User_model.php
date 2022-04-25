@@ -69,34 +69,38 @@ class User_model extends Model
     #                                                                 #
     ###################################################################
 
-    public function getlist()
+    public function listAdmin()
     {
         //  server side datatables
         $cols = array(
-            "user_code",
-            "user_full_name",
-            "user_gender",
+            "user_fullname",
+            "user_nric",
             "user_email",
+            "user_contact_no",
+            "user_status",
             "user_id",
         );
 
-        // $this->db->join("master_role", "user.role_id=master_role.role_id", "LEFT");
-        // $this->db->where('user.user_status == 1'); 
-        $result = $this->db->get("" . $this->table . "", null, $cols);
+        $this->db->where('user.role_id', '2'); 
+        $result = $this->db->get($this->table . " user", null, $cols);
 
         $this->serversideDt->query($this->getInstanceDB->getLastQuery());
 
-        // $this->serversideDt->hide('created_at'); // hides 'created_at' column from the output
+        $this->serversideDt->hide('user_nric'); // hides 'created_at' column from the output
 
-        $this->serversideDt->edit('user_code', function ($data) {
-            return '<a href="javascript:void(0)" onclick="viewRecord(' . $data[$this->primaryKey] . ')"> ' . $data['user_code'] . ' </a>';
+        $this->serversideDt->edit('user_fullname', function ($data) {
+            return $data['user_fullname'] . '<br>' . $data['user_nric'];
         });
 
-        $this->serversideDt->edit('user_gender', function ($data) {
-            if ($data['user_gender'] == 1) {
-                return 'Male';
+        $this->serversideDt->edit('user_status', function ($data) {
+            if ($data['user_status'] == 0) {
+                return '<span class="badge bg-label-warning">Inactive</span>';
+            } else if ($data['user_status'] == 1) {
+                return '<span class="badge bg-label-success">Active</span>';
+            } else if ($data['user_status'] == 2) {
+                return '<span class="badge bg-label-danger">Terminate</span>';
             } else {
-                return 'Female';
+                return '';
             }
         });
 
