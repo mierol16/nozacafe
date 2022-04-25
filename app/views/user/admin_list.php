@@ -31,7 +31,7 @@
                                 <th> Email </th>
                                 <th> Contact </th>
                                 <th> Status </th>
-                                <th width="2%"> Action </th>
+                                <th width="4%"> Action </th>
                             </tr>
                         </thead>
                         <tbody></tbody>

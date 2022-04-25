@@ -26,6 +26,9 @@
  <script src="<?php echo \htmlentities(asset('framework/vendor/cute-alert/cute-alert.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script>
  <link rel="stylesheet" href="<?php echo \htmlentities(asset('framework/vendor/cute-alert/style.css'), ENT_QUOTES|ENT_SUBSTITUTE); ?>">
 
+ <link href="<?php echo \htmlentities(asset('libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css'), ENT_QUOTES|ENT_SUBSTITUTE); ?>" rel="stylesheet" type="text/css" />
+ <link href="<?php echo \htmlentities(asset('libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css'), ENT_QUOTES|ENT_SUBSTITUTE); ?>" rel="stylesheet" type="text/css" />
+
  <!-- END : THIS NEED TO REPLACE FROM TEMPLATE ASSET -->
 
  <!--begin::Fonts-->
@@ -34,15 +37,22 @@
 
  <!--begin::Global Stylesheets Bundle(used by all pages)-->
  <link href="<?php echo \htmlentities(asset('framework/css/pre.css'), ENT_QUOTES|ENT_SUBSTITUTE); ?>" rel="stylesheet" type="text/css" />
- <link href="<?php echo \htmlentities(asset('framework/css/jquery.skeleton.css'), ENT_QUOTES|ENT_SUBSTITUTE); ?>" rel="stylesheet" type="text/css" />
 
  <!--end::Global Stylesheets Bundle-->
+
+ <!-- Vendor -->
+ <script src="<?php echo \htmlentities(asset('libs/bootstrap/js/bootstrap.bundle.min.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script>
+ <script src="<?php echo \htmlentities(asset('libs/jquery/jquery.min.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script>
+ <script src="<?php echo \htmlentities(asset('libs/simplebar/simplebar.min.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script>
+ <script src="<?php echo \htmlentities(asset('libs/node-waves/waves.min.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script>
+ <script src="<?php echo \htmlentities(asset('libs/waypoints/lib/jquery.waypoints.min.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script>
+ <!-- <script src="<?php echo \htmlentities(asset('libs/jquery.counterup/jquery.counterup.min.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script> -->
+ <script src="<?php echo \htmlentities(asset('libs/feather-icons/feather.min.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script>
 
  <!--begin::Javascript-->
  <!--begin::Global Javascript Bundle(used by all pages)-->
  <script src="<?php echo \htmlentities(asset('framework/js/axios.min.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script>
  <script src="<?php echo \htmlentities(asset('framework/js/common.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script>
- <script src="<?php echo \htmlentities(asset('framework/js/jquery.scheletrone.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script>
  <!--end::Global Javascript Bundle-->
 
 
@@ -290,8 +300,6 @@
  <?php } else if (session()->get('roleID') == 2) { ?>
  <?php echo $this->runChild('app.templates.menu.administrator_menu'); ?>
  <?php } else if (session()->get('roleID') == 3) { ?>
- <?php echo $this->runChild('app.templates.menu.supervisor_menu'); ?>
- <?php } else if (session()->get('roleID') == 4) { ?>
  <?php echo $this->runChild('app.templates.menu.staff_menu'); ?>
  <?php }  ?>
 
@@ -351,24 +359,13 @@
  </div>
  <!-- END wrapper -->
 
- <!-- Vendor -->
- <script src="<?php echo \htmlentities(asset('libs/jquery/jquery.min.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script>
- <script src="<?php echo \htmlentities(asset('libs/bootstrap/js/bootstrap.bundle.min.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script>
- <script src="<?php echo \htmlentities(asset('libs/simplebar/simplebar.min.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script>
- <script src="<?php echo \htmlentities(asset('libs/node-waves/waves.min.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script>
- <script src="<?php echo \htmlentities(asset('libs/waypoints/lib/jquery.waypoints.min.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script>
- <script src="<?php echo \htmlentities(asset('libs/jquery.counterup/jquery.counterup.min.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script>
- <script src="<?php echo \htmlentities(asset('libs/feather-icons/feather.min.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script>
-
- <!-- knob plugin -->
- <script src="<?php echo \htmlentities(asset('libs/jquery-knob/jquery.knob.min.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script>
-
- <!--Morris Chart-->
- <script src="<?php echo \htmlentities(asset('libs/morris.js06/morris.min.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script>
- <script src="<?php echo \htmlentities(asset('libs/raphael/raphael.min.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script>
-
  <!-- Dashboar init js-->
- <script src="<?php echo \htmlentities(asset('js/pages/dashboard.init.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script>
+ <!-- <script src="<?php echo \htmlentities(asset('js/pages/dashboard.init.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script> -->
+
+ <script src="<?php echo \htmlentities(asset('libs/datatables.net/js/jquery.dataTables.min.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script>
+ <script src="<?php echo \htmlentities(asset('libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script>
+ <script src="<?php echo \htmlentities(asset('libs/datatables.net-responsive/js/dataTables.responsive.min.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script>
+ <script src="<?php echo \htmlentities(asset('libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script>
 
  <!-- App js-->
  <script src="<?php echo \htmlentities(asset('js/app.min.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script>

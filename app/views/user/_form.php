@@ -26,7 +26,7 @@
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Birthdate<span class="text-danger">*</span></label>
-                    <input type="text" id="user_dob" name="user_dob" class="form-control maxlength-input" maxlength="15" autocomplete="off" required>
+                    <input type="date" id="user_dob" name="user_dob" class="form-control" autocomplete="off" required>
                 </div>
             </div>
         
@@ -185,6 +185,12 @@
             async (e) => {
                 if (e == 'confirm') {
                     const res = await submitApi(url, form.serializeArray(), 'formUser', getDataList);
+
+                    if (isSuccess(res)) {
+                        setTimeout(function() {
+                            $('#generalModal-fullscreen').modal('hide');
+                        }, 200);
+                    }
                 }
             }
         );
