@@ -136,7 +136,7 @@ class User_model extends Model
         $this->serversideDt->hide('user_nric'); // hides 'created_at' column from the output
 
         $this->serversideDt->edit('user_fullname', function ($data) {
-            return $data['user_fullname'] . '<br>' . $data['user_nric'];
+            return '<a href="javascript:void(0)" onclick="viewInfo(' . $data['user_id'] . ')">' . $data['user_fullname'] . '<br>' . $data['user_nric']. ' </a>';
         });
 
         $this->serversideDt->edit('user_status', function ($data) {

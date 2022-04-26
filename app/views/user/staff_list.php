@@ -53,8 +53,14 @@
         generateDatatable('dataList', 'serverside', 'user/getListStaffDt', 'nodatadiv');
     }
 
-    async function viewRecord(id, encodeID, baseURL) {
-        window.location.href = baseURL + 'user/view/' + encodeID;
+    async function viewInfo(id) {
+        const res = await callApi('post', "user/getUsersByID", id);
+
+        if(isSuccess(res)) {
+            loadFileContent('user/_view.php', 'generalContent', 'fullscreen', 'Employee Information', res.data);
+        } else {
+            noti(res.status);
+        }
     }
 
     async function updateRecord(id) {

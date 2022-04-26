@@ -41,6 +41,7 @@
  <!--end::Global Stylesheets Bundle-->
 
  <!-- Vendor -->
+ <script src="<?php echo \htmlentities(asset('libs/moment/min/moment.min.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script>
  <script src="<?php echo \htmlentities(asset('libs/bootstrap/js/bootstrap.bundle.min.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script>
  <script src="<?php echo \htmlentities(asset('libs/jquery/jquery.min.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script>
  <script src="<?php echo \htmlentities(asset('libs/simplebar/simplebar.min.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script>
@@ -361,7 +362,6 @@
 
  <!-- Dashboar init js-->
  <!-- <script src="<?php echo \htmlentities(asset('js/pages/dashboard.init.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script> -->
-
  <script src="<?php echo \htmlentities(asset('libs/datatables.net/js/jquery.dataTables.min.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script>
  <script src="<?php echo \htmlentities(asset('libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script>
  <script src="<?php echo \htmlentities(asset('libs/datatables.net-responsive/js/dataTables.responsive.min.js'), ENT_QUOTES|ENT_SUBSTITUTE); ?>"></script>
