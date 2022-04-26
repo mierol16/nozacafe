@@ -41,10 +41,18 @@ class Education_info_model extends Model
         'education_university' => 'University Name',
     ];
 
+    protected $with = [
+        'files',
+    ];
+
     ###################################################################
     #                                                                 #
     #               Start custom function below                       #
     #                                                                 #
     ###################################################################
 
+    public function filesRelation($id)
+    {
+        return hasMany('files', 'table_id', $id);
+    }
 }

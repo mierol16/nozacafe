@@ -296,3 +296,29 @@ function isColumnExist($table, $columnName)
     else
         return true;
 }
+
+function hasMany($tableRef, $columnRef, $condition)
+{
+    $dbName = db_name();
+    $result = '';
+
+    // check table
+    if (isTableExist($tableRef)) {
+        $result = rawQuery("SELECT * FROM $tableRef WHERE {$columnRef}='$condition'");
+    }
+
+    return $result;
+}
+
+function hasOne($tableRef, $columnRef, $condition)
+{
+    $dbName = db_name();
+    $result = '';
+
+    // check table
+    if (isTableExist($tableRef)) {
+        $result = rawQuery("SELECT * FROM $tableRef WHERE {$columnRef}='$condition' LIMIT 1");
+    }
+
+    return $result;
+}

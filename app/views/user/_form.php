@@ -227,7 +227,7 @@
 
     function addEducation(data = null) {
         var maxIndex = 5;
-        var i = $('.education').length;
+        var i = $('.education_div').length;
 
         if (i < maxIndex) {
             var education_level = (data != null) ? data.education_level : '';
@@ -235,6 +235,30 @@
             var education_university = (data != null) ? data.education_university : '';
             var education_id = (data != null) ? data.education_id : '';
             var btnRemove = (data != null) ? 'onclick="deleteEdu(' + education_id + ', ' + i + ')"' : 'onclick="removeEdu(' + i + ')"';
+
+            var listFiles = '';
+
+            if (data != null) {
+                if (data.files.length > 0) {
+
+                    var display = '';
+                    for (i = 0; i < data.files.length; i++) {
+                        const files = data.files[i];
+                        display += files.files_name + '<span id="upload' + files.files_id + '" class="float-end"><i class="fa fa-trash" style="color:red" onclick="removeUploadFile(' + files.files_id + ')"></i></span><hr>';
+                    }
+
+                    listFiles = '<div class="col-lg-12">\
+                                <div class="card">\
+                                    <div class="card-header">\
+                                        List Files\
+                                    </div>\
+                                    <div class="card-body">\
+                                       ' + display + '\
+                                    </div>\
+                                </div>\
+                            </div>';
+                }
+            }
 
             $('#education_row').append('\
             <div class="row mt-2 education_div" data-row="' + i + '">\
@@ -263,6 +287,7 @@
                         <input type="hidden" name="files_id[]" class="form-control" value="" readonly>\
                     </div>\
                 </div>\
+                ' + listFiles + '\
             </div>');
             i++;
         } else {
@@ -271,16 +296,15 @@
     }
 
     function removeEdu(i) {
-        $('#edu' + i).remove();
+        $('.education_div[data-row="' + i + '"]').remove();
 
-        var inputEduCount = $('.education').length;
+        var inputEduCount = $('.education_div').length;
         if (inputEduCount == 0) {
             addEducation();
         } else {
             const divArr = document.getElementsByClassName('education_div');
             const btnArr = document.getElementsByClassName('education_btn');
             const ids = document.getElementsByClassName('education_id');
-            console.log('array : ', divArr);
 
             let curr = 0;
             for (i = 0; i < divArr.length; i++) {
@@ -407,6 +431,24 @@
                     if (isSuccess(res)) {
                         removeHp(i);
                     }
+                }
+            }
+        );
+    }
+
+    async function removeUploadFile(id) {
+        cuteAlert({
+            type: 'question',
+            title: 'Are you sure?',
+            message: 'Files will be permanently deleted !',
+            closeStyle: 'circle',
+            cancelText: 'Abort',
+            confirmText: 'Yes, Confirm!',
+        }).then(
+            async (e) => {
+                if (e == 'confirm') {
+                    const res = await deleteApi(id, 'contact/delete');
+                    $('.upload' + id).remove();
                 }
             }
         );

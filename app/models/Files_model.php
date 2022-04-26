@@ -12,10 +12,13 @@ class Files_model extends Model
      * @var array
      */
     protected $fillable = [
+        'files_name',
         'files_type',
         'files_folder',
         'files_extension',
         'files_path',
+        'table_ref',
+        'table_id',
         'user_id',
     ];
 
@@ -24,18 +27,14 @@ class Files_model extends Model
      *
      * @return array
      */
-    protected $rules = [
-        
-    ];
+    protected $rules = [];
 
     /**
      * Custom message for validation
      *
      * @return array
      */
-    protected $messages = [
-        
-    ];
+    protected $messages = [];
 
     ###################################################################
     #                                                                 #

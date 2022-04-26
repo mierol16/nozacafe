@@ -13,6 +13,12 @@ class Files
                 'auto_increment' => TRUE,
                 'null' => FALSE,
             ),
+            'files_name' => array(
+                'type' => 'VARCHAR',
+                'length' => 255,
+                'null' => TRUE,
+                'after' => 'files_id',
+            ),
             'files_type' => array(
                 'type' => 'VARCHAR',
                 'length' => 100,
@@ -37,6 +43,18 @@ class Files
                 'type' => 'VARCHAR',
                 'length' => 250,
                 'null' => TRUE,
+            ),
+            'table_ref' => array(
+                'type' => 'VARCHAR',
+                'length' => 250,
+                'null' => TRUE,
+                'after' => 'files_path',
+            ),
+            'table_id' => array(
+                'type' => 'BIGINT',
+                'unsigned' => TRUE,
+                'null' => TRUE,
+                'after' => 'table_ref',
             ),
             'user_id' => array(
                 'type' => 'BIGINT',

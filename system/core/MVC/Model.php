@@ -55,21 +55,40 @@ class Model
     }
 
     // where($conditions, $type) takes the condition (using AND method) and returns all/single data related in model
-    public static function where($conditions = NULL, $type = 'get')
+    public static function where($conditions = NULL, $type = 'get', $with = NULL)
     {
         $className = get_called_class();
         $obj = new $className;
         $db = db();
 
-        foreach($conditions as $con => $value){
+        foreach ($conditions as $con => $value) {
             $db->where($con, escape($value));
         }
 
-        if ($type == 'get') {
-           return $db->get($obj->table); 
-        }else{
-           return $db->fetchRow($obj->table); 
+        $result = $db->$type($obj->table);
+
+        if (!empty($with) and $type == 'get') {
+            if (isset($obj->with)) {
+
+                $dataRelation = array(); // reset array
+                foreach ($result as $key => $data) {
+                    $id = $data[$obj->primaryKey];
+                    foreach ($obj->with as $functionName) {
+                        if (in_array($functionName, $with)) {
+                            $functionCall = $functionName . 'Relation';
+
+                            // check if function up is exist
+                            if (method_exists($obj, $functionCall)) {
+                                $dataRelation = $obj->$functionCall($id);
+                                $result[$key][$functionName] = $dataRelation;
+                            }
+                        }
+                    }
+                }
+            }
         }
+
+        return $result;
     }
 
     // orWhere($conditions, $type) takes the condition (using OR method) and returns all/single data related in model
@@ -80,19 +99,19 @@ class Model
         $db = db();
 
         $count = 0;
-        foreach($conditions as $con => $value){
+        foreach ($conditions as $con => $value) {
             if ($count == 0) {
                 $db->where($con, escape($value));
-            }else if ($count > 0) {
+            } else if ($count > 0) {
                 $db->orWhere($con, escape($value));
             }
             $count++;
         }
 
         if ($type == 'get') {
-           return $db->get($obj->table); 
-        }else{
-           return $db->fetchRow($obj->table); 
+            return $db->get($obj->table);
+        } else {
+            return $db->fetchRow($obj->table);
         }
     }
 

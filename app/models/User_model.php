@@ -82,7 +82,7 @@ class User_model extends Model
             "user_id",
         );
 
-        $this->db->where('user.role_id', '2'); 
+        $this->db->where('user.role_id', '2');
         $result = $this->db->get($this->table . " user", null, $cols);
 
         $this->serversideDt->query($this->getInstanceDB->getLastQuery());
@@ -128,7 +128,7 @@ class User_model extends Model
             "user_id",
         );
 
-        $this->db->where('user.role_id', '3'); 
+        $this->db->where('user.role_id', '3');
         $result = $this->db->get($this->table . " user", null, $cols);
 
         $this->serversideDt->query($this->getInstanceDB->getLastQuery());
@@ -136,7 +136,7 @@ class User_model extends Model
         $this->serversideDt->hide('user_nric'); // hides 'created_at' column from the output
 
         $this->serversideDt->edit('user_fullname', function ($data) {
-            return '<a href="javascript:void(0)" onclick="viewInfo(' . $data['user_id'] . ')">' . $data['user_fullname'] . '<br>' . $data['user_nric']. ' </a>';
+            return '<a href="javascript:void(0)" onclick="viewInfo(' . $data['user_id'] . ')">' . $data['user_fullname'] . '<br>' . $data['user_nric'] . ' </a>';
         });
 
         $this->serversideDt->edit('user_status', function ($data) {

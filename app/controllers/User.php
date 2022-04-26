@@ -56,9 +56,8 @@ class User extends Controller
     public function getUsersByID()
     {
         $data = users::find($_POST['id']); // call static function
-        $data['education'] = Edu::where(['user_id' => $_POST['id']]);
+        $data['education'] = Edu::where(['user_id' => $_POST['id']], 'get', ['files']);
         $data['contact'] = Contact::where(['user_id' => $_POST['id']]);
-        // $data['files'] = Files::where(['user_id' => $_POST['id']]);
         json($data);
     }
 
@@ -111,10 +110,12 @@ class User extends Controller
                     Files::save(
                         [
                             'files_id' => $_POST['files_id'][$key],
+                            'files_name' => $fileExtension,
                             'files_type' => $fileExtension,
                             'files_folder' => $folder,
                             'files_extension' => $fileExtension,
-                            'files_path' => $path,
+                            'table_ref' => 'staff_education_info',
+                            'table_id' => $_POST['education_id'][$key],
                             'user_id' => $userID,
                         ]
                     );
