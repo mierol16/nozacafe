@@ -154,8 +154,9 @@ function removeCache($folder = NULL, $removeFile = false)
 function folder($foldername = 'default', $id = 0, $type = 'image')
 {
     $foldername = str_replace(array('\'', '/', '"', ',', ';', '<', '>', '@', '|'), '_', preg_replace('/\s+/', '_', $foldername));
+    $id = str_replace(array('\'', '/', '"', ',', ';', '<', '>', '@', '|'), '_', preg_replace('/\s+/', '_', $id));
 
-    $folder = 'upload/' . $type . '/' . $foldername;
+    $folder = 'upload/' . $type . '/' . $id . '/' . $foldername;
 
     // check if folder current email id not exist, 
     // create one with permission (server) to upload

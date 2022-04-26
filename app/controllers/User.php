@@ -95,9 +95,8 @@ class User extends Controller
             );
 
             $fileName = $fileExtension = $path = '';
-            var_dump($_FILES['education_file']['name'][$key]);
             if (isset($_FILES['education_file'])) {
-                // get details of the uploaded file
+
                 $fileTmpPath = $_FILES['education_file']['tmp_name'][$key];
                 $fileName = $_FILES['education_file']['name'][$key];
                 $fileSize = $_FILES['education_file']['size'][$key];
@@ -105,14 +104,13 @@ class User extends Controller
                 $fileNameCmps = explode(".", $fileName);
                 $fileExtension = strtolower(end($fileNameCmps));
                 $fileNameNew = $userID . "_" . date('dFY') . "_" . date('his') . '.' . $fileExtension;
-                $folder = 'upload/education';
+                $folder = folder('certificate', $_POST['user_fullname'], 'directory');
                 $path = $folder . '/' . $fileNameNew;
-                $result = move_uploaded_file($fileTmpPath, $path);
 
-                if ($result) {
+                if (move_uploaded_file($fileTmpPath, $path)) {
                     Files::save(
                         [
-                            'files_id' => $_POST['files_id'],
+                            'files_id' => $_POST['files_id'][$key],
                             'files_type' => $fileExtension,
                             'files_folder' => $folder,
                             'files_extension' => $fileExtension,
