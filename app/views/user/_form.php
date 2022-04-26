@@ -179,20 +179,11 @@
 
         if (data.education || data.contact) {
             for (i = 0; i < data.education.length; i++) {
-                addEducation(data.education);
-                $('#education_id' + i).val(data.education[i].education_id);
-                $('#education_level' + i).val(data.education[i].education_level);
-                $('#education_course' + i).val(data.education[i].education_course);
-                $('#education_university' + i).val(data.education[i].education_university);
+                addEducation(data.education[i]);
             }
 
             for (i = 0; i < data.contact.length; i++) {
-                addContact(data.contact);
-                $('#contact_id' + i).val(data.contact[i].contact_id);
-                $('#contact_name' + i).val(data.contact[i].contact_name);
-                $('#contact_relation' + i).val(data.contact[i].contact_relation);
-                $('#contact_phone_1' + i).val(data.contact[i].contact_phone_1);
-                $('#contact_phone_2' + i).val(data.contact[i].contact_phone_2);
+                addContact(data.contact[i]);
             }
         } else {
             addEducation();
@@ -239,30 +230,37 @@
         var i = $('.education').length;
 
         if (i < maxIndex) {
+            var education_level = (data != null) ? data.education_level : '';
+            var education_course = (data != null) ? data.education_course : '';
+            var education_university = (data != null) ? data.education_university : '';
+            var education_id = (data != null) ? data.education_id : '';
+            var btnRemove = (data != null) ? 'onclick="deleteEdu('+ education_id +', '+ i +')"' : 'onclick="removeEdu('+ i +')"';
+
             $('#education_row').append('\
-            <div class="row mt-2 education" id="edu' + i + '">\
+            <div class="row mt-2 education_div" data-row="' + i + '">\
                 <div class="col-md-3">\
                     <label class="form-label">Level of Education <span class="text-danger">*</span></label>\
-                    <input type="text" id="education_level' + i + '" name="education_level[]" class="form-control" maxlength="20" autocomplete="off" required>\
-                    <input type="hidden" id="education_id' + i + '" name="education_id[]" class="form-control" readonly>\
+                    <input type="text" name="education_level[]" class="form-control" maxlength="20" autocomplete="off" required>\
+                    <input type="hidden" name="education_id[]" class="form-control" readonly>\
                 </div>\
                 <div class="col-md-4">\
                     <label class="form-label">Course <span class="text-danger">*</span></label>\
-                    <input type="text" id="education_course' + i + '" name="education_course[]" class="form-control" maxlength="30" autocomplete="off" required>\
+                    <input type="text" name="education_course[]" class="form-control" maxlength="30" autocomplete="off" required>\
                 </div>\
                 <div class="col-md-4">\
                     <label class="form-label">University <span class="text-danger">*</span></label>\
-                    <input type="text" id="education_university' + i + '" name="education_university[]" class="form-control" maxlength="50" autocomplete="off" required>\
+                    <input type="text" name="education_university[]" class="form-control" maxlength="50" autocomplete="off" required>\
                 </div>\
                 <div class="col-md-1 mt-1 text-center">\
-                    <button type="button" id="remove_input_education" class="btn btn-danger btn-sm px-2 mt-3" onclick="removeEdu(' + i + ')">\
+                    <button type="button" id="remove_input_education" class="btn btn-danger btn-sm px-2 mt-3 education_btn" '+ btnRemove +'>\
                         <i class="fas fa-minus"></i>\
                     </button>\
                 </div>\
                 <div class="col-md-12 mt-2 mb-2">\
                     <div class="form-group">\
                         <label> Upload Attachement </label>\
-                        <input type="file" id="education_file' + i + '" name="education_file[]" class="form-control" accept="image/x-png,image/jpeg,image/jpg, .pdf">\
+                        <input type="file" name="education_file[]" class="form-control" accept="image/x-png,image/jpeg,image/jpg, .pdf">\
+                        <input type="hidden" name="files_id[]" class="form-control" value="" readonly>\
                     </div>\
                 </div>\
             </div>');
@@ -278,7 +276,41 @@
         var inputEduCount = $('.education').length;
         if (inputEduCount == 0) {
             addEducation();
+        } else {
+            const divArr = document.getElementsByClassName('education_div');
+            const btnArr = document.getElementsByClassName('education_btn');
+            console.log('array : ', divArr);
+
+            let curr = 0;
+            for (i = 0; i < divArr.length; i++) {
+                var oldValue = divArr[i].attributes[1].value;
+                var newValue = curr;
+                divArr[i].setAttribute('data-row', newValue);
+                btnArr[i].setAttribute('onclick', 'removeEdu(' + curr + ')');
+                curr++;
+            }
         }
+    }
+
+    async function deleteEdu(id, i) {
+        cuteAlert({
+            type: 'question',
+            title: 'Are you sure?',
+            message: 'Records will be permanently deleted !',
+            closeStyle: 'circle',
+            cancelText: 'Abort',
+            confirmText: 'Yes, Confirm!',
+        }).then(
+            async (e) => {
+                if (e == 'confirm') {
+                    const res = await deleteApi(id, 'education/delete');
+
+                    if (isSuccess(res)) {
+                        removeEdu(i);
+                    }
+                }
+            }
+        );
     }
 
     function addContact(data = null) {
@@ -286,27 +318,34 @@
         var i = $('.contact_div').length;
 
         if (i < maxIndex) {
+            var contact_name = (data != null) ? data.contact_name : '';
+            var contact_relation = (data != null) ? data.contact_relation : '';
+            var contact_phone_1 = (data != null) ? data.contact_phone_1 : '';
+            var contact_phone_2 = (data != null) ? data.contact_phone_2 : '';
+            var contact_id = (data != null) ? data.contact_id : '';
+            var btnRemove = (data != null) ? 'onclick="deleteHp('+ contact_id +', '+ i +')"' : 'onclick="removeHp('+ i +')"';
+
             $('#contact_row').append('\
             <div class="row mt-2 contact_div" data-row="' + i + '">\
                 <div class="col-md-4">\
                     <label class="form-label">Name <span class="text-danger">*</span></label>\
-                    <input type="text" name="contact_name[]" class="form-control contact_input" maxlength="100" autocomplete="off" required>\
-                    <input type="hidden" name="contact_id[]" class="form-control contact_input" readonly>\
+                    <input type="text" name="contact_name[]" class="form-control contact_input" maxlength="100" autocomplete="off" value="'+ contact_name +'" required>\
+                    <input type="hidden" name="contact_id[]" class="form-control contact_input contact_id" value="'+ contact_id +'" readonly>\
                 </div>\
                 <div class="col-md-3">\
                     <label class="form-label">Relationship <span class="text-danger">*</span></label>\
-                    <input type="text" name="contact_relation[]" class="form-control contact_input" maxlength="15" autocomplete="off" required>\
+                    <input type="text" name="contact_relation[]" class="form-control contact_input" maxlength="15" autocomplete="off" value="'+ contact_relation +'" required>\
                 </div>\
                 <div class="col-md-2">\
                     <label class="form-label">HP No. 1 <span class="text-danger">*</span></label>\
-                    <input type="text" name="contact_phone_1[]" class="form-control contact_input" maxlength="13" autocomplete="off" onkeypress="return isNumberKey(event)" required>\
+                    <input type="text" name="contact_phone_1[]" class="form-control contact_input" maxlength="13" autocomplete="off" onkeypress="return isNumberKey(event)" value="'+ contact_phone_1 +'" required>\
                 </div>\
                 <div class="col-md-2">\
                     <label class="form-label">HP No. 2</label>\
-                    <input type="text" name="contact_phone_2[]" class="form-control contact_input" maxlength="13" autocomplete="off" onkeypress="return isNumberKey(event)">\
+                    <input type="text" name="contact_phone_2[]" class="form-control contact_input" maxlength="13" autocomplete="off" onkeypress="return isNumberKey(event) value="'+ contact_phone_2 +'"">\
                 </div>\
                 <div class="col-md-1 mt-1 text-center">\
-                    <button type="button" id="remove_input_contact" class="btn btn-danger btn-sm px-2 mt-3 contact_btn" onclick="removeHp(' + i + ')">\
+                    <button type="button" id="remove_input_contact" class="btn btn-danger btn-sm px-2 mt-3 contact_btn" '+ btnRemove +'>\
                         <i class="fas fa-minus"></i>\
                     </button>\
                 </div>\
@@ -317,7 +356,7 @@
         }
     }
 
-    function removeHp(i) {
+    function removeHp(i, update = false) {
         $('.contact_div[data-row="' + i + '"]').remove();
         var inputHpCount = $('.contact_div').length;
 
@@ -326,17 +365,44 @@
         } else {
             const divArr = document.getElementsByClassName('contact_div');
             const btnArr = document.getElementsByClassName('contact_btn');
+            const id = document.getElementsByClassName('contact_id');
             console.log('array : ', divArr);
+            console.log('id : ', id);
 
             let curr = 0;
             for (i = 0; i < divArr.length; i++) {
                 var oldValue = divArr[i].attributes[1].value;
                 var newValue = curr;
                 divArr[i].setAttribute('data-row', newValue);
-                btnArr[i].setAttribute('onclick', 'removeHp(' + curr + ')');
+                if (update) {
+                    btnArr[i].setAttribute('onclick', 'deleteHp(' + id + ',' + oldValue + ')');
+                } else {
+                    btnArr[i].setAttribute('onclick', 'removeHp(' + curr + ')');
+                }
                 curr++;
             }
         }
+    }
+
+    async function deleteHp(id, i) {
+        cuteAlert({
+            type: 'question',
+            title: 'Are you sure?',
+            message: 'Records will be permanently deleted !',
+            closeStyle: 'circle',
+            cancelText: 'Abort',
+            confirmText: 'Yes, Confirm!',
+        }).then(
+            async (e) => {
+                if (e == 'confirm') {
+                    const res = await deleteApi(id, 'contact/delete');
+
+                    if (isSuccess(res)) {
+                        removeHp(i, true);
+                    }
+                }
+            }
+        );
     }
 </script>
 

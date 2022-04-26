@@ -55,17 +55,10 @@ class User extends Controller
 
     public function getUsersByID()
     {
-        $id = escape($_POST['id']);
-        $data = users::find($id); // call static function
-        $data['education'] = Edu::where(['user_id' => $id]);
-        $data['contact'] = Contact::where(['user_id' => $id]);
-        json($data);
-    }
-
-    public function getUsersByCode()
-    {
-        $code = escape($_POST['id']);
-        $data = users::find($code, 'user_code'); // call static function
+        $data = users::find($_POST['id']); // call static function
+        $data['education'] = Edu::where(['user_id' => $_POST['id']]);
+        $data['contact'] = Contact::where(['user_id' => $_POST['id']]);
+        // $data['files'] = Files::where(['user_id' => $_POST['id']]);
         json($data);
     }
 
@@ -89,13 +82,11 @@ class User extends Controller
         $data = users::updateOrInsert($_POST); // call static function
 
         $userID = $data['id'];
-        Edu::delete($userID, 'user_id');
-        Contact::delete($userID, 'user_id');
-        Files::delete($userID, 'user_id');
 
         foreach ($_POST['education_level'] as $key => $value) {
-            $education = Edu::insert(
+            $education = Edu::save(
                 [
+                    'education_id' => $_POST['education_id'][$key],
                     'education_level' => $_POST['education_level'][$key],
                     'education_course' => $_POST['education_course'][$key],
                     'education_university' => $_POST['education_university'][$key],
@@ -116,23 +107,27 @@ class User extends Controller
                 $fileNameNew = $userID . "_" . date('dFY') . "_" . date('his') . '.' . $fileExtension;
                 $folder = 'upload/education';
                 $path = $folder . '/' . $fileNameNew;
-                move_uploaded_file($fileTmpPath, $path);
-            }
+                $result = move_uploaded_file($fileTmpPath, $path);
 
-            Files::insert(
-                [
-                    'files_type' => $fileExtension,
-                    'files_folder' => $folder,
-                    'files_extension' => $fileExtension,
-                    'files_path' => $path,
-                    'user_id' => $userID,
-                ]
-            );
+                if ($result) {
+                    Files::save(
+                        [
+                            'files_id' => $_POST['files_id'],
+                            'files_type' => $fileExtension,
+                            'files_folder' => $folder,
+                            'files_extension' => $fileExtension,
+                            'files_path' => $path,
+                            'user_id' => $userID,
+                        ]
+                    );
+                }
+            }
         }
 
         foreach ($_POST['contact_name'] as $key => $value) {
-            $contact = Contact::insert(
+            $contact = Contact::save(
                 [
+                    'contact_id' => $_POST['contact_id'][$key],
                     'contact_name' => $_POST['contact_name'][$key],
                     'contact_relation' => $_POST['contact_relation'][$key],
                     'contact_phone_1' => $_POST['contact_phone_1'][$key],
