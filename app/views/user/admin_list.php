@@ -13,10 +13,10 @@
             <div class="card-header">
                 <h5 class="card-title">
                     List Admin
-                    <button type="button" class="btn btn-warning btn-sm float-end ms-2" onclick="getDataList()" title="Refresh">
+                    <button type="button" class="btn btn-warning btn-xs float-end ms-2" onclick="getDataList()" title="Refresh">
                         <i class="fas fa-redo-alt"></i>
                     </button>
-                    <button type="button" class="btn btn-secondary btn-sm float-end" onclick="formModal()">
+                    <button type="button" class="btn btn-secondary btn-xs float-end" onclick="formModal()">
                         <i class="fas fa-plus"></i> Add Admin
                     </button>
                 </h5>
