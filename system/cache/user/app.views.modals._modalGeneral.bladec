@@ -69,8 +69,22 @@
  </div>
 </div>
 
+<div class="modal fade" id="generalModal-right" role="dialog" aria-modal="true">
+ <div class="modal-dialog modal-right">
+ <div class="modal-content">
+ <div class="modal-header">
+ <h4 class="modal-title" id="generalTitle-right"> General Modal </h4>
+ <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+ </div>
+ <div class="modal-body" id="generalContent-right">
+ Please add content
+ </div>
+ </div>
+ </div>
+</div>
+
 <!-- Full screen modal -->
-<div class="modal animate__animated animate__slideInRight" id="generalModal-fullscreen" role="dialog" aria-modal="true">
+<div class="modal fade" id="generalModal-fullscreen" role="dialog" aria-modal="true">
  <div class="modal-dialog modal-fullscreen">
  <div class="modal-content">
  <div class="modal-header">
@@ -81,7 +95,7 @@
  Please add content
  </div>
  <div class="modal-footer">
- <button type="button" class="btn btn-label-danger" data-bs-dismiss="modal">Close</button>
+ <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
  </div>
  </div>
  </div>
