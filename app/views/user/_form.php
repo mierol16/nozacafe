@@ -234,25 +234,25 @@
             var education_course = (data != null) ? data.education_course : '';
             var education_university = (data != null) ? data.education_university : '';
             var education_id = (data != null) ? data.education_id : '';
-            var btnRemove = (data != null) ? 'onclick="deleteEdu('+ education_id +', '+ i +')"' : 'onclick="removeEdu('+ i +')"';
+            var btnRemove = (data != null) ? 'onclick="deleteEdu(' + education_id + ', ' + i + ')"' : 'onclick="removeEdu(' + i + ')"';
 
             $('#education_row').append('\
             <div class="row mt-2 education_div" data-row="' + i + '">\
                 <div class="col-md-3">\
                     <label class="form-label">Level of Education <span class="text-danger">*</span></label>\
-                    <input type="text" name="education_level[]" class="form-control" maxlength="20" autocomplete="off" required>\
-                    <input type="hidden" name="education_id[]" class="form-control" readonly>\
+                    <input type="text" name="education_level[]" class="form-control" value="' + education_level + '" maxlength="20" autocomplete="off" required>\
+                    <input type="hidden" name="education_id[]" class="form-control" value="' + education_id + '" readonly>\
                 </div>\
                 <div class="col-md-4">\
                     <label class="form-label">Course <span class="text-danger">*</span></label>\
-                    <input type="text" name="education_course[]" class="form-control" maxlength="30" autocomplete="off" required>\
+                    <input type="text" name="education_course[]" class="form-control" value="' + education_course + '" maxlength="30" autocomplete="off" required>\
                 </div>\
                 <div class="col-md-4">\
-                    <label class="form-label">University <span class="text-danger">*</span></label>\
-                    <input type="text" name="education_university[]" class="form-control" maxlength="50" autocomplete="off" required>\
+                    <label class="form-label">Institutions Name <span class="text-danger">*</span></label>\
+                    <input type="text" name="education_university[]" class="form-control" value="' + education_university + '" maxlength="50" autocomplete="off" required>\
                 </div>\
                 <div class="col-md-1 mt-1 text-center">\
-                    <button type="button" id="remove_input_education" class="btn btn-danger btn-sm px-2 mt-3 education_btn" '+ btnRemove +'>\
+                    <button type="button" id="remove_input_education" class="btn btn-danger btn-sm px-2 mt-3 education_btn" ' + btnRemove + '>\
                         <i class="fas fa-minus"></i>\
                     </button>\
                 </div>\
@@ -323,29 +323,29 @@
             var contact_phone_1 = (data != null) ? data.contact_phone_1 : '';
             var contact_phone_2 = (data != null) ? data.contact_phone_2 : '';
             var contact_id = (data != null) ? data.contact_id : '';
-            var btnRemove = (data != null) ? 'onclick="deleteHp('+ contact_id +', '+ i +')"' : 'onclick="removeHp('+ i +')"';
+            var btnRemove = (data != null) ? 'onclick="deleteHp(' + contact_id + ', ' + i + ')"' : 'onclick="removeHp(' + i + ')"';
 
             $('#contact_row').append('\
             <div class="row mt-2 contact_div" data-row="' + i + '">\
                 <div class="col-md-4">\
                     <label class="form-label">Name <span class="text-danger">*</span></label>\
-                    <input type="text" name="contact_name[]" class="form-control contact_input" maxlength="100" autocomplete="off" value="'+ contact_name +'" required>\
-                    <input type="hidden" name="contact_id[]" class="form-control contact_input contact_id" value="'+ contact_id +'" readonly>\
+                    <input type="text" name="contact_name[]" class="form-control contact_input" maxlength="100" autocomplete="off" value="' + contact_name + '" required>\
+                    <input type="hidden" name="contact_id[]" class="form-control contact_input contact_id" value="' + contact_id + '" readonly>\
                 </div>\
                 <div class="col-md-3">\
                     <label class="form-label">Relationship <span class="text-danger">*</span></label>\
-                    <input type="text" name="contact_relation[]" class="form-control contact_input" maxlength="15" autocomplete="off" value="'+ contact_relation +'" required>\
+                    <input type="text" name="contact_relation[]" class="form-control contact_input" maxlength="15" autocomplete="off" value="' + contact_relation + '" required>\
                 </div>\
                 <div class="col-md-2">\
                     <label class="form-label">HP No. 1 <span class="text-danger">*</span></label>\
-                    <input type="text" name="contact_phone_1[]" class="form-control contact_input" maxlength="13" autocomplete="off" onkeypress="return isNumberKey(event)" value="'+ contact_phone_1 +'" required>\
+                    <input type="text" name="contact_phone_1[]" class="form-control contact_input" maxlength="13" autocomplete="off" onkeypress="return isNumberKey(event)" value="' + contact_phone_1 + '" required>\
                 </div>\
                 <div class="col-md-2">\
                     <label class="form-label">HP No. 2</label>\
-                    <input type="text" name="contact_phone_2[]" class="form-control contact_input" maxlength="13" autocomplete="off" onkeypress="return isNumberKey(event) value="'+ contact_phone_2 +'"">\
+                    <input type="text" name="contact_phone_2[]" class="form-control contact_input" maxlength="13" autocomplete="off" onkeypress="return isNumberKey(event) value="' + contact_phone_2 + '"">\
                 </div>\
                 <div class="col-md-1 mt-1 text-center">\
-                    <button type="button" id="remove_input_contact" class="btn btn-danger btn-sm px-2 mt-3 contact_btn" '+ btnRemove +'>\
+                    <button type="button" id="remove_input_contact" class="btn btn-danger btn-sm px-2 mt-3 contact_btn" ' + btnRemove + '>\
                         <i class="fas fa-minus"></i>\
                     </button>\
                 </div>\
@@ -356,7 +356,7 @@
         }
     }
 
-    function removeHp(i, update = false) {
+    function removeHp(i) {
         $('.contact_div[data-row="' + i + '"]').remove();
         var inputHpCount = $('.contact_div').length;
 
@@ -365,16 +365,16 @@
         } else {
             const divArr = document.getElementsByClassName('contact_div');
             const btnArr = document.getElementsByClassName('contact_btn');
-            const id = document.getElementsByClassName('contact_id');
-            console.log('array : ', divArr);
-            console.log('id : ', id);
+            const ids = document.getElementsByClassName('contact_id');
 
             let curr = 0;
             for (i = 0; i < divArr.length; i++) {
                 var oldValue = divArr[i].attributes[1].value;
                 var newValue = curr;
+                var id = ids[i].attributes[3].value;
+
                 divArr[i].setAttribute('data-row', newValue);
-                if (update) {
+                if (id != '') {
                     btnArr[i].setAttribute('onclick', 'deleteHp(' + id + ',' + oldValue + ')');
                 } else {
                     btnArr[i].setAttribute('onclick', 'removeHp(' + curr + ')');
@@ -398,7 +398,7 @@
                     const res = await deleteApi(id, 'contact/delete');
 
                     if (isSuccess(res)) {
-                        removeHp(i, true);
+                        removeHp(i);
                     }
                 }
             }
