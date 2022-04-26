@@ -240,16 +240,16 @@
             <div class="row mt-2 education_div" data-row="' + i + '">\
                 <div class="col-md-3">\
                     <label class="form-label">Level of Education <span class="text-danger">*</span></label>\
-                    <input type="text" name="education_level[]" class="form-control" value="' + education_level + '" maxlength="20" autocomplete="off" required>\
-                    <input type="hidden" name="education_id[]" class="form-control" value="' + education_id + '" readonly>\
+                    <input type="text" name="education_level[]" class="form-control education_input" value="' + education_level + '" maxlength="20" autocomplete="off" required>\
+                    <input type="hidden" name="education_id[]" class="form-control education_input education_id" value="' + education_id + '" readonly>\
                 </div>\
                 <div class="col-md-4">\
                     <label class="form-label">Course <span class="text-danger">*</span></label>\
-                    <input type="text" name="education_course[]" class="form-control" value="' + education_course + '" maxlength="30" autocomplete="off" required>\
+                    <input type="text" name="education_course[]" class="form-control education_input" value="' + education_course + '" maxlength="30" autocomplete="off" required>\
                 </div>\
                 <div class="col-md-4">\
                     <label class="form-label">Institutions Name <span class="text-danger">*</span></label>\
-                    <input type="text" name="education_university[]" class="form-control" value="' + education_university + '" maxlength="50" autocomplete="off" required>\
+                    <input type="text" name="education_university[]" class="form-control education_input" value="' + education_university + '" maxlength="50" autocomplete="off" required>\
                 </div>\
                 <div class="col-md-1 mt-1 text-center">\
                     <button type="button" id="remove_input_education" class="btn btn-danger btn-sm px-2 mt-3 education_btn" ' + btnRemove + '>\
@@ -279,14 +279,21 @@
         } else {
             const divArr = document.getElementsByClassName('education_div');
             const btnArr = document.getElementsByClassName('education_btn');
+            const ids = document.getElementsByClassName('education_id');
             console.log('array : ', divArr);
 
             let curr = 0;
             for (i = 0; i < divArr.length; i++) {
                 var oldValue = divArr[i].attributes[1].value;
                 var newValue = curr;
+                var id = ids[i].attributes[3].value;
+
                 divArr[i].setAttribute('data-row', newValue);
-                btnArr[i].setAttribute('onclick', 'removeEdu(' + curr + ')');
+                if (id != '') {
+                    btnArr[i].setAttribute('onclick', 'deleteEdu(' + id + ',' + oldValue + ')');
+                } else {
+                    btnArr[i].setAttribute('onclick', 'removeEdu(' + curr + ')');
+                }
                 curr++;
             }
         }

@@ -5,57 +5,57 @@
     <div class="col-lg-10">
         <div class="row">
             <div class="col-lg-4">
-                <label style="color : #b3b3cc">Full Name</label><br>
+                <label style="color : #b3b3cc">Full Name </label><br>
                 <span id="user_fullname_view" style="font-weight:bold"></span>
             </div>
             <div class="col-lg-4">
-                <label style="color : #b3b3cc">Preferred Name</label><br>
+                <label style="color : #b3b3cc">Preferred Name </label><br>
                 <span id="user_preferred_name_view" style="font-weight:bold"></span>
             </div>
             <div class="col-lg-4">
-                <label style="color : #b3b3cc">NRIC</label><br>
+                <label style="color : #b3b3cc">NRIC </label><br>
                 <span id="user_nric_view" style="font-weight:bold"></span>
             </div>
         </div>
         <div class="row mt-2">
             <div class="col-lg-4">
-                <label style="color : #b3b3cc">Email</label><br>
+                <label style="color : #b3b3cc">Email </label><br>
                 <span id="user_email_view" style="font-weight:bold"></span>
             </div>
             <div class="col-lg-4">
-                <label style="color : #b3b3cc">Gender</label><br>
+                <label style="color : #b3b3cc">Gender </label><br>
                 <span id="user_gender_view" style="font-weight:bold"></span>
             </div>
             <div class="col-lg-4">
-                <label style="color : #b3b3cc">Birthdate</label><br>
+                <label style="color : #b3b3cc">Birthdate </label><br>
                 <span id="user_dob_view" style="font-weight:bold"></span>
             </div>
         </div>
         <div class="row mt-2">
             <div class="col-lg-4">
-                <label style="color : #b3b3cc">Contact No.</label><br>
+                <label style="color : #b3b3cc">Contact No. </label><br>
                 <span id="user_contact_no_view" style="font-weight:bold"></span>
             </div>
             <div class="col-lg-4">
-                <label style="color : #b3b3cc">Race</label><br>
+                <label style="color : #b3b3cc">Race </label><br>
                 <span id="user_race_view" style="font-weight:bold"></span>
             </div>
             <div class="col-lg-4">
-                <label style="color : #b3b3cc">Religion</label><br>
+                <label style="color : #b3b3cc">Religion </label><br>
                 <span id="user_religion_view" style="font-weight:bold"></span>
             </div>
         </div>
         <div class="row mt-2">
             <div class="col-lg-4">
-                <label style="color : #b3b3cc">Address</label><br>
+                <label style="color : #b3b3cc">Address </label><br>
                 <span id="user_address_view" style="font-weight:bold"></span>
             </div>
             <div class="col-lg-4">
-                <label style="color : #b3b3cc">Postal Code</label><br>
+                <label style="color : #b3b3cc">Postal Code </label><br>
                 <span id="user_postcode_view" style="font-weight:bold"></span>
             </div>
             <div class="col-lg-4">
-                <label style="color : #b3b3cc">City / State</label><br>
+                <label style="color : #b3b3cc">City / State </label><br>
                 <span id="user_city_view" style="font-weight:bold"></span> /
                 <span id="user_state_view" style="font-weight:bold"></span>
             </div>
@@ -104,68 +104,55 @@
 
         if (data.education || data.contact) {
             for (i = 0; i < data.education.length; i++) {
-                addEducation(data.education);
-                $('#education_id' + i).text(data.education[i].education_id);
-                $('#education_level' + i).text(data.education[i].education_level);
-                $('#education_course' + i).text(data.education[i].education_course);
-                $('#education_university' + i).text(data.education[i].education_university);
+                addEducation(data.education[i]);
             }
 
             for (i = 0; i < data.contact.length; i++) {
-                addContact(data.contact);
-                $('#contact_id' + i).text(data.contact[i].contact_id);
-                $('#contact_name' + i).text(data.contact[i].contact_name);
-                $('#contact_relation' + i).text(data.contact[i].contact_relation);
-                $('#contact_phone_1' + i).text(data.contact[i].contact_phone_1);
-                $('#contact_phone_2' + i).text(data.contact[i].contact_phone_2);
+                addContact(data.contact[i]);
             }
         }
     }
 
     function addEducation(data = null) {
-        var i = $('.education').length;
-        $('#education_view').html('\
-            <div class="row mt-2 education" id="edu' + i + '">\
+        $('#education_view').append('\
+            <div class="row mt-2 education">\
                 <div class="col-lg-3">\
-                    <label style="color : #b3b3cc">Level of Education</label><br>\
-                    <span id="education_level' + i +'" style="font-weight:bold"></span>\
+                    <label style="color : #b3b3cc">Level of Education </label><br>\
+                    <span style="font-weight:bold">' + data.education_level + '</span>\
                 </div>\
                 <div class="col-lg-4">\
-                    <label style="color : #b3b3cc">Course</label><br>\
-                    <span id="education_course' + i +'" style="font-weight:bold"></span>\
+                    <label style="color : #b3b3cc">Course </label><br>\
+                    <span style="font-weight:bold">' + data.education_course + '</span>\
                 </div>\
                 <div class="col-lg-4">\
-                    <label style="color : #b3b3cc">University</label><br>\
-                    <span id="education_university' + i +'" style="font-weight:bold"></span>\
+                    <label style="color : #b3b3cc">Institutions Name </label><br>\
+                    <span style="font-weight:bold">' + data.education_university + '</span>\
                 </div>\
                 <div class="col-lg-1">\
                     <button class="btn btn-sm btn-info" title="View Attachment"> <i class="fas fa-eye"></i> </button></center>\
                 </div>\
             </div>');
-        i++;
     }
 
     function addContact(data = null) {
-        var i = $('.contact').length;
-        $('#contact_view').html('\
-            <div class="row mt-2 contact" id="hp' + i + '">\
+        $('#contact_view').append('\
+            <div class="row mt-2 contact">\
                 <div class="col-lg-4">\
-                    <label style="color : #b3b3cc">Name</label><br>\
-                    <span id="contact_name' + i +'" style="font-weight:bold"></span>\
+                    <label style="color : #b3b3cc">Name </label><br>\
+                    <span style="font-weight:bold">' + data.contact_name + '</span>\
                 </div>\
                 <div class="col-lg-3">\
-                    <label style="color : #b3b3cc">Relationship</label><br>\
-                    <span id="contact_relation' + i +'" style="font-weight:bold"></span>\
+                    <label style="color : #b3b3cc">Relationship </label><br>\
+                    <span style="font-weight:bold">' + data.contact_relation + '</span>\
                 </div>\
                 <div class="col-lg-2">\
-                    <label style="color : #b3b3cc">Contact No. 1</label><br>\
-                    <span id="contact_phone_1' + i +'" style="font-weight:bold"></span>\
+                    <label style="color : #b3b3cc">Contact No. 1 </label><br>\
+                    <span style="font-weight:bold">' + data.contact_phone_1 + '</span>\
                 </div>\
                 <div class="col-lg-2">\
-                    <label style="color : #b3b3cc">Contact No. 2</label><br>\
-                    <span id="contact_phone_2' + i +'" style="font-weight:bold"></span>\
+                    <label style="color : #b3b3cc">Contact No. 2 </label><br>\
+                    <span style="font-weight:bold">' + data.contact_phone_2 + '</span>\
                 </div>\
             </div>');
-        i++;
     }
 </script>
