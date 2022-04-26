@@ -58,7 +58,7 @@ class User extends Controller
         $id = escape($_POST['id']);
         $data = users::find($id); // call static function
         $data['education'] = Edu::where(['user_id' => $id]);
-        $data['contact'] = Contact::where(['user_id' => $id]); 
+        $data['contact'] = Contact::where(['user_id' => $id]);
         json($data);
     }
 
@@ -84,7 +84,7 @@ class User extends Controller
     public function save()
     {
         $_POST['user_password'] = password_hash($_POST['user_nric'], PASSWORD_DEFAULT);
-        
+
         // $data = users::save($_POST);
         $data = users::updateOrInsert($_POST); // call static function
 
@@ -93,7 +93,7 @@ class User extends Controller
         Contact::delete($userID, 'user_id');
         Files::delete($userID, 'user_id');
 
-        foreach($_POST['education_level'] as $key => $value) {
+        foreach ($_POST['education_level'] as $key => $value) {
             $education = Edu::insert(
                 [
                     'education_level' => $_POST['education_level'][$key],
@@ -130,7 +130,7 @@ class User extends Controller
             );
         }
 
-        foreach($_POST['contact_name'] as $key => $value) {
+        foreach ($_POST['contact_name'] as $key => $value) {
             $contact = Contact::insert(
                 [
                     'contact_name' => $_POST['contact_name'][$key],

@@ -283,30 +283,30 @@
 
     function addContact(data = null) {
         var maxIndex = 3;
-        var i = $('.contact').length;
+        var i = $('.contact_div').length;
 
         if (i < maxIndex) {
             $('#contact_row').append('\
-            <div class="row mt-2 contact" id="hp' + i + '">\
+            <div class="row mt-2 contact_div" data-row="' + i + '">\
                 <div class="col-md-4">\
                     <label class="form-label">Name <span class="text-danger">*</span></label>\
-                    <input type="text" id="contact_name' + i + '" name="contact_name[]" class="form-control" maxlength="100" autocomplete="off" required>\
-                    <input type="hidden" id="contact_id' + i + '" name="contact_id[]" class="form-control" readonly>\
+                    <input type="text" name="contact_name[]" class="form-control contact_input" maxlength="100" autocomplete="off" required>\
+                    <input type="hidden" name="contact_id[]" class="form-control contact_input" readonly>\
                 </div>\
                 <div class="col-md-3">\
                     <label class="form-label">Relationship <span class="text-danger">*</span></label>\
-                    <input type="text" id="contact_relation' + i + '" name="contact_relation[]" class="form-control" maxlength="15" autocomplete="off" required>\
+                    <input type="text" name="contact_relation[]" class="form-control contact_input" maxlength="15" autocomplete="off" required>\
                 </div>\
                 <div class="col-md-2">\
                     <label class="form-label">HP No. 1 <span class="text-danger">*</span></label>\
-                    <input type="text" id="contact_phone_1' + i + '" name="contact_phone_1[]" class="form-control" maxlength="13" autocomplete="off" onkeypress="return isNumberKey(event)" required>\
+                    <input type="text" name="contact_phone_1[]" class="form-control contact_input" maxlength="13" autocomplete="off" onkeypress="return isNumberKey(event)" required>\
                 </div>\
                 <div class="col-md-2">\
                     <label class="form-label">HP No. 2</label>\
-                    <input type="text" id="contact_phone_2' + i + '" name="contact_phone_2[]" class="form-control" maxlength="13" autocomplete="off" onkeypress="return isNumberKey(event)">\
+                    <input type="text" name="contact_phone_2[]" class="form-control contact_input" maxlength="13" autocomplete="off" onkeypress="return isNumberKey(event)">\
                 </div>\
                 <div class="col-md-1 mt-1 text-center">\
-                    <button type="button" id="remove_input_contact" class="btn btn-danger btn-sm px-2 mt-3" onclick="removeHp(' + i + ')">\
+                    <button type="button" id="remove_input_contact" class="btn btn-danger btn-sm px-2 mt-3 contact_btn" onclick="removeHp(' + i + ')">\
                         <i class="fas fa-minus"></i>\
                     </button>\
                 </div>\
@@ -318,10 +318,24 @@
     }
 
     function removeHp(i) {
-        $('#hp' + i).remove();
-        var inputHpCount = $('.contact').length;
+        $('.contact_div[data-row="' + i + '"]').remove();
+        var inputHpCount = $('.contact_div').length;
+
         if (inputHpCount == 0) {
             addContact();
+        } else {
+            const divArr = document.getElementsByClassName('contact_div');
+            const btnArr = document.getElementsByClassName('contact_btn');
+            console.log('array : ', divArr);
+
+            let curr = 0;
+            for (i = 0; i < divArr.length; i++) {
+                var oldValue = divArr[i].attributes[1].value;
+                var newValue = curr;
+                divArr[i].setAttribute('data-row', newValue);
+                btnArr[i].setAttribute('onclick', 'removeHp(' + curr + ')');
+                curr++;
+            }
         }
     }
 </script>
