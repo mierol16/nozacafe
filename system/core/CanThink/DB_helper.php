@@ -297,28 +297,72 @@ function isColumnExist($table, $columnName)
         return true;
 }
 
-function hasMany($tableRef, $columnRef, $condition)
+function hasMany($modelRef, $columnRef, $condition)
 {
     $dbName = db_name();
-    $result = '';
+    $result = $obj = $tableRef = '';
 
-    // check table
-    if (isTableExist($tableRef)) {
-        $result = rawQuery("SELECT * FROM $tableRef WHERE {$columnRef}='$condition'");
+    $fileName = "../app/models/" . $modelRef . ".php";
+    if (file_exists($fileName)) {
+        $classes = get_declared_classes();
+
+        if (in_array($modelRef, $classes)) {
+            $key = array_search($modelRef, $classes);
+            $className = $classes[$key];
+            $obj = new $className;
+
+            $tableRef = $obj->table;
+            $tableRefPK = $obj->primaryKey;
+
+            // check table
+            if (isTableExist($tableRef)) {
+                $result = rawQuery("SELECT * FROM $tableRef WHERE {$columnRef}='$condition'");
+            }
+        }
     }
 
-    return $result;
+    $data = [
+        'obj' => $obj,
+        'table' => $tableRef,
+        'column' => $columnRef,
+        'id' => $condition,
+        'data' => $result,
+    ];
+
+    return $data;
 }
 
-function hasOne($tableRef, $columnRef, $condition)
+function hasOne($modelRef, $columnRef, $condition)
 {
     $dbName = db_name();
-    $result = '';
+    $result = $obj = $tableRef = '';
 
-    // check table
-    if (isTableExist($tableRef)) {
-        $result = rawQuery("SELECT * FROM $tableRef WHERE {$columnRef}='$condition' LIMIT 1");
+    $fileName = "../app/models/" . $modelRef . ".php";
+    if (file_exists($fileName)) {
+        $classes = get_declared_classes();
+
+        if (in_array($modelRef, $classes)) {
+            $key = array_search($modelRef, $classes);
+            $className = $classes[$key];
+            $obj = new $className;
+
+            $tableRef = $obj->table;
+            $tableRefPK = $obj->primaryKey;
+
+            // check table
+            if (isTableExist($tableRef)) {
+                $result = rawQuery("SELECT * FROM $tableRef WHERE {$columnRef}='$condition' LIMIT 1");
+            }
+        }
     }
 
-    return $result;
+    $data = [
+        'obj' => $obj,
+        'table' => $tableRef,
+        'column' => $columnRef,
+        'id' => $condition,
+        'data' => $result[0],
+    ];
+
+    return $data;
 }

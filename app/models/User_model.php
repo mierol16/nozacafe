@@ -2,10 +2,10 @@
 
 class User_model extends Model
 {
-    protected $table      = 'user';
-    protected $primaryKey = 'user_id';
-    protected $uniqueKey = ['user_email', 'user_username'];
-    protected $foreignKey = [];
+    public $table      = 'user';
+    public $primaryKey = 'user_id';
+    public $uniqueKey = ['user_email', 'user_username'];
+    public $foreignKey = [];
 
     /**
      * The attributes that are mass assignable.
@@ -63,6 +63,27 @@ class User_model extends Model
         'user_password' => 'password',
         'role_id' => 'role',
     ];
+
+    public $with = [
+        'education',
+        'files',
+        'contact',
+    ];
+
+    public function educationRelation($data)
+    {
+        return hasMany('Education_info_model', 'user_id', $data[$this->primaryKey]);
+    }
+
+    public function filesRelation($data)
+    {
+        return hasMany('Files_model', 'user_id', $data[$this->primaryKey]);
+    }
+
+    public function contactRelation($data)
+    {
+        return hasMany('Contact_info_model', 'user_id', $data[$this->primaryKey]);
+    }
 
     ###################################################################
     #                                                                 #

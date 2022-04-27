@@ -2,9 +2,9 @@
 
 class Master_leave_model extends Model
 {
-    protected $table      = 'master_leave';
-    protected $primaryKey = 'leave_id';
-    protected $uniqueKey = [];
+    public $table      = 'master_leave';
+    public $primaryKey = 'leave_id';
+    public $uniqueKey = [];
 
     /**
      * The attributes that are mass assignable.
@@ -22,22 +22,16 @@ class Master_leave_model extends Model
      *
      * @return array
      */
-    protected $rules = [
-        
-    ];
+    protected $rules = [];
 
     /**
      * Custom message for validation
      *
      * @return array
      */
-    protected $messages = [
-        
-    ];
+    protected $messages = [];
 
-    protected $with = [
-        
-    ];
+    public $with = [];
 
     ###################################################################
     #                                                                 #

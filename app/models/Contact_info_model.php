@@ -2,9 +2,9 @@
 
 class Contact_info_model extends Model
 {
-    protected $table      = 'staff_contact_info';
-    protected $primaryKey = 'contact_id';
-    protected $uniqueKey = ['user_id'];
+    public $table      = 'staff_contact_info';
+    public $primaryKey = 'contact_id';
+    public $uniqueKey = ['user_id'];
 
     /**
      * The attributes that are mass assignable.
@@ -24,9 +24,7 @@ class Contact_info_model extends Model
      *
      * @return array
      */
-    protected $rules = [
-        
-    ];
+    protected $rules = [];
 
     /**
      * Custom message for validation

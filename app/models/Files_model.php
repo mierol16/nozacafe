@@ -2,9 +2,9 @@
 
 class Files_model extends Model
 {
-    protected $table      = 'files';
-    protected $primaryKey = 'files_id';
-    protected $uniqueKey = ['user_id'];
+    public $table      = 'files';
+    public $primaryKey = 'files_id';
+    public $uniqueKey  = ['user_id'];
 
     /**
      * The attributes that are mass assignable.

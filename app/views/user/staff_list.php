@@ -60,7 +60,7 @@
     async function viewInfo(id) {
         const res = await callApi('post', "user/getUsersByID", id);
 
-        if(isSuccess(res)) {
+        if (isSuccess(res)) {
             loadFileContent('user/_view.php', 'generalContent', 'fullscreen', 'Employee Information', res.data);
         } else {
             noti(res.status);

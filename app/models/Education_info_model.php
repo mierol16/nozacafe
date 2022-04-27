@@ -2,9 +2,9 @@
 
 class Education_info_model extends Model
 {
-    protected $table      = 'staff_education_info';
-    protected $primaryKey = 'education_id';
-    protected $uniqueKey = ['user_id'];
+    public $table      = 'staff_education_info';
+    public $primaryKey = 'education_id';
+    public $uniqueKey = ['user_id'];
 
     /**
      * The attributes that are mass assignable.
@@ -41,7 +41,8 @@ class Education_info_model extends Model
         'education_university' => 'University Name',
     ];
 
-    protected $with = [
+    public $with = [
+        'user',
         'files',
     ];
 
@@ -51,8 +52,13 @@ class Education_info_model extends Model
     #                                                                 #
     ###################################################################
 
-    public function filesRelation($id)
+    public function userRelation($data)
     {
-        return hasMany('files', 'table_id', $id);
+        return hasOne('User_model', 'user_id', $data['user_id']);
+    }
+
+    public function filesRelation($data)
+    {
+        return hasMany('Files_model', 'table_id', $data[$this->primaryKey]);
     }
 }

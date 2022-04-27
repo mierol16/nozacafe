@@ -2,9 +2,9 @@
 
 class Master_role_model extends Model
 {
-    protected $table      = 'master_role';
-    protected $primaryKey = 'role_id';
-    protected $uniqueKey = [];
+    public $table      = 'master_role';
+    public $primaryKey = 'role_id';
+    public $uniqueKey = [];
 
     /**
      * The attributes that are mass assignable.

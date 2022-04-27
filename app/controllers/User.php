@@ -98,9 +98,7 @@ class User extends Controller
 
     public function getUsersByID()
     {
-        $data = users::find($_POST['id']); // call static function
-        $data['education'] = Edu::where(['user_id' => $_POST['id']], 'get', ['files']);
-        $data['contact'] = Contact::where(['user_id' => $_POST['id']]);
+        $data = users::find($_POST['id'], NULL, ['education.files', 'contact']);
         json($data);
     }
 
@@ -136,10 +134,10 @@ class User extends Controller
                         'user_id' => $userID,
                     ]
                 );
-    
+
                 $fileName = $fileExtension = $path = '';
                 if (isset($_FILES['education_file'])) {
-    
+
                     $fileTmpPath = $_FILES['education_file']['tmp_name'][$key];
                     $fileName = $_FILES['education_file']['name'][$key];
                     $fileSize = $_FILES['education_file']['size'][$key];
@@ -149,7 +147,7 @@ class User extends Controller
                     $fileNameNew = $userID . "_" . date('dFY') . "_" . date('his') . '.' . $fileExtension;
                     $folder = folder('certificate', $_POST['user_fullname'], 'directory');
                     $path = $folder . '/' . $fileNameNew;
-    
+
                     if (move_uploaded_file($fileTmpPath, $path)) {
                         Files::save(
                             [
