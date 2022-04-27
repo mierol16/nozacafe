@@ -447,7 +447,7 @@
         }).then(
             async (e) => {
                 if (e == 'confirm') {
-                    const res = await deleteApi(id, 'contact/delete');
+                    const res = await deleteApi(id, 'files/delete');
                     $('.upload' + id).remove();
                 }
             }
