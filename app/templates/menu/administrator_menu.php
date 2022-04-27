@@ -1,9 +1,15 @@
 <!-- Only for admin -->
 
 <?php if (session()->get('roleID') == 2) : ?>
+    <li class="menuitem-<?= ($currentSubSidebar == 'profile') ? 'active' : '' ?>">
+        <a href="{{ url('user/profile') }}">
+            <i class="mdi mdi-account"></i>
+            <span>Profile</span>
+        </a>
+    </li>
     <li>
         <a href="#user" data-bs-toggle="collapse">
-            <i class="mdi mdi-account"></i>
+            <i class="mdi-account-multiple"></i>
             <span> Users </span>
             <span class="menu-arrow"></span>
         </a>
