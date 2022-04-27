@@ -38,6 +38,18 @@ class User extends Controller
         render('user/staff_list', $data);
     }
 
+    public function profile()
+    {
+        $data = [
+            'title' => 'My Profile',
+            'currentSidebar' => 'profile',
+            'currentSubSidebar' => 'profile',
+            'userID' => session()->get('userID'),
+        ];
+
+        render('profile/personal', $data);
+    }
+
     public function getAll()
     {
         json(users::all());

@@ -253,7 +253,7 @@
                                         List Files\
                                     </div>\
                                     <div class="card-body">\
-                                       ' + display + '\
+                                        ' + display + '\
                                     </div>\
                                 </div>\
                             </div>';
