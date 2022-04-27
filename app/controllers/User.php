@@ -26,7 +26,6 @@ class User extends Controller
         render('user/admin_list', $data);
     }
 
-    // open page list 2
     public function employee()
     {
         $data = [
@@ -48,6 +47,38 @@ class User extends Controller
         ];
 
         render('profile/personal', $data);
+    }
+
+    public function adminView($adminEncodeID = null)
+    {
+        if (!empty($adminEncodeID)) {
+            $data = [
+                'title' => 'Administrator Details',
+                'currentSidebar' => 'user',
+                'currentSubSidebar' => 'admin',
+                'userID' => decodeID($adminEncodeID),
+            ];
+
+            render('profile/personal', $data);
+        } else {
+            redirect('user/admin');
+        }
+    }
+
+    public function staffView($staffEncodeID = null)
+    {
+        if (!empty($staffEncodeID)) {
+            $data = [
+                'title' => 'Employee Details',
+                'currentSidebar' => 'user',
+                'currentSubSidebar' => 'staff',
+                'userID' => decodeID($staffEncodeID),
+            ];
+
+            render('profile/personal', $data);
+        } else {
+            redirect('user/employee');
+        }
     }
 
     public function getAll()
@@ -159,6 +190,20 @@ class User extends Controller
     public function delete()
     {
         $data = users::delete($_POST['id']); // call static function
+        json($data);
+    }
+
+    public function uploadProfile()
+    {
+        $data = $this->users->upload_save($_POST);
+
+        if ($data['resCode'] == 200) {
+            $currentUserID = session()->get('userID');
+            if ($currentUserID == $_POST['user_id']) {
+                session()->set('avatar', $data['data']['user_avatar']);
+            }
+        }
+
         json($data);
     }
 }

@@ -53,6 +53,10 @@
         generateDatatable('dataList', 'serverside', 'user/getListStaffDt', 'nodatadiv');
     }
 
+    async function viewRecord(id, encodeID, baseURL) {
+        window.location.href = baseURL + 'user/staffView/' + encodeID;
+    }
+
     async function viewInfo(id) {
         const res = await callApi('post', "user/getUsersByID", id);
 

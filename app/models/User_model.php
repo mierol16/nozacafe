@@ -90,7 +90,7 @@ class User_model extends Model
         $this->serversideDt->hide('user_nric'); // hides 'created_at' column from the output
 
         $this->serversideDt->edit('user_fullname', function ($data) {
-            return $data['user_fullname'] . '<br>' . $data['user_nric'];
+            return '<a href="javascript:void(0)" onclick="viewRecord(' . $data['user_id'] . ', \'' . encodeID($data['user_id']) . '\', \'' . base_url . '\')">' . $data['user_fullname'] . '<br>' . $data['user_nric'] . ' </a>';
         });
 
         $this->serversideDt->edit('user_status', function ($data) {
@@ -136,7 +136,7 @@ class User_model extends Model
         $this->serversideDt->hide('user_nric'); // hides 'created_at' column from the output
 
         $this->serversideDt->edit('user_fullname', function ($data) {
-            return '<a href="javascript:void(0)" onclick="viewInfo(' . $data['user_id'] . ')">' . $data['user_fullname'] . '<br>' . $data['user_nric'] . ' </a>';
+            return '<a href="javascript:void(0)" onclick="viewRecord(' . $data['user_id'] . ', \'' . encodeID($data['user_id']) . '\', \'' . base_url . '\')">' . $data['user_fullname'] . '<br>' . $data['user_nric'] . ' </a>';
         });
 
         $this->serversideDt->edit('user_status', function ($data) {
@@ -180,5 +180,67 @@ class User_model extends Model
         $this->db->where('user_email', $params);
         $this->db->orWhere('user_username', $params);
         return $this->db->fetchRow($this->table);
+    }
+
+    public function getProfileByID($params = NULL)
+    {
+        $this->db->where($this->primaryKey, $params);
+        return $this->db->fetchRow($this->table);
+    }
+
+    public function upload_save($data)
+    {
+        $image = $data['image'];
+        list($type, $image) = explode(';', $image);
+        list(, $image) = explode(',', $image);
+
+        $image = base64_decode($image);
+        $userID = $data['user_id'];
+        $roleID = $data['role_id'];
+        $filename = $data['filename'];
+
+        $fileNameNew = $userID . "_" . date('dFY') . "_" . date('his') . '.jpg';
+        $path = 'upload/image/user/' . $fileNameNew;
+
+        if (file_put_contents($path, $image)) {
+
+            $dataUser = $this->getProfileByID($userID);
+            $oldPic = $dataUser['user_avatar'];
+
+            chown($path, 666);
+            if (!empty($oldPic)) {
+                if ($oldPic != 'default/user.png') {
+                    $removePath = 'upload/image/user/' . $oldPic;
+
+                    if (unlink($removePath)) {
+                        $data = [
+                            'user_id' =>  $userID,
+                            'user_avatar' => $fileNameNew,
+                        ];
+
+                        return updateOrInsert($this->table, $data);
+                    } else {
+                        return ['resCode' => 400, 'message' => "Ops. Update unsuccessful"];
+                    }
+                } else {
+                    $data = [
+                        'user_id' =>  $userID,
+                        'user_avatar' => $fileNameNew,
+                    ];
+
+                    return updateOrInsert($this->table, $data);
+                }
+            } else {
+                $data = [
+                    'user_id' =>  $userID,
+                    'user_avatar' => $fileNameNew,
+                ];
+
+
+                return updateOrInsert($this->table, $data);
+            }
+        } else {
+            return ['resCode' => 400, 'message' => "Ops. Profile upload failed"];
+        }
     }
 }

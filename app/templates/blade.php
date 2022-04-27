@@ -294,7 +294,7 @@
                             </a>
                         </li>
 
-                        <li class="menu-title">General</li>
+                        <li class="menu-title">GENERAL</li>
 
                         <?php if (session()->get('roleID') == 1) { ?>
                             @include('app.templates.menu.superadmin_menu')

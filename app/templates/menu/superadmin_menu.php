@@ -25,4 +25,27 @@
         </div>
     </li>
 
+    <li class="menu-title mt-2">MANAGEMENT</li>
+
+    <li>
+        <a href="#settings" data-bs-toggle="collapse">
+            <i class="mdi mdi-cogs"></i>
+            <span> Settings </span>
+            <span class="menu-arrow"></span>
+        </a>
+        <div class="collapse <?= ($currentSidebar == 'settings') ? 'show' : '' ?>" id="settings">
+            <ul class="nav-second-level">
+                <li class="menuitem-<?= ($currentSubSidebar == 'leave') ? 'active' : '' ?>">
+                    <a href="{{ url('leave') }}">Leave</a>
+                </li>
+            </ul>
+        </div>
+    </li>
+    <li class="menuitem-<?= ($currentSubSidebar == 'roles') ? 'active' : '' ?>">
+        <a href="{{ url('roles') }}">
+            <i class="mdi mdi-lock-check-outline"></i>
+            <span>Roles</span>
+        </a>
+    </li>
+
 <?php endif; ?>

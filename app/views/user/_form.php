@@ -149,7 +149,7 @@
                 <input type="hidden" id="user_id" name="user_id" class="form-control" readonly>
                 <input type="hidden" id="role_id" name="role_id" class="form-control" readonly>
                 <input type="hidden" id="user_avatar" name="user_avatar" class="form-control" readonly>
-                <button type="submit" id="submitBtn" class="btn btn-info"> <i class='fa fa-save'></i> Save </button>
+                <button type="submit" id="submitBtn" class="btn btn-success"> <i class='fa fa-save'></i> Save </button>
             </center>
         </div>
     </div>

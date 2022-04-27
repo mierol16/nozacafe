@@ -1,9 +1,9 @@
 <?php
 
-class Master_role_model extends Model
+class Master_leave_model extends Model
 {
-    protected $table      = 'master_role';
-    protected $primaryKey = 'role_id';
+    protected $table      = 'master_leave';
+    protected $primaryKey = 'leave_id';
     protected $uniqueKey = [];
 
     /**
@@ -12,7 +12,9 @@ class Master_role_model extends Model
      * @var array
      */
     protected $fillable = [
-        'role_name',
+        'leave_name',
+        'leave_description',
+        'leave_carry',
     ];
 
     /**
@@ -21,8 +23,7 @@ class Master_role_model extends Model
      * @return array
      */
     protected $rules = [
-        'role_id' => 'numeric',
-        'role_name' => 'required|min:1|max:50',
+        
     ];
 
     /**
@@ -31,7 +32,11 @@ class Master_role_model extends Model
      * @return array
      */
     protected $messages = [
-        'role_name' => 'Role Name',
+        
+    ];
+
+    protected $with = [
+        
     ];
 
     ###################################################################
@@ -44,34 +49,22 @@ class Master_role_model extends Model
     {
         //  server side datatables
         $cols = array(
-            "role_name",
-            "created_at", // dummy field
-            "role_id",
+            "leave_name",
+            "leave_description", // dummy field
+            "leave_id",
         );
 
         $result = $this->db->get($this->table, null, $cols);
         $this->serversideDt->query($this->getInstanceDB->getLastQuery());
 
-        $this->serversideDt->edit('created_at', function ($data) {
-            return $this->countRoleInUser($data['role_id']);
-        });
-
-        $this->serversideDt->edit('role_id', function ($data) {
+        $this->serversideDt->edit('leave_id', function ($data) {
             $del = $edit =  '';
-            if ($this->countRoleInUser($data['role_id']) == 0) {
-                $del = '<button onclick="deleteRecord(' . $data[$this->primaryKey] . ')" data-toggle="confirm" data-id="' . $data[$this->primaryKey] . '" class="btn btn-sm btn-danger" title="Remove"> <i class="fa fa-trash"></i> </button>';
-            }
+            $del = '<button onclick="deleteRecord(' . $data[$this->primaryKey] . ')" data-toggle="confirm" data-id="' . $data[$this->primaryKey] . '" class="btn btn-sm btn-danger" title="Remove"> <i class="fa fa-trash"></i> </button>';
             $edit = '<button class="btn btn-sm btn-info" onclick="updateRecord(' . $data[$this->primaryKey] . ')" title="Edit"><i class="fa fa-edit"></i> </button>';
 
             return "<center> $del $edit </center>";
         });
 
         echo $this->serversideDt->generate();
-    }
-
-    function countRoleInUser($roleID)
-    {
-        $this->db->where("role_id", $roleID);
-        return $this->db->getValue('user', "count(*)");
     }
 }

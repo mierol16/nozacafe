@@ -8,14 +8,25 @@
         <div class="card bg-picture mb-4">
             <div class="d-flex align-items-top" style="height: 250px">
                 <img src="{{ asset('img/bg.jpg') }}" alt="Banner image" class="rounded-top img-fluid">
+                @if (session()->get('userID') != $userID)
+                <a href="{{ ($currentSubSidebar == 'staff') ? url('user/employee') : url('user/admin') }}" class="btn btn-default p-2 border-all" style="position: absolute; top: 12px; left: -10px; z-index: 1;background-color:#FC3131;box-shadow:0 10px 20px -10px #FC3131;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left" style="color: white;">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    <span style="color: white;">Back to list</span>
+                </a>
+                @endif
             </div>
             <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4" style="margin-top: -4rem;">
                 <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
                     <div style="position: relative; display:inline-block;">
                         <img src="" id="user_avatar_view" alt="user image" class="ms-4 mt-4 rounded-circle avatar-xxl img-thumbnail img-fluid">
+                        @if (session()->get('userID') == $userID)
                         <a href="javascript:void(0)" onclick="updateProfile('{{$userID}}')" class="btn btn-icon btn-xs btn-info" style="position: absolute; top: 50px; right: -3px;" title="Change profile">
                             <i class="fas fa-camera" aria-hidden="true"></i>
                         </a>
+                        @endif
                     </div>
                 </div>
                 <div class="flex-grow-1 mt-3 mt-sm-5">
@@ -52,7 +63,9 @@
             <a class="nav-link active show mb-1" id="v-pills-profile-tab" data-bs-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="true">Profile</a>
             <a class="nav-link mb-1" id="v-pills-leave-tab" data-bs-toggle="pill" href="#v-pills-leave" role="tab" aria-controls="v-pills-leave" aria-selected="true">Leave</a>
             <a class="nav-link mb-1" id="v-pills-emergency-tab" data-bs-toggle="pill" href="#v-pills-emergency" role="tab" aria-controls="v-pills-emergency" aria-selected="true">Emergency</a>
+            @if (session()->get('userID') == $userID)
             <a class="nav-link mb-1" id="v-pills-setting-tab" data-bs-toggle="pill" href="#v-pills-setting" role="tab" aria-controls="v-pills-setting" aria-selected="false">Account Settings</a>
+            @endif
         </div>
     </div>
     <div class="col-lg-10 col-md-10 col-sm-10">
@@ -277,19 +290,19 @@
         $('#user_email').text(res.data.user_email);
         $('#user_contact_no').text(res.data.user_contact_no);
         $("#user_avatar_view").attr("src", path + res.data.user_avatar);
-
-        $('#user_preferred_name_view').text(res.data.user_preferred_name);
-        $('#user_dob_view').text(moment(data.user_dob).format("DD MMMM YYYY"));
-        $('#user_address_view').text(data.user_address);
-        $('#user_city_view').text(data.user_city);
-        $('#user_state_view').text(data.user_state);
-        $('#user_postcode_view').text(data.user_postcode);
-        $('#user_gender_view').text(data.user_gender);
-        $('#user_religion_view').text(data.user_religion);
-        $('#user_race_view').text(data.user_race);
-        
         $('#user_status_view').text((res.data.user_status == '1') ? 'Active' : 'Inactive');
         $('#role_name_view').text((res.data.role_id == '2') ? 'Administrator' : (res.data.role_id == '3') ? 'Employee' : 'Superadmin');
+
+        $('#user_preferred_name_view').text(res.data.user_preferred_name);
+        $('#user_dob_view').text(moment(res.data.user_dob).format("DD MMMM YYYY"));
+        $('#user_address_view').text(res.data.user_address);
+        $('#user_city_view').text(res.data.user_city);
+        $('#user_state_view').text(res.data.user_state);
+        $('#user_postcode_view').text(res.data.user_postcode);
+        $('#user_gender_view').text(res.data.user_gender);
+        $('#user_religion_view').text(res.data.user_religion);
+        $('#user_race_view').text(res.data.user_race);
+        
     }
 
     // server side datatable
@@ -315,12 +328,12 @@
 
     async function updateProfile(id, data = null) {
         data = {
-            role_id: 5,
+            role_id: "{{ session()->get('roleID') }}",
             user_id: id,
             current_userid: "{{ session()->get('userID') }}",
         };
         // loadFormContent('application/application_form.php', null, null, 'application/addNewApplication', 'New Application', data, 'offcanvas');
-        loadFileContent('user/_upload.php', 'generalContent', null, 'Upload Profile', data, 'offcanvas');
+        loadFileContent('profile/_upload.php', 'generalContent', null, 'Upload Profile', data, 'offcanvas');
     }
 
     $("#formAccountSettings").submit(function(event) {
