@@ -119,7 +119,7 @@ class User extends Controller
                     $folder = folder('certificate', $_POST['user_fullname'], 'directory');
                     $path = $folder . '/' . $fileNameNew;
     
-                    if (move_uploaded_file($fileName, $path)) {
+                    if (move_uploaded_file($fileTmpPath, $path)) {
                         Files::save(
                             [
                                 'files_id' => $_POST['files_id'][$key],
