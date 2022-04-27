@@ -94,59 +94,63 @@ class User extends Controller
 
         $userID = $data['id'];
 
-        foreach ($_POST['education_level'] as $key => $value) {
-            $education = Edu::save(
-                [
-                    'education_id' => $_POST['education_id'][$key],
-                    'education_level' => $_POST['education_level'][$key],
-                    'education_course' => $_POST['education_course'][$key],
-                    'education_university' => $_POST['education_university'][$key],
-                    'user_id' => $userID,
-                ]
-            );
-
-            $fileName = $fileExtension = $path = '';
-            if (isset($_FILES['education_file'])) {
-
-                $fileTmpPath = $_FILES['education_file']['tmp_name'][$key];
-                $fileName = $_FILES['education_file']['name'][$key];
-                $fileSize = $_FILES['education_file']['size'][$key];
-                $fileType = $_FILES['education_file']['type'][$key];
-                $fileNameCmps = explode(".", $fileName);
-                $fileExtension = strtolower(end($fileNameCmps));
-                $fileNameNew = $userID . "_" . date('dFY') . "_" . date('his') . '.' . $fileExtension;
-                $folder = folder('certificate', $_POST['user_fullname'], 'directory');
-                $path = $folder . '/' . $fileNameNew;
-
-                if (move_uploaded_file($fileTmpPath, $path)) {
-                    Files::save(
-                        [
-                            'files_id' => $_POST['files_id'][$key],
-                            'files_name' => $fileNameNew,
-                            'files_type' => get_mime_type($fileName),
-                            'files_folder' => $folder,
-                            'files_extension' => $fileExtension,
-                            'files_path' => $path,
-                            'table_ref' => 'staff_education_info',
-                            'table_id' => $education['id'],
-                            'user_id' => $userID,
-                        ]
-                    );
+        if (isset($_POST['education_level'])) {
+            foreach ($_POST['education_level'] as $key => $value) {
+                $education = Edu::save(
+                    [
+                        'education_id' => $_POST['education_id'][$key],
+                        'education_level' => $_POST['education_level'][$key],
+                        'education_course' => $_POST['education_course'][$key],
+                        'education_university' => $_POST['education_university'][$key],
+                        'user_id' => $userID,
+                    ]
+                );
+    
+                $fileName = $fileExtension = $path = '';
+                if (isset($_FILES['education_file'])) {
+    
+                    $fileTmpPath = $_FILES['education_file']['tmp_name'][$key];
+                    $fileName = $_FILES['education_file']['name'][$key];
+                    $fileSize = $_FILES['education_file']['size'][$key];
+                    $fileType = $_FILES['education_file']['type'][$key];
+                    $fileNameCmps = explode(".", $fileName);
+                    $fileExtension = strtolower(end($fileNameCmps));
+                    $fileNameNew = $userID . "_" . date('dFY') . "_" . date('his') . '.' . $fileExtension;
+                    $folder = folder('certificate', $_POST['user_fullname'], 'directory');
+                    $path = $folder . '/' . $fileNameNew;
+    
+                    if (move_uploaded_file($fileName, $path)) {
+                        Files::save(
+                            [
+                                'files_id' => $_POST['files_id'][$key],
+                                'files_name' => $fileNameNew,
+                                'files_type' => get_mime_type($fileName),
+                                'files_folder' => $folder,
+                                'files_extension' => $fileExtension,
+                                'files_path' => $path,
+                                'table_ref' => 'staff_education_info',
+                                'table_id' => $education['id'],
+                                'user_id' => $userID,
+                            ]
+                        );
+                    }
                 }
             }
         }
 
-        foreach ($_POST['contact_name'] as $key => $value) {
-            $contact = Contact::save(
-                [
-                    'contact_id' => $_POST['contact_id'][$key],
-                    'contact_name' => $_POST['contact_name'][$key],
-                    'contact_relation' => $_POST['contact_relation'][$key],
-                    'contact_phone_1' => $_POST['contact_phone_1'][$key],
-                    'contact_phone_2' => $_POST['contact_phone_2'][$key],
-                    'user_id' => $userID,
-                ]
-            );
+        if (isset($_POST['contact_name'])) {
+            foreach ($_POST['contact_name'] as $key => $value) {
+                $contact = Contact::save(
+                    [
+                        'contact_id' => $_POST['contact_id'][$key],
+                        'contact_name' => $_POST['contact_name'][$key],
+                        'contact_relation' => $_POST['contact_relation'][$key],
+                        'contact_phone_1' => $_POST['contact_phone_1'][$key],
+                        'contact_phone_2' => $_POST['contact_phone_2'][$key],
+                        'user_id' => $userID,
+                    ]
+                );
+            }
         }
 
         json($data);
