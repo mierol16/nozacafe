@@ -62,7 +62,7 @@
         </div>
     </div>
     <div class="col-lg-2">
-        <img src="" id="user_avatar_view" alt="user image" class="d-block h-auto ms-0 rounded-3 user-profile-img">
+        <img src="" id="user_avatar_view" alt="user image" class="d-block h-auto ms-0 rounded-3 img-fluid">
     </div>
 </div>
 

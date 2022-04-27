@@ -356,4 +356,9 @@ class Model
 
         return true;
     }
+
+    public function with($data = NULL)
+    {
+        dd('chaining', $data);
+    }
 }

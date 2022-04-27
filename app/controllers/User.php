@@ -110,12 +110,13 @@ class User extends Controller
                     Files::save(
                         [
                             'files_id' => $_POST['files_id'][$key],
-                            'files_name' => $fileExtension,
-                            'files_type' => $fileExtension,
+                            'files_name' => $fileNameNew,
+                            'files_type' => get_mime_type($fileName),
                             'files_folder' => $folder,
                             'files_extension' => $fileExtension,
+                            'files_path' => $path,
                             'table_ref' => 'staff_education_info',
-                            'table_id' => $_POST['education_id'][$key],
+                            'table_id' => $education['id'],
                             'user_id' => $userID,
                         ]
                     );
