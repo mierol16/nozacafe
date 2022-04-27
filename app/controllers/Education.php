@@ -1,6 +1,6 @@
 <?php
 
-use Contact_info_model as Edu;
+use Education_info_model as Edu;
 
 class Education extends Controller
 {
