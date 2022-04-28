@@ -2,7 +2,7 @@
 
 date_default_timezone_set(TIMEZONE);
 
-function db($dbConn = NULL)
+function db($db = NULL)
 {
     if (empty($db)) {
         $db = new Database;
@@ -29,15 +29,15 @@ function escape($str)
 function insert($table, $data)
 {
     $data['created_at'] = timestamp();
-
-    $id = db()->insert($table, sanitizeInput($data));
+    $data = sanitizeInput($data);
+    $id = db()->insert($table, $data);
     $resCode = ($id) ? 200 : 400;
 
     return [
         "resCode" => $resCode,
         "message" =>  message($resCode, 'added'),
         "id" => $id,
-        "data" => sanitizeInput($data)
+        "data" => $data
     ];
 }
 
@@ -49,13 +49,14 @@ function update($table, $data, $pkValue, $pkTable = NULL)
     }
 
     $data['updated_at'] = timestamp();
-    $resCode = (db()->where($pkTable, escape($pkValue))->update($table, sanitizeInput($data))) ? 200 : 400;
+    $data = sanitizeInput($data);
+    $resCode = (db()->where($pkTable, escape($pkValue))->update($table, $data)) ? 200 : 400;
 
     return [
         "resCode" => $resCode,
         "message" =>  message($resCode, 'update'),
         "id" => $pkValue,
-        "data" => sanitizeInput($data)
+        "data" => $data
     ];
 }
 
@@ -66,13 +67,14 @@ function delete($table, $pkValue, $pkTable = NULL)
         $pkTable = $getPKTable[0]['Column_name'];
     }
 
+    $data = rawQuery("SELECT * FROM {$table} WHERE {$pkTable} = '{$pkValue}'");
     $resCode = (db()->where($pkTable, escape($pkValue))->delete($table)) ? 200 : 400;
 
     return [
         "resCode" => $resCode,
         "message" =>  message($resCode, 'delete'),
         "id" => $pkValue,
-        "data" => NULL
+        "data" => $data
     ];
 }
 
@@ -297,27 +299,23 @@ function isColumnExist($table, $columnName)
         return true;
 }
 
-function hasMany($modelRef, $columnRef, $condition)
+function hasMany($modelRef, $columnRef, $condition, $conditionArr = NULL)
 {
     $dbName = db_name();
     $result = $obj = $tableRef = '';
 
     $fileName = "../app/models/" . $modelRef . ".php";
     if (file_exists($fileName)) {
-        $classes = get_declared_classes();
 
-        if (in_array($modelRef, $classes)) {
-            $key = array_search($modelRef, $classes);
-            $className = $classes[$key];
-            $obj = new $className;
+        $className = getClassNameFromFile($fileName);
+        $obj = new $className;
 
-            $tableRef = $obj->table;
-            $tableRefPK = $obj->primaryKey;
+        $tableRef = $obj->table;
+        $tableRefPK = $obj->primaryKey;
 
-            // check table
-            if (isTableExist($tableRef)) {
-                $result = rawQuery("SELECT * FROM $tableRef WHERE {$columnRef}='$condition'");
-            }
+        // check table
+        if (isTableExist($tableRef)) {
+            $result = rawQuery("SELECT * FROM $tableRef WHERE {$columnRef}='$condition'");
         }
     }
 
@@ -332,27 +330,22 @@ function hasMany($modelRef, $columnRef, $condition)
     return $data;
 }
 
-function hasOne($modelRef, $columnRef, $condition)
+function hasOne($modelRef, $columnRef, $condition, $conditionArr = NULL)
 {
     $dbName = db_name();
     $result = $obj = $tableRef = '';
 
     $fileName = "../app/models/" . $modelRef . ".php";
     if (file_exists($fileName)) {
-        $classes = get_declared_classes();
+        $className = getClassNameFromFile($fileName);
+        $obj = new $className;
 
-        if (in_array($modelRef, $classes)) {
-            $key = array_search($modelRef, $classes);
-            $className = $classes[$key];
-            $obj = new $className;
+        $tableRef = $obj->table;
+        $tableRefPK = $obj->primaryKey;
 
-            $tableRef = $obj->table;
-            $tableRefPK = $obj->primaryKey;
-
-            // check table
-            if (isTableExist($tableRef)) {
-                $result = rawQuery("SELECT * FROM $tableRef WHERE {$columnRef}='$condition' LIMIT 1");
-            }
+        // check table
+        if (isTableExist($tableRef)) {
+            $result = rawQuery("SELECT * FROM $tableRef WHERE {$columnRef}='$condition' LIMIT 1");
         }
     }
 

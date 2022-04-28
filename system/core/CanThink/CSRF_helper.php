@@ -1,5 +1,7 @@
 <?php
 
+use EasyCSRF\Exceptions\InvalidCsrfTokenException;
+
 function csrfProvider()
 {
     $sessionProvider = new EasyCSRF\NativeSessionProvider();

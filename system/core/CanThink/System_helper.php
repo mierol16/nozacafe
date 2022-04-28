@@ -1,6 +1,5 @@
 <?php
 
-use EasyCSRF\Exceptions\InvalidCsrfTokenException;
 use Rakit\Validation\Validator;
 use voku\helper\AntiXSS;
 

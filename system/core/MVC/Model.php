@@ -373,31 +373,38 @@ class Model
                     } else {
 
                         $withArr = explode(".", $functionName);
-                        $previousArr = $withArr[count($withArr) - 2];
-                        $functionReq = $withArr[count($withArr) - 1];
 
-                        foreach ($objStore as $store) {
-                            if (array_key_exists($previousArr, $store)) {
-                                $previousData = $store[$previousArr]['data'];
-                                $previousObj = $store[$previousArr]['objData'];
+                        if (count($withArr) > 1) {
+                            $previousArr = $withArr[count($withArr) - 2];
+                            $functionReq = $withArr[count($withArr) - 1];
+
+                            foreach ($objStore as $store) {
+                                if (array_key_exists($previousArr, $store)) {
+                                    $previousData = $store[$previousArr]['data'];
+                                    $previousObj = $store[$previousArr]['objData'];
+                                }
                             }
-                        }
 
-                        if (in_array($functionReq, $previousObj->with)) {
-                            $functionCall = $functionReq . 'Relation';
+                            if (in_array($functionReq, $previousObj->with)) {
+                                $functionCall = $functionReq . 'Relation';
 
-                            foreach ($previousData as $key => $data) {
-                                // check if function up is exist
-                                if (method_exists($previousObj, $functionCall)) {
-                                    $dataRelation = $previousObj->$functionCall($data);
-                                    $dataStore = [
-                                        $functionReq => [
-                                            'data' => $dataRelation['data'],
-                                            'objData' => $dataRelation['obj'],
-                                        ]
-                                    ];
-                                    array_push($objStore, $dataStore);
-                                    $dataArr[$previousArr][$key][$functionReq] = $dataRelation['data'];
+                                foreach ($previousData as $key => $data) {
+                                    // check if function up is exist
+                                    if (method_exists($previousObj, $functionCall)) {
+                                        $dataRelation = $previousObj->$functionCall($data);
+                                        $dataStore = [
+                                            $functionReq => [
+                                                'data' => $dataRelation['data'],
+                                                'objData' => $dataRelation['obj'],
+                                            ]
+                                        ];
+                                        array_push($objStore, $dataStore);
+                                        if (isAssociative($dataArr[$previousArr])) {
+                                            $dataArr[$previousArr][$functionReq] = $dataRelation['data'];
+                                        } else {
+                                            $dataArr[$previousArr][$key][$functionReq] = $dataRelation['data'];
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -423,34 +430,44 @@ class Model
                     }
                 } else {
                     $withArr = explode(".", $functionName);
-                    $previousArr = $withArr[count($withArr) - 2];
-                    $functionReq = $withArr[count($withArr) - 1];
 
-                    $previousData = $previousObj = array();
+                    if (count($withArr) > 1) {
+                        $previousArr = $withArr[count($withArr) - 2];
+                        $functionReq = $withArr[count($withArr) - 1];
 
-                    foreach ($objStore as $store) {
-                        if (array_key_exists($previousArr, $store)) {
-                            $previousData = $store[$previousArr]['data'];
-                            $previousObj = $store[$previousArr]['objData'];
+                        $previousData = $previousObj = array();
+
+                        foreach ($objStore as $store) {
+                            if (array_key_exists($previousArr, $store)) {
+                                $previousData = $store[$previousArr]['data'];
+                                $previousObj = $store[$previousArr]['objData'];
+                            }
                         }
-                    }
 
-                    if (!empty($previousData)) {
-                        if (in_array($functionReq, $previousObj->with)) {
-                            $functionCall = $functionReq . 'Relation';
+                        if (!empty($previousData)) {
 
-                            foreach ($previousData as $key => $data) {
-                                // check if function up is exist
-                                if (method_exists($previousObj, $functionCall)) {
-                                    $dataRelation = $previousObj->$functionCall($data);
-                                    $dataStore = [
-                                        $functionReq => [
-                                            'data' => $dataRelation['data'],
-                                            'objData' => $dataRelation['obj'],
-                                        ]
-                                    ];
-                                    array_push($objStore, $dataStore);
-                                    $dataArr[$previousArr][$key][$functionReq] = $dataRelation['data'];
+                            if (in_array($functionReq, $previousObj->with)) {
+                                $functionCall = $functionReq . 'Relation';
+
+                                foreach ($previousData as $key => $data) {
+                                    // check if function up is exist
+                                    if (method_exists($previousObj, $functionCall)) {
+
+                                        $dataRelation = $previousObj->$functionCall($previousData);
+                                        $dataStore = [
+                                            $functionReq => [
+                                                'data' => $dataRelation['data'],
+                                                'objData' => $dataRelation['obj'],
+                                            ]
+                                        ];
+                                        array_push($objStore, $dataStore);
+
+                                        if (isAssociative($dataArr[$previousArr])) {
+                                            $dataArr[$previousArr][$functionReq] = $dataRelation['data'];
+                                        } else {
+                                            $dataArr[$previousArr][$key][$functionReq] = $dataRelation['data'];
+                                        }
+                                    }
                                 }
                             }
                         }

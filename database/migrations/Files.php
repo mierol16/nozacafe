@@ -21,11 +21,6 @@ class Files
             ),
             'files_type' => array(
                 'type' => 'VARCHAR',
-                'length' => 100,
-                'null' => TRUE,
-            ),
-            'files_type' => array(
-                'type' => 'VARCHAR',
                 'length' => 150,
                 'null' => TRUE,
             ),
