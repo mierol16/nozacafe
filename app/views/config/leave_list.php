@@ -8,7 +8,7 @@
 
 <!-- List Table -->
 <div class="row">
-    <div class="col-12">
+    <div class="col-6">
         <div class="card">
             <div class="card-header">
                 <h5 class="card-title">
@@ -38,18 +38,42 @@
             </div>
         </div>
     </div>
+
+    <div class="col-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">
+                    Preset Leaves
+                    <button type="button" class="btn btn-warning btn-xs float-end ms-2" onclick="getDataPresetList()" title="Refresh">
+                        <i class="fas fa-redo-alt"></i>
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-xs float-end" onclick="presetFormModal()">
+                        <i class="fas fa-plus"></i> Add Preset
+                    </button>
+                </h5>
+            </div>
+            <div class="card-body">
+            </div>
+        </div>
+    </div>
 </div>
 <!--end::Row-->
 
 <script type="text/javascript">
     $(document).ready(function() {
         getDataList();
+        getDataPresetList();
     });
 
     // server side datatable
     async function getDataList() {
         generateDatatable('dataList', 'serverside', 'leave/getListDt', 'nodatadiv');
     }
+
+    // // server side datatable
+    // async function getDataPresetList() {
+    //     generateDatatable('dataList', 'serverside', 'leave/getPresetListDt', 'nodatadivPreset');
+    // }
 
     async function updateRecord(id) {
         const res = await callApi('post', "leave/getLeaveByID", id);
