@@ -453,7 +453,12 @@ class Model
                                     // check if function up is exist
                                     if (method_exists($previousObj, $functionCall)) {
 
-                                        $dataRelation = $previousObj->$functionCall($previousData);
+                                        if (isAssociative($previousData)) {
+                                            $dataRelation = $previousObj->$functionCall($previousData);
+                                        } else {
+                                            $dataRelation = $previousObj->$functionCall($previousData[$key]);
+                                        }
+
                                         $dataStore = [
                                             $functionReq => [
                                                 'data' => $dataRelation['data'],
