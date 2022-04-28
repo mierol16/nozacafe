@@ -391,18 +391,37 @@ class Model
                                 foreach ($previousData as $key => $data) {
                                     // check if function up is exist
                                     if (method_exists($previousObj, $functionCall)) {
-                                        $dataRelation = $previousObj->$functionCall($data);
+
+                                        if (isAssociative($previousData)) {
+                                            $dataRelation = $previousObj->$functionCall($previousData);
+                                        } else {
+                                            $dataRelation = $previousObj->$functionCall($data[$key]);
+                                        }
+
                                         $dataStore = [
                                             $functionReq => [
                                                 'data' => $dataRelation['data'],
                                                 'objData' => $dataRelation['obj'],
                                             ]
                                         ];
+
                                         array_push($objStore, $dataStore);
-                                        if (isAssociative($dataArr[$previousArr])) {
-                                            $dataArr[$previousArr][$functionReq] = $dataRelation['data'];
+
+                                        if (isset($dataArr[$previousArr])) {
+                                            if (isAssociative($dataArr[$previousArr])) {
+                                                $dataArr[$previousArr][$functionReq] = $dataRelation['data'];
+                                            } else {
+
+                                                $dataArr[$previousArr][$key][$functionReq] = $dataRelation['data'];
+                                            }
                                         } else {
-                                            $dataArr[$previousArr][$key][$functionReq] = $dataRelation['data'];
+                                            if (isAssociative($dataArr)) {
+                                                $dataArr[$functionReq] = $dataRelation['data'];
+                                            } else {
+                                                foreach ($dataArr as $index => $data) {
+                                                    $dataArr[$index][$previousArr][$functionReq] = $dataRelation['data'];
+                                                }
+                                            }
                                         }
                                     }
                                 }
