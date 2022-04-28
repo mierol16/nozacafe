@@ -6,6 +6,8 @@ use User_model as users;
 use Education_info_model as Edu;
 use Contact_info_model as Contact;
 use Files_model as Files;
+use Config_leave_model as CLM;
+use Preset_leave_model as PLM;
 
 class User extends Controller
 {
@@ -98,7 +100,7 @@ class User extends Controller
 
     public function getUsersByID()
     {
-        $data = users::find($_POST['id'], NULL, ['education', 'education.files', 'contact']);
+        $data = users::find($_POST['id'], NULL, ['education', 'education.files', 'contact', 'leave']);
         json($data);
     }
 
@@ -163,6 +165,25 @@ class User extends Controller
                         'contact_relation' => $_POST['contact_relation'][$key],
                         'contact_phone_1' => $_POST['contact_phone_1'][$key],
                         'contact_phone_2' => $_POST['contact_phone_2'][$key],
+                        'user_id' => $userID,
+                    ]
+                );
+            }
+        }
+
+        if (isset($_POST['leave_preset'])) {
+            $preset = PLM::find($_POST['leave_preset']);
+            $leave_id = explode(",", $preset['leave_id_array']);
+            $duration = explode(",", $preset['leave_duration_array']);
+
+            foreach ($leave_id as $key => $value) {
+                $leave = CLM::save(
+                    [
+                        'config_leave_id' => $_POST['config_leave_id'],
+                        'leave_id' => $value,
+                        'preset_id' => $_POST['leave_preset'],
+                        'leave_duration' => $duration[$key],
+                        'leave_year' => date('Y'),
                         'user_id' => $userID,
                     ]
                 );

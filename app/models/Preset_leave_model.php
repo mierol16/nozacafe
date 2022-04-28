@@ -64,4 +64,9 @@ class Preset_leave_model extends Model
 
         echo $this->serversideDt->generate();
     }
+
+    public function getAllPreset()
+    {
+        return $this->db->get($this->table, null);
+    }
 }

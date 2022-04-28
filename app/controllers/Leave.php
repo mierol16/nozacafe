@@ -2,6 +2,8 @@
 
 use Master_leave_model as MLM;
 use Preset_leave_model as PLM;
+use Config_leave_model as CLM;
+use Staff_leave_model as SLM;
 
 class Leave extends Controller
 {
@@ -10,9 +12,26 @@ class Leave extends Controller
         redirect('settings/leave');
     }
 
+    public function userLeave()
+    {
+        $data = [
+            'title' => 'My Leave',
+            'currentSidebar' => 'leave',
+            'currentSubSidebar' => 'user_leave',
+            'userID' => session()->get('userID'),
+        ];
+
+        render('leave/userLeave_list', $data);
+    }
+
     public function getListDt()
     {
         echo $this->MLM->getlist();
+    }
+
+    public function getListByUserIDDt()
+    {
+        echo $this->SLM->getlistByUserID(escape($_POST['userID']));
     }
 
     public function getPresetListDt()
@@ -35,15 +54,40 @@ class Leave extends Controller
         json(MLM::where(['user' => $_POST['id']]));
     }
 
+    public function getListPreset()
+    {
+        $data = $this->PLM->getAllPreset();
+        $selected = NULL;
+
+        echo '<option value=""> - Select - </option>';
+        foreach ($data as $row) {
+            $selected = ($row['preset_leave_id'] == $_POST['id']) ? 'selected' : '';
+            echo '<option value="' . $row['preset_leave_id'] . '"" ' . $selected . '> ' . $row['preset_name'] . '</option>';
+        }
+    }
+
+    public function getListConfigByUserID()
+    {
+        $userID = session()->get('userID');
+        $data = $this->CLM->getConfigByUserID($userID);
+
+        echo '<option value=""> - Select - </option>';
+        foreach ($data as $row) {
+            echo '<option value="' . $row['config_level_id'] . '""> ' . $row['leave_name'] . ' | ' . $row['leave_duration'] . ' remaining</option>';
+        }
+    }
+
     public function getLeaveListTD()
     {
         $data = $this->MLM->getAllLeave();
 
         $ids = (isset($_POST['id'])) ? explode(",", $_POST['id']) : '';
+        $durations = (isset($_POST['duration'])) ? explode(",", $_POST['duration']) : '';
 
-        foreach ($data as $row) {
+        foreach ($data as $key => $row) {
             $leave_id = $row['leave_id'];
             $leave_name = $row['leave_name'];
+            $leave_duration = $durations[$key];
 
             $checked = NULL;
             $readonly = 'readonly';
@@ -57,7 +101,7 @@ class Leave extends Controller
             echo "<tr>
                     <td> <input type='checkbox' class='form-check-input' name='leave_id[]' onchange='inputRead(this, " . $leave_id . ")' value='$leave_id' $checked></td>   
                     <td> $leave_name </td>   
-                    <td> <input type='number' name='leave_duration[]' id='duration" . $leave_id . "'' class='form-control' min='0' step ='.5' value='' $readonly></td>   
+                    <td> <input type='number' name='leave_duration[]' id='duration" . $leave_id . "'' class='form-control' min='0' step ='.5' value='$leave_duration' $readonly></td>   
                 </tr>";
         }
     }
@@ -77,6 +121,28 @@ class Leave extends Controller
                 'leave_id_array' =>  implode(",", $_POST['leave_id']),
                 'leave_duration_array' =>  implode(",", $_POST['leave_duration']),
                 'role_id' => $_POST['role_id'],
+            ]
+        );
+        json($data);
+    }
+
+    public function userLeaveSave()
+    {
+        $date_from = new DateTime($_POST['leave_date_from']);
+        $date_to = new DateTime($_POST['leave_date_to']);
+        $interval = $date_from->modify("-1 day")->diff($date_to);
+        $days = $interval->format('%a');
+
+        $data = SLM::save(
+            [
+                'staff_leave_id' => $_POST['staff_leave_id'],
+                'config_leave_id' => $_POST['config_leave_id'],
+                'leave_date_from' =>  $date_from,
+                'leave_date_to' =>  $date_to,
+                'leave_duration' =>  $days,
+                'leave_description' => $_POST['leave_description'],
+                'leave_status' => '0',
+                'user_id' => session()->get('userID'),
             ]
         );
         json($data);

@@ -44,7 +44,7 @@ class Roles extends Controller
 
         echo '<option value=""> - Select - </option>';
         foreach ($data as $row) {
-            $selected = ($row['role_id'] == escape($_POST['id'])) ? 'selected' : '';
+            $selected = ($row['role_id'] == $_POST['id']) ? 'selected' : '';
             echo '<option value="' . $row['role_id'] . '"" ' . $selected . '> ' . $row['role_name'] . '</option>';
         }
     }

@@ -76,9 +76,10 @@
 
     function getPassData(baseUrl, token, data) {
         const ids = (data != null) ? data['leave_id_array'] : null;
+        const values = (data != null) ? data['leave_duration_array'] : null;
         const role_id = (data != null) ? data.role_id : null;
         getSelectRole(role_id);
-        getListLeave(ids);
+        getListLeave(ids, values);
     }
 
     async function getSelectRole(roleID = null) {
@@ -91,8 +92,11 @@
         }
     }
 
-    async function getListLeave(ids = null) {
-        const res = await callApi('post', "leave/getLeaveListTD", ids);
+    async function getListLeave(ids = null, values = null) {
+        const res = await callApi('post', "leave/getLeaveListTD", {
+            id: ids,
+            duration: values,
+        });
         // check if request is success
         if (isSuccess(res)) {
             $('#leave').empty();

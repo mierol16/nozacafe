@@ -13,9 +13,17 @@ class StaffLeave
                 'auto_increment' => TRUE,
                 'null' => FALSE,
             ),
-            'leave_id' => array(
+            'config_leave_id' => array(
                 'type' => 'VARCHAR',
                 'length' => 150,
+                'null' => TRUE,
+            ),
+            'leave_date_from' => array(
+                'type' => 'DATE',
+                'null' => TRUE,
+            ),
+            'leave_date_to' => array(
+                'type' => 'DATE',
                 'null' => TRUE,
             ),
             'leave_duration' => array(
@@ -44,6 +52,7 @@ class StaffLeave
         $key = [
             1 => ['type' => 'PRIMARY KEY', 'reference' => 'staff_leave_id'],
             2 => ['type' => 'INDEX', 'reference' => 'user_id'],
+            3 => ['type' => 'INDEX', 'reference' => 'config_leave_id'],
         ];
 
         migrate($this->table, $column, $key);
@@ -63,6 +72,13 @@ class StaffLeave
                 'FOREIGN_KEY' => 'user_id',
                 'REFERENCES_TABLE' => 'user',
                 'REFERENCES_KEY' => 'user_id',
+                'ON_DELETE' => 'CASCADE',
+                'ON_UPDATE' => 'NO ACTION',
+            ),
+            'LEAVE_CONFIG' => array(
+                'FOREIGN_KEY' => 'config_leave_id',
+                'REFERENCES_TABLE' => 'config_leave',
+                'REFERENCES_KEY' => 'config_leave_id',
                 'ON_DELETE' => 'CASCADE',
                 'ON_UPDATE' => 'NO ACTION',
             ),

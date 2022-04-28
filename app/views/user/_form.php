@@ -4,7 +4,7 @@
         <div class="col-lg-6 col-md-12 p-4 fill border-right">
             <div class="row">
                 <div class="alert alert-primary" role="alert">
-                    <h6 class="alert-heading fw-bold mb-1">Personal Information</h6>
+                    <h4 class="alert-heading fw-bold mb-1">Personal Information</h4>
                 </div>
             </div>
 
@@ -31,13 +31,21 @@
             </div>
 
             <div class="row mt-2">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label class="form-label">Email <span class="text-danger">*</span></label>
                     <input type="email" id="user_email" name="user_email" class="form-control" maxlength="50" autocomplete="off" required>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label class="form-label">Contact / HP No <span class="text-danger">*</span></label>
                     <input type="text" id="user_contact_no" name="user_contact_no" class="form-control" maxlength="13" autocomplete="off" onkeypress="return isNumberKey(event)" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label"> Gender <span class="text-danger">*</span></label>
+                    <select id="user_gender" name="user_gender" class="form-control" required>
+                        <option value=""> - Select - </option>
+                        <option value="Male"> Male </option>
+                        <option value="Female"> Female </option>
+                    </select>
                 </div>
             </div>
 
@@ -83,14 +91,6 @@
 
             <div class="row mt-2">
                 <div class="col-md-4">
-                    <label class="form-label"> Gender <span class="text-danger">*</span></label>
-                    <select id="user_gender" name="user_gender" class="form-control" required>
-                        <option value=""> - Select - </option>
-                        <option value="Male"> Male </option>
-                        <option value="Female"> Female </option>
-                    </select>
-                </div>
-                <div class="col-md-4">
                     <label class="form-label"> Religion </label>
                     <select id="user_religion" name="user_religion" class="form-control">
                         <option value=""> - Select - </option>
@@ -112,6 +112,12 @@
                         <option value="Others"> Others </option>
                     </select>
                 </div>
+                <div class="col-md-4">
+                    <label class="form-label"> Leave Assign <span class="text-danger">*</span></label>
+                    <select id="leave_preset" name="leave_preset" class="form-control" required>
+                        <option value=""> - Select - </option>
+                    </select>
+                </div>
             </div>
         </div>
         <div class="col-lg-6 col-md-12 p-4 fill border-right">
@@ -120,7 +126,7 @@
                     <button type="button" id="add_input_education" class="btn btn-success btn-sm px-2 float-end" onclick="addEducation()">
                         <i class="fas fa-plus"></i>
                     </button>
-                    <h6 class="alert-heading fw-bold mb-1">Background Education</h6>
+                    <h4 class="alert-heading fw-bold mb-1">Background Education</h4>
                 </div>
             </div>
 
@@ -132,7 +138,7 @@
                     <button type="button" class="btn btn-success btn-sm px-2 float-end" onclick="addContact()">
                         <i class="fas fa-plus"></i>
                     </button>
-                    <h6 class="alert-heading fw-bold mb-1">Contact Information</h6>
+                    <h4 class="alert-heading fw-bold mb-1">Contact Information</h4>
                 </div>
             </div>
 
@@ -148,6 +154,7 @@
             <center>
                 <input type="hidden" id="user_id" name="user_id" class="form-control" readonly>
                 <input type="hidden" id="role_id" name="role_id" class="form-control" readonly>
+                <input type="hidden" id="config_leave_id" name="config_leave_id" class="form-control" readonly>
                 <input type="hidden" id="user_avatar" name="user_avatar" class="form-control" readonly>
                 <button type="submit" id="submitBtn" class="btn btn-success"> <i class='fa fa-save'></i> Save </button>
             </center>
@@ -158,8 +165,12 @@
 <script>
     function getPassData(baseUrl, token, data) {
         console.log(data);
+        const preset = (data.leave) ? data.leave[0].preset_id : null;
+        const config_leave = (data.leave) ? data.leave[0].config_leave_id : null;
+        
         $('#user_id').val(data.user_id);
         $('#role_id').val(data.role_id);
+        $('#config_leave_id').val(config_leave);
 
         $('#user_fullname').val(data.user_fullname);
         $('#user_nric').val(data.user_nric);
@@ -189,12 +200,23 @@
             addEducation();
             addContact();
         }
-
+        getSelectLeavePreset(preset);
     }
 
     function ucfirstVal(value, id) {
         let textUpper = capitalize(value);
         $('#' + id).val(textUpper);
+    }
+
+    async function getSelectLeavePreset(id = null) {
+        const res = await callApi('post', "leave/getListPreset", id);
+        // check if request is success
+        if (isSuccess(res)) {
+            $('#leave_preset').empty();
+            $('#leave_preset').html(res.data);
+        } else {
+            noti(res.status); // show error message
+        }
     }
 
     $("#formUser").submit(function(event) {

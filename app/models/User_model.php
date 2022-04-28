@@ -68,6 +68,7 @@ class User_model extends Model
         'education',
         'files',
         'contact',
+        'leave',
     ];
 
     public function educationRelation($data)
@@ -83,6 +84,11 @@ class User_model extends Model
     public function contactRelation($data)
     {
         return hasMany('Contact_info_model', 'user_id', $data[$this->primaryKey]);
+    }
+
+    public function leaveRelation($data)
+    {
+        return hasMany('Config_leave_model', 'user_id', $data[$this->primaryKey]);
     }
 
     ###################################################################
