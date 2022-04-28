@@ -1,6 +1,7 @@
 <?php
 
 use Master_leave_model as MLM;
+use Preset_leave_model as PLM;
 
 class Leave extends Controller
 {
@@ -14,9 +15,19 @@ class Leave extends Controller
         echo $this->MLM->getlist();
     }
 
+    public function getPresetListDt()
+    {
+        echo $this->PLM->getlist();
+    }
+
     public function getLeaveByID()
     {
         json(MLM::find($_POST['id']));
+    }
+
+    public function getPresetByID()
+    {
+        json(PLM::find($_POST['id']));
     }
 
     public function getLeaveByUserID()
@@ -24,9 +35,50 @@ class Leave extends Controller
         json(MLM::where(['user' => $_POST['id']]));
     }
 
+    public function getLeaveListTD()
+    {
+        $data = $this->MLM->getAllLeave();
+
+        $ids = (isset($_POST['id'])) ? explode(",", $_POST['id']) : '';
+
+        foreach ($data as $row) {
+            $leave_id = $row['leave_id'];
+            $leave_name = $row['leave_name'];
+
+            $checked = NULL;
+            $readonly = 'readonly';
+            if (!empty($ids)) {
+                if (in_array($leave_id, $ids)) {
+                    $checked = 'checked';
+                    $readonly = ($checked) ? NULL : 'readonly';
+                }
+            }
+
+            echo "<tr>
+                    <td> <input type='checkbox' class='form-check-input' name='leave_id[]' onchange='inputRead(this, " . $leave_id . ")' value='$leave_id' $checked></td>   
+                    <td> $leave_name </td>   
+                    <td> <input type='number' name='leave_duration[]' id='duration" . $leave_id . "'' class='form-control' min='0' step ='.5' value='' $readonly></td>   
+                </tr>";
+        }
+    }
+
     public function create()
     {
         $data = MLM::insert($_POST); // call static function
+        json($data);
+    }
+
+    public function presetSave()
+    {
+        $data = PLM::updateOrInsert(
+            [
+                'preset_leave_id' => $_POST['preset_leave_id'],
+                'preset_name' => $_POST['preset_name'],
+                'leave_id_array' =>  implode(",", $_POST['leave_id']),
+                'leave_duration_array' =>  implode(",", $_POST['leave_duration']),
+                'role_id' => $_POST['role_id'],
+            ]
+        );
         json($data);
     }
 
@@ -39,6 +91,12 @@ class Leave extends Controller
     public function delete()
     {
         $data = MLM::delete($_POST['id']); // call static function
+        json($data);
+    }
+
+    public function deletePreset()
+    {
+        $data = PLM::delete($_POST['id']); // call static function
         json($data);
     }
 

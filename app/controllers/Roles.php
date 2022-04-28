@@ -37,12 +37,15 @@ class Roles extends Controller
         json($data);
     }
 
-    public function getSelectLevel()
+    public function getListSelect()
     {
-        $data = $this->Role->getAllActiveLevel();
+        $data = $this->Role->getAllRole();
+        $selected = NULL;
+
         echo '<option value=""> - Select - </option>';
         foreach ($data as $row) {
-            echo '<option value="' . $row['role_id'] . '""> ' . $row['role_name'] . '</option>';
+            $selected = ($row['role_id'] == escape($_POST['id'])) ? 'selected' : '';
+            echo '<option value="' . $row['role_id'] . '"" ' . $selected . '> ' . $row['role_name'] . '</option>';
         }
     }
 }

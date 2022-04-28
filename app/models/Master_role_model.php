@@ -69,6 +69,13 @@ class Master_role_model extends Model
         echo $this->serversideDt->generate();
     }
 
+    public function getAllRole()
+    {
+        $this->db->where('role_id', '1', '!=');
+
+        return $this->db->get($this->table, null);
+    }
+
     function countRoleInUser($roleID)
     {
         $this->db->where("role_id", $roleID);

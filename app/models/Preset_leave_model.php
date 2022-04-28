@@ -1,10 +1,10 @@
 <?php
 
-class Master_leave_model extends Model
+class Preset_leave_model extends Model
 {
-    public $table      = 'master_leave';
-    public $primaryKey = 'leave_id';
-    public $uniqueKey = [];
+    public $table      = 'preset_leave';
+    public $primaryKey = 'preset_leave_id';
+    public $uniqueKey = ['role_id'];
 
     /**
      * The attributes that are mass assignable.
@@ -12,9 +12,10 @@ class Master_leave_model extends Model
      * @var array
      */
     protected $fillable = [
-        'leave_name',
-        'leave_description',
-        'leave_carry',
+        'preset_name',
+        'leave_id_array',
+        'leave_duration_array',
+        'role_id'
     ];
 
     /**
@@ -43,27 +44,24 @@ class Master_leave_model extends Model
     {
         //  server side datatables
         $cols = array(
-            "leave_name",
-            "leave_description", // dummy field
-            "leave_id",
+            "preset_name",
+            "role_name",
+            "preset_leave_id",
         );
 
-        $result = $this->db->get($this->table, null, $cols);
+        $this->db->join("master_role role", "pl.role_id = role.role_id", "LEFT");
+        $this->db->get($this->table . " pl", null, $cols);
+
         $this->serversideDt->query($this->getInstanceDB->getLastQuery());
 
-        $this->serversideDt->edit('leave_id', function ($data) {
+        $this->serversideDt->edit('preset_leave_id', function ($data) {
             $del = $edit = '';
-            $del = '<button onclick="deleteRecord(' . $data[$this->primaryKey] . ')" data-toggle="confirm" data-id="' . $data[$this->primaryKey] . '" class="btn btn-xs btn-danger" title="Remove"> <i class="fa fa-trash"></i> </button>';
-            $edit = '<button class="btn btn-xs btn-info" onclick="updateRecord(' . $data[$this->primaryKey] . ')" title="Edit"><i class="fa fa-edit"></i> </button>';
+            $del = '<button onclick="deletePresetRecord(' . $data[$this->primaryKey] . ')" data-toggle="confirm" data-id="' . $data[$this->primaryKey] . '" class="btn btn-xs btn-danger" title="Remove"> <i class="fa fa-trash"></i> </button>';
+            $edit = '<button class="btn btn-xs btn-info" onclick="updatePresetRecord(' . $data[$this->primaryKey] . ')" title="Edit"><i class="fa fa-edit"></i> </button>';
 
             return "<center> $del $edit </center>";
         });
 
         echo $this->serversideDt->generate();
-    }
-
-    public function getAllLeave()
-    {
-        return $this->db->get($this->table, null);
     }
 }

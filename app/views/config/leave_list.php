@@ -53,6 +53,19 @@
                 </h5>
             </div>
             <div class="card-body">
+                <div id="nodatadivPreset" style="display: none;"> {{ nodata() }} </div>
+                <div id="dataListPresetDiv" class="card-datatable table-responsive" style="display: none;">
+                    <table id="dataListPreset" class="table border-top" width="100%">
+                        <thead class="table-dark table border-top">
+                            <tr>
+                                <th> Name </th>
+                                <th> Role </th>
+                                <th width="2%"> Action </th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -70,10 +83,10 @@
         generateDatatable('dataList', 'serverside', 'leave/getListDt', 'nodatadiv');
     }
 
-    // // server side datatable
-    // async function getDataPresetList() {
-    //     generateDatatable('dataList', 'serverside', 'leave/getPresetListDt', 'nodatadivPreset');
-    // }
+    // server side datatable
+    async function getDataPresetList() {
+        generateDatatable('dataListPreset', 'serverside', 'leave/getPresetListDt', 'nodatadivPreset');
+    }
 
     async function updateRecord(id) {
         const res = await callApi('post', "leave/getLeaveByID", id);
@@ -85,15 +98,15 @@
         }
     }
 
-    // async function assignRecord(id) {
-    //     const res = await callApi('post', "leave/getLeaveByID", id);
-    //     // check if request is success
-    //     if (isSuccess(res)) {
-    //         assignModal('update', res.data);
-    //     } else {
-    //         noti(res.status); // show error message
-    //     }
-    // }
+    async function updatePresetRecord(id) {
+        const res = await callApi('post', "leave/getPresetByID", id);
+        // check if request is success
+        if (isSuccess(res)) {
+            presetFormModal('update', res.data);
+        } else {
+            noti(res.status); // show error message
+        }
+    }
 
     function deleteRecord(id) {
         cuteAlert({
@@ -112,11 +125,34 @@
         );
     }
 
+    function deletePresetRecord(id) {
+        cuteAlert({
+            type: 'question',
+            title: 'Are you sure?',
+            message: 'Records will be permanently deleted !',
+            closeStyle: 'circle',
+            cancelText: 'Abort',
+            confirmText: 'Yes, Confirm!',
+        }).then(
+            async (e) => {
+                if (e == 'confirm') {
+                    const res = await deleteApi(id, 'leave/deletePreset', getDataPresetList);
+                }
+            }
+        );
+    }
+
     function formModal(type = 'create', data = null) {
         const modalTitle = (type == 'create') ? 'Register Leave' : 'Update Leave';
         const urlForm = (type == 'create') ? 'leave/create' : 'leave/update';
         // loadFormContent(fileToLoad, modalBodyID, modalSize, urlForm, modalTitle, data, modalType);
         loadFormContent('config/_leaveForm.php', 'generalContent', 'md', urlForm, modalTitle, data);
+    }
+
+    function presetFormModal(type = 'create', data = null) {
+        const modalTitle = (type == 'create') ? 'Register Preset' : 'Update Preset';
+        // loadFormContent(fileToLoad, modalBodyID, modalSize, urlForm, modalTitle, data, modalType);
+        loadFormContent('config/_presetLeaveForm.php', 'generalContent', 'md', 'leave/presetSave', modalTitle, data);
     }
 </script>
 
