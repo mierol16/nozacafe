@@ -26,24 +26,6 @@ class Files extends Controller
         json($data);
     }
 
-    public function create()
-    {
-        $data = file::insert($_POST); // call static function
-        json($data);
-    }
-
-    public function update()
-    {
-        $data = file::update($_POST); // call static function
-        json($data);
-    }
-
-    public function save()
-    {
-        $data = file::updateOrInsert($_POST);
-        json($data);
-    }
-
     public function delete()
     {
         $data = file::delete($_POST['id']); // call static function

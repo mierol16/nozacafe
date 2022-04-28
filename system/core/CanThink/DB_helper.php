@@ -299,7 +299,7 @@ function isColumnExist($table, $columnName)
         return true;
 }
 
-function hasMany($modelRef, $columnRef, $condition, $conditionArr = NULL)
+function hasMany($modelRef, $columnRef, $condition, $option = NULL)
 {
     $dbName = db_name();
     $result = $obj = $tableRef = '';
@@ -315,7 +315,15 @@ function hasMany($modelRef, $columnRef, $condition, $conditionArr = NULL)
 
         // check table
         if (isTableExist($tableRef)) {
-            $result = rawQuery("SELECT * FROM $tableRef WHERE {$columnRef}='$condition'");
+
+            $whereCon = NULL;
+            if (!empty($option)) {
+                foreach ($option as $key => $value) {
+                    $whereCon .= "AND {$key}='$value'";
+                }
+            }
+
+            $result = rawQuery("SELECT * FROM $tableRef WHERE {$columnRef}='$condition' $whereCon");
         }
     }
 
@@ -330,7 +338,7 @@ function hasMany($modelRef, $columnRef, $condition, $conditionArr = NULL)
     return $data;
 }
 
-function hasOne($modelRef, $columnRef, $condition, $conditionArr = NULL)
+function hasOne($modelRef, $columnRef, $condition, $option = NULL)
 {
     $dbName = db_name();
     $result = $obj = $tableRef = '';
@@ -345,7 +353,15 @@ function hasOne($modelRef, $columnRef, $condition, $conditionArr = NULL)
 
         // check table
         if (isTableExist($tableRef)) {
-            $result = rawQuery("SELECT * FROM $tableRef WHERE {$columnRef}='$condition' LIMIT 1");
+
+            $whereCon = NULL;
+            if (!empty($option)) {
+                foreach ($option as $key => $value) {
+                    $whereCon .= "AND {$key}='$value'";
+                }
+            }
+
+            $result = rawQuery("SELECT * FROM $tableRef WHERE {$columnRef}='$condition' $whereCon LIMIT 1");
         }
     }
 

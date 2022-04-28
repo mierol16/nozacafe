@@ -49,9 +49,14 @@ function searcharrayvaluesExist($valueSearch, $array, $colNames)
     return false;
 }
 
-function explodeArr($array, $type = ',')
+function explodeArr($param, $type = ',', $returnIndex = NULL)
 {
-    $str = explode($type, $array);
+    $str = explode($type, $param);
+
+    if ($returnIndex != NULL) {
+        $str = $str[$returnIndex];
+    }
+
     return $str;
 }
 

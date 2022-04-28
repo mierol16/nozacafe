@@ -17,14 +17,23 @@ class Files
                 'type' => 'VARCHAR',
                 'length' => 255,
                 'null' => TRUE,
-                'after' => 'files_id',
+            ),
+            'files_original_name' => array(
+                'type' => 'VARCHAR',
+                'length' => 255,
+                'null' => TRUE,
+            ),
+            'files_folder' => array(
+                'type' => 'VARCHAR',
+                'length' => 150,
+                'null' => TRUE,
             ),
             'files_type' => array(
                 'type' => 'VARCHAR',
                 'length' => 150,
                 'null' => TRUE,
             ),
-            'files_folder' => array(
+            'files_mime' => array(
                 'type' => 'VARCHAR',
                 'length' => 150,
                 'null' => TRUE,
@@ -34,22 +43,45 @@ class Files
                 'length' => 10,
                 'null' => TRUE,
             ),
+            'files_size' => array(
+                'type' => 'INT',
+                'length' => 11,
+                'null' => TRUE,
+                'default' => 0,
+            ),
+            'file_compression' => array(
+                'type' => 'TINYINT',
+                'length' => 1,
+                'comment' => '1 = full size only, 2 = full size & compressed, 3 = full size, compressed & thumbnail	',
+                'null' => TRUE,
+                'default' => 1,
+            ),
             'files_path' => array(
                 'type' => 'VARCHAR',
                 'length' => 250,
                 'null' => TRUE,
             ),
-            'table_ref' => array(
-                'type' => 'VARCHAR',
-                'length' => 250,
+            'file_path_is_url' => array(
+                'type' => 'TINYINT',
+                'length' => 1,
+                'comment' => '0 = No, 1 = Yes',
                 'null' => TRUE,
-                'after' => 'files_path',
+                'default' => 0,
             ),
-            'table_id' => array(
+            'entity_type' => array(
+                'type' => 'VARCHAR',
+                'length' => 255,
+                'null' => TRUE,
+            ),
+            'entity_file_type' => array(
+                'type' => 'VARCHAR',
+                'length' => 255,
+                'null' => TRUE,
+            ),
+            'entity_id' => array(
                 'type' => 'BIGINT',
                 'unsigned' => TRUE,
                 'null' => TRUE,
-                'after' => 'table_ref',
             ),
             'user_id' => array(
                 'type' => 'BIGINT',

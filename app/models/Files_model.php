@@ -13,12 +13,18 @@ class Files_model extends Model
      */
     protected $fillable = [
         'files_name',
-        'files_type',
+        'files_original_name',
         'files_folder',
+        'files_type',
+        'files_mime',
         'files_extension',
+        'files_size',
+        'file_compression',
         'files_path',
-        'table_ref',
-        'table_id',
+        'file_path_is_url',
+        'entity_type',
+        'entity_file_type',
+        'entity_id',
         'user_id',
     ];
 
@@ -35,6 +41,13 @@ class Files_model extends Model
      * @return array
      */
     protected $messages = [];
+
+    /**
+     * Call funtion relation
+     *
+     * @return array
+     */
+    public $with = [];
 
     ###################################################################
     #                                                                 #
