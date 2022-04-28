@@ -52,11 +52,12 @@ class Master_leave_model extends Model
         $this->serversideDt->query($this->getInstanceDB->getLastQuery());
 
         $this->serversideDt->edit('leave_id', function ($data) {
-            $del = $edit =  '';
-            $del = '<button onclick="deleteRecord(' . $data[$this->primaryKey] . ')" data-toggle="confirm" data-id="' . $data[$this->primaryKey] . '" class="btn btn-sm btn-danger" title="Remove"> <i class="fa fa-trash"></i> </button>';
-            $edit = '<button class="btn btn-sm btn-info" onclick="updateRecord(' . $data[$this->primaryKey] . ')" title="Edit"><i class="fa fa-edit"></i> </button>';
+            $del = $edit =  $assign = '';
+            $del = '<button onclick="deleteRecord(' . $data[$this->primaryKey] . ')" data-toggle="confirm" data-id="' . $data[$this->primaryKey] . '" class="btn btn-xs btn-danger" title="Remove"> <i class="fa fa-trash"></i> </button>';
+            $edit = '<button class="btn btn-xs btn-info" onclick="updateRecord(' . $data[$this->primaryKey] . ')" title="Edit"><i class="fa fa-edit"></i> </button>';
+            $assign = '<button class="btn btn-xs btn-dark" onclick="assignRecord(' . $data[$this->primaryKey] . ')" title="Assign"><i class="fas fa-list"></i> </button>';
 
-            return "<center> $del $edit </center>";
+            return "<center> $del $edit $assign </center>";
         });
 
         echo $this->serversideDt->generate();

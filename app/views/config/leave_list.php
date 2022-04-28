@@ -61,6 +61,16 @@
         }
     }
 
+    // async function assignRecord(id) {
+    //     const res = await callApi('post', "leave/getLeaveByID", id);
+    //     // check if request is success
+    //     if (isSuccess(res)) {
+    //         assignModal('update', res.data);
+    //     } else {
+    //         noti(res.status); // show error message
+    //     }
+    // }
+
     function deleteRecord(id) {
         cuteAlert({
             type: 'question',

@@ -2,12 +2,12 @@
 
 class PresetLeave
 {
-    protected $table = 'config_preset_leave';
+    protected $table = 'preset_leave';
 
     public function up()
     {
         $column =  [
-            'config_leave_id' => array(
+            'preset_leave_id' => array(
                 'type' => 'BIGINT',
                 'unsigned' => TRUE,
                 'auto_increment' => TRUE,
@@ -32,7 +32,7 @@ class PresetLeave
         ];
 
         $key = [
-            1 => ['type' => 'PRIMARY KEY', 'reference' => 'config_leave_id'],
+            1 => ['type' => 'PRIMARY KEY', 'reference' => 'preset_leave_id'],
             2 => ['type' => 'INDEX', 'reference' => 'role_id'],
         ];
 
