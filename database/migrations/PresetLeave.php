@@ -13,6 +13,11 @@ class PresetLeave
                 'auto_increment' => TRUE,
                 'null' => FALSE,
             ),
+            'preset_name' => array(
+                'type' => 'VARCHAR',
+                'length' => 150,
+                'null' => TRUE,
+            ),
             'leave_id_array' => array(
                 'type' => 'VARCHAR',
                 'length' => 150,

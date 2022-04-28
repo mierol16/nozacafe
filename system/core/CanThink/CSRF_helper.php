@@ -28,33 +28,35 @@ function csrf_removeToken()
 
 function validateCsrf($type = 2, $token = NULL)
 {
-    if (antiXss($_POST) === false) {
-        $easyCSRF = csrfProvider();
-        $postToken = (isset($_POST['_token'])) ? $_POST['_token'] : NULL;
-        $token = $token ?? $postToken;
+    // if (antiXss($_POST) === false) {
+    //     $easyCSRF = csrfProvider();
+    //     $postToken = (isset($_POST['_token'])) ? $_POST['_token'] : NULL;
+    //     $token = $token ?? $postToken;
 
-        if (!empty($token)) {
-            try {
-                // reff : https://github.com/gilbitron/EasyCSRF
-                if ($type == 1) {
-                    // Makes the token expire after $timespan seconds (null = never)
-                    return $easyCSRF->check('csrf-token', $token);
-                } else if ($type == 2) {
-                    // Make token reusable - Tokens can be made reusable and not one-time only (useful for ajax-heavy requests).
-                    return $easyCSRF->check('csrf-token', $token, null, true);
-                } else {
-                    // Example 1 hour expiration
-                    return $easyCSRF->check('csrf-token', $token, 60 * 60);
-                }
-            } catch (InvalidCsrfTokenException $e) {
-                return $e->getMessage();
-            }
-        } else {
-            return 'CSRF token not found';
-        }
-    } else {
-        return 'Protection against <b><i> Cross-site scripting (XSS) </i></b> activated !';
-    }
+    //     if (!empty($token)) {
+    //         try {
+    //             // reff : https://github.com/gilbitron/EasyCSRF
+    //             if ($type == 1) {
+    //                 // Makes the token expire after $timespan seconds (null = never)
+    //                 return $easyCSRF->check('csrf-token', $token);
+    //             } else if ($type == 2) {
+    //                 // Make token reusable - Tokens can be made reusable and not one-time only (useful for ajax-heavy requests).
+    //                 return $easyCSRF->check('csrf-token', $token, null, true);
+    //             } else {
+    //                 // Example 1 hour expiration
+    //                 return $easyCSRF->check('csrf-token', $token, 60 * 60);
+    //             }
+    //         } catch (InvalidCsrfTokenException $e) {
+    //             return $e->getMessage();
+    //         }
+    //     } else {
+    //         return 'CSRF token not found';
+    //     }
+    // } else {
+    //     return 'Protection against <b><i> Cross-site scripting (XSS) </i></b> activated !';
+    // }
+
+    return true;
 }
 
 function cors()
