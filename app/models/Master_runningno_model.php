@@ -119,40 +119,4 @@ class Master_runningno_model extends Model
 
         return update($this->table, $dataUpdate, $data['run_id']);
     }
-
-    public function generateQR($userNo, $id)
-    {
-        $writer = new PngWriter();
-
-        // Create QR code
-        $qrCode = QrCode::create($userNo)
-            ->setEncoding(new Encoding('UTF-8'))
-            ->setErrorCorrectionLevel(new ErrorCorrectionLevelLow())
-            ->setSize(500)
-            ->setMargin(10)
-            ->setRoundBlockSizeMode(new RoundBlockSizeModeMargin())
-            ->setForegroundColor(new Color(0, 0, 0))
-            ->setBackgroundColor(new Color(255, 255, 255));
-
-        // Create generic logo
-        // $logo = Logo::create('upload/school_logo/logo.jpg')
-        //     ->setResizeToWidth(80);
-
-        $logo = Logo::create('img/favicon/favicon.ico')
-            ->setResizeToWidth(120);
-
-        // Create generic label
-        $label = Label::create($userNo)
-            ->setTextColor(new Color(255, 0, 0));
-
-        $result = $writer->write($qrCode, $logo, $label);
-
-        $path = folder($userNo, $id, 'image');
-
-        header('Content-Type: ' . $result->getMimeType());
-
-        // Save it to a file
-        $result->saveToFile($path . '/qr.png');
-        return $path . '/qr.png';
-    }
 }

@@ -126,14 +126,15 @@ class User extends Controller
 
         $userID = $data['id'];
 
+        $folderQR = folder('directory', $_POST['user_fullname'], 'qrcode');
         // update user
         $user_no = $this->RunningNo->generateEmployeeNo();
-        // $user_qrcode = $this->RunningNo->generateQR($user_no, $userID);
+        $user_qrcode = generateQR($user_no, $folderQR);
 
         $userData = users::update([
             'user_id' => $userID,
             'user_no' => $user_no,
-            // 'user_qrcode' => $user_qrcode,
+            'user_qrcode' => $user_qrcode,
         ]);
 
         // update user running no

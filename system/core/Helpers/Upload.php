@@ -135,7 +135,7 @@ function upload($files, $folder, $data = NULL, $index = NULL, $compress = false)
 
         $filesMime = get_mime_type($fileName);
         $fileType = explodeArr($filesMime, '/',  0);
-        // $fileType = $fileType[0];
+        $fileType = $fileType[0];
 
         return [
             'files_name' => $saveName,
