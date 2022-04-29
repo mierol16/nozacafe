@@ -1,4 +1,4 @@
-<form id="formUser" action="user/save" method="POST">
+<form id="formUser" action="user/register" method="POST">
 
     <div class="row">
         <div class="col-lg-6 col-md-12 p-4 fill border-right">
