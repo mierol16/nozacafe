@@ -13,6 +13,7 @@ class User_model extends Model
      * @var array
      */
     protected $fillable = [
+        'user_no',
         'user_fullname',
         'user_preferred_name',
         'user_nric',
@@ -29,6 +30,7 @@ class User_model extends Model
         'user_username',
         'user_password',
         'user_avatar',
+        'user_qrcode',
         'user_status',
         'role_id',
     ];
@@ -61,7 +63,6 @@ class User_model extends Model
         'user_religion' => 'religion',
         'user_username' => 'username',
         'user_password' => 'password',
-        'role_id' => 'role',
     ];
 
     public $with = [
@@ -148,7 +149,7 @@ class User_model extends Model
         //  server side datatables
         $cols = array(
             "user_fullname",
-            "user_nric",
+            "user_no",
             "user_email",
             "user_contact_no",
             "user_status",
@@ -160,10 +161,10 @@ class User_model extends Model
 
         $this->serversideDt->query($this->getInstanceDB->getLastQuery());
 
-        $this->serversideDt->hide('user_nric'); // hides 'created_at' column from the output
+        $this->serversideDt->hide('user_no'); // hides 'created_at' column from the output
 
         $this->serversideDt->edit('user_fullname', function ($data) {
-            return '<a href="javascript:void(0)" onclick="viewRecord(' . $data['user_id'] . ', \'' . encodeID($data['user_id']) . '\', \'' . base_url . '\')">' . $data['user_fullname'] . '<br>' . $data['user_nric'] . ' </a>';
+            return '<a href="javascript:void(0)" onclick="viewRecord(' . $data['user_id'] . ', \'' . encodeID($data['user_id']) . '\', \'' . base_url . '\')">' . $data['user_fullname'] . '<br>' . $data['user_no'] . ' </a>';
         });
 
         $this->serversideDt->edit('user_status', function ($data) {

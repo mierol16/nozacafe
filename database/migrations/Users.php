@@ -13,6 +13,12 @@ class Users
                 'auto_increment' => TRUE,
                 'null' => FALSE,
             ),
+            'user_no' => array(
+                'type' => 'VARCHAR',
+                'length' => 50,
+                'null' => TRUE,
+                'comment' => 'generate by system and only generate for register employee',
+            ),
             'user_fullname' => array(
                 'type' => 'VARCHAR',
                 'length' => 255,
@@ -92,6 +98,12 @@ class Users
                 'type' => 'VARCHAR',
                 'length' => 255,
                 'null' => TRUE
+            ),
+            'user_qrcode' => array(
+                'type' => 'VARCHAR',
+                'length' => 255,
+                'null' => TRUE,
+                'comment' => 'generate by system and generate using employee no',
             ),
             'role_id' => array(
                 'type' => 'BIGINT',

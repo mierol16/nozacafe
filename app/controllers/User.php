@@ -8,6 +8,7 @@ use Contact_info_model as Contact;
 use Files_model as Files;
 use Config_leave_model as CLM;
 use Preset_leave_model as PLM;
+use Master_runningno_model as RunningNo;
 
 class User extends Controller
 {
@@ -124,6 +125,21 @@ class User extends Controller
         $data = users::save($_POST); // call static function
 
         $userID = $data['id'];
+
+        // update user
+        $user_no = $this->RunningNo->generateEmployeeNo();
+        // $user_qrcode = $this->RunningNo->generateQR($user_no, $userID);
+
+        $userData = users::update([
+            'user_id' => $userID,
+            'user_no' => $user_no,
+            // 'user_qrcode' => $user_qrcode,
+        ]);
+
+        // update user running no
+        if (isset($userData['resCode']) == 200) {
+            $this->RunningNo->updateEmployeeNo();
+        }
 
         if (isset($_POST['education_level'])) {
             foreach ($_POST['education_level'] as $key => $edu) {
