@@ -98,11 +98,13 @@
 
     function inputRead(check, id) {
         if (check.checked == true) {
+            $('#duration' + id).val(1);
             $('#duration' + id).attr('readonly', false);
+            $('#duration' + id).attr('required', true);
         } else {
             $('#duration' + id).val('');
             $('#duration' + id).attr('readonly', true);
-
+            $('#duration' + id).attr('required', false);
         }
     };
 </script>

@@ -119,6 +119,18 @@ class User extends Controller
 
     public function save()
     {
+        if (isset($_POST['user_password'])) {
+            $_POST['user_password'] = password_hash($_POST['user_password'], PASSWORD_DEFAULT);
+        } else {
+            $_POST['user_password'] = password_hash($_POST['user_nric'], PASSWORD_DEFAULT);
+        }
+
+        $data = users::updateOrInsert($_POST); // call static function
+        json($data);
+    }
+
+    public function register()
+    {
         $_POST['user_password'] = password_hash($_POST['user_nric'], PASSWORD_DEFAULT);
 
         $data = users::save($_POST); // call static function

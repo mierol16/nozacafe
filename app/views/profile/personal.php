@@ -165,22 +165,27 @@
                     <div class="card-body">
                         <div class="row ">
                             <div class="col-12">
-                                <button type="button" class="btn btn-warning btn-sm float-end ms-2" onclick="getDataList('{{ $userID }}')" title="Refresh">
-                                    <i class="fa fa-refresh"></i>
+                                <button type="button" class="btn btn-warning btn-xs float-end ms-2" onclick="getDataListLeave('{{ $userID }}')" title="Refresh">
+                                    <i class="fas fa-redo-alt"></i>
                                 </button>
+                                @if (session()->get('userID') == $userID) 
+                                <a href="{{ url('leave/userLeave') }}" class="btn btn-info btn-xs float-end">
+                                    go to Leave Page <i class="fas fa-arrow-right"></i>
+                                </a>
+                                @endif
                             </div>
                         </div>
                         <hr>
                         <div class="row">
                             <div class="col-12">
-                                <div id="nodatadiv"> {{ nodata() }} </div>
-                                <div id="dataListDiv" class="card-datatable table-responsive" style="display: none;">
-                                    <table id="dataList" class="table border-top" width="100%">
+                                <div id="nodatadivLeave"> {{ nodata() }} </div>
+                                <div id="dataListLeaveDiv" class="card-datatable table-responsive" style="display: none;">
+                                <table id="dataListLeave" class="table border-top" width="100%">
                                         <thead class="table-dark table border-top">
                                             <tr>
-                                                <th> Student Name </th>
-                                                <th> Level </th>
-                                                <th> Class </th>
+                                                <th> Leave Type </th>
+                                                <th> Date </th>
+                                                <th> Apply on </th>
                                                 <th> Status </th>
                                                 <th width="2%"> Action </th>
                                             </tr>
@@ -276,9 +281,9 @@
 <script type="text/javascript">
     $(document).ready(function() {
         getUserData('{{ $userID }}');
-        // setTimeout(function() {
-        //     getDataList('{{ $userID }}');
-        // }, 100);
+        setTimeout(function() {
+            getDataListLeave('{{$userID}}');
+        }, 100);
     });
 
     async function getUserData(id) {
@@ -308,20 +313,10 @@
     }
 
     // server side datatable
-    async function getDataList(id) {
-        generateDatatable('dataList', 'serverside', 'student/getListChildrenDt', 'nodatadiv', {
-            'userID': id
+    async function getDataListLeave(id) {
+        generateDatatable('dataListLeave', 'serverside', 'leave/getListByUserIDDt', 'nodatadivLeave', {
+            id: id,
         });
-    }
-
-    async function viewStud(id) {
-        const res = await callApi('post', "student/getStudentByID", id);
-        // check if request is success
-        if (isSuccess(res)) {
-            loadFileContent('student/_studentView.php', 'generalContent', 'fullscreen', 'Student Information', res.data);
-        } else {
-            noti(res.status); // show error message
-        }
     }
 
     async function updateRecord(id, encodeID, baseURL) {

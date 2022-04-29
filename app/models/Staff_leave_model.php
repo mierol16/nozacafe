@@ -78,16 +78,16 @@ class Staff_leave_model extends Model
         $this->serversideDt->hide('leave_date_to');
 
         $this->serversideDt->edit('created_at', function ($data) {
-            return date('d.m.Y H:i a', strtotime($data['created_at']));
+            return date('d.m.Y h:i a', strtotime($data['created_at']));
         });
 
         $this->serversideDt->edit('leave_status', function ($data) {
             if ($data['leave_status'] == '1') {
-                return '<span class="badge bg-label-success">Approved</span>';
+                return '<span class="badge bg-success">Approved</span>';
             } elseif ($data['leave_status'] == '2') {
-                return '<span class="badge bg-label-danger">Not Approved</span>';
+                return '<span class="badge bg-danger">Not Approved</span>';
             } else {
-                return '<span class="badge bg-label-warning">Waiting for Approval</span>';
+                return '<span class="badge bg-warning">Waiting for Approval</span>';
             }
         });
 

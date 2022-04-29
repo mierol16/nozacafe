@@ -128,11 +128,11 @@ class User_model extends Model
 
         $this->serversideDt->edit('user_status', function ($data) {
             if ($data['user_status'] == 0) {
-                return '<span class="badge bg-label-warning">Inactive</span>';
+                return '<span class="badge bg-warning">Inactive</span>';
             } else if ($data['user_status'] == 1) {
-                return '<span class="badge bg-label-success">Active</span>';
+                return '<span class="badge bg-success">Active</span>';
             } else if ($data['user_status'] == 2) {
-                return '<span class="badge bg-label-danger">Terminate</span>';
+                return '<span class="badge bg-danger">Terminate</span>';
             } else {
                 return '';
             }

@@ -49,7 +49,7 @@ class Preset_leave_model extends Model
         //  server side datatables
         $cols = array(
             "preset_name",
-            "created_at", // dummy
+            "leave_id_array",
             "preset_leave_id",
         );
 
@@ -57,6 +57,11 @@ class Preset_leave_model extends Model
         $this->db->get($this->table . " pl", null, $cols);
 
         $this->serversideDt->query($this->getInstanceDB->getLastQuery());
+
+        $this->serversideDt->edit('leave_id_array', function($data) {
+            $ids = explode(",", $data['leave_id_array']);
+            return count($ids);
+        });
 
         $this->serversideDt->edit('preset_leave_id', function ($data) {
             $del = $edit = '';

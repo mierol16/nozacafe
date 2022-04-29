@@ -13,7 +13,7 @@
             <div class="card-header">
                 <h5 class="card-title">
                     List Leaves
-                    <button type="button" class="btn btn-warning btn-xs float-end ms-2" onclick="getDataList()" title="Refresh">
+                    <button type="button" class="btn btn-warning btn-xs float-end ms-2" onclick="getDataList('{{$userID}}')" title="Refresh">
                         <i class="fas fa-redo-alt"></i>
                     </button>
                     <button type="button" class="btn btn-secondary btn-xs float-end" onclick="formModal()">
@@ -51,7 +51,7 @@
     // server side datatable
     async function getDataList(id) {
         generateDatatable('dataList', 'serverside', 'leave/getListByUserIDDt', 'nodatadiv', {
-            'userID': id
+            id: id,
         });
     }
 

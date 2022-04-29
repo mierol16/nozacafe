@@ -31,7 +31,7 @@ class Leave extends Controller
 
     public function getListByUserIDDt()
     {
-        echo $this->SLM->getlistByUserID(escape($_POST['userID']));
+        echo $this->SLM->getlistByUserID(escape($_POST['id']));
     }
 
     public function getPresetListDt()
@@ -73,7 +73,7 @@ class Leave extends Controller
 
         echo '<option value=""> - Select - </option>';
         foreach ($data as $row) {
-            echo '<option value="' . $row['config_level_id'] . '""> ' . $row['leave_name'] . ' | ' . $row['leave_duration'] . ' remaining</option>';
+            echo '<option value="' . $row['config_leave_id'] . '""> ' . $row['leave_name'] . ' | ' . $row['leave_duration'] . ' remaining</option>';
         }
     }
 
@@ -105,7 +105,7 @@ class Leave extends Controller
             echo "<tr>
                     <td> <input type='checkbox' class='form-check-input' name='leave_id[]' onchange='inputRead(this, " . $leave_id . ")' value='$leave_id' $checked></td>   
                     <td> $leave_name </td>   
-                    <td> <input type='number' name='leave_duration[]' id='duration" . $leave_id . "'' class='form-control' min='0' step ='.5' value='$leave_duration' $readonly></td>   
+                    <td> <input type='number' name='leave_duration[]' id='duration" . $leave_id . "'' class='form-control' min='0.5' step ='.5' value='$leave_duration' $readonly></td>   
                 </tr>";
         }
     }
@@ -170,7 +170,7 @@ class Leave extends Controller
     }
 
     public function userLeaveSave()
-    {
+    {var_dump($_POST);die;
         $date_from = new DateTime($_POST['leave_date_from']);
         $date_to = new DateTime($_POST['leave_date_to']);
         $interval = $date_from->modify("-1 day")->diff($date_to);
@@ -180,8 +180,8 @@ class Leave extends Controller
             [
                 'staff_leave_id' => $_POST['staff_leave_id'],
                 'config_leave_id' => $_POST['config_leave_id'],
-                'leave_date_from' =>  $date_from,
-                'leave_date_to' =>  $date_to,
+                'leave_date_from' =>  $_POST['leave_date_from'],
+                'leave_date_to' =>  $_POST['leave_date_to'],
                 'leave_duration' =>  $days,
                 'leave_description' => $_POST['leave_description'],
                 'leave_status' => '0',
