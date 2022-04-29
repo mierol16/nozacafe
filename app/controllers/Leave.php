@@ -170,7 +170,7 @@ class Leave extends Controller
     }
 
     public function userLeaveSave()
-    {var_dump($_POST);die;
+    {
         $date_from = new DateTime($_POST['leave_date_from']);
         $date_to = new DateTime($_POST['leave_date_to']);
         $interval = $date_from->modify("-1 day")->diff($date_to);
