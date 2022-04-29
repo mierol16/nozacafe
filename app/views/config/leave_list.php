@@ -59,7 +59,7 @@
                         <thead class="table-dark table border-top">
                             <tr>
                                 <th> Name </th>
-                                <th> Role </th>
+                                <th> Total Leave </th>
                                 <th width="2%"> Action </th>
                             </tr>
                         </thead>
@@ -145,13 +145,11 @@
     function formModal(type = 'create', data = null) {
         const modalTitle = (type == 'create') ? 'Register Leave' : 'Update Leave';
         const urlForm = (type == 'create') ? 'leave/create' : 'leave/update';
-        // loadFormContent(fileToLoad, modalBodyID, modalSize, urlForm, modalTitle, data, modalType);
         loadFormContent('config/_leaveForm.php', 'generalContent', 'md', urlForm, modalTitle, data);
     }
 
     function presetFormModal(type = 'create', data = null) {
         const modalTitle = (type == 'create') ? 'Register Preset' : 'Update Preset';
-        // loadFormContent(fileToLoad, modalBodyID, modalSize, urlForm, modalTitle, data, modalType);
         loadFormContent('config/_presetLeaveForm.php', 'generalContent', 'md', 'leave/presetSave', modalTitle, data);
     }
 </script>

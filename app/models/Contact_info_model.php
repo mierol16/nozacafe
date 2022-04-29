@@ -37,6 +37,13 @@ class Contact_info_model extends Model
         'contact_phone_1' => 'Contact No.',
     ];
 
+    /**
+     * Call funtion relation
+     *
+     * @return array
+     */
+    public $with = [];
+
     ###################################################################
     #                                                                 #
     #               Start custom function below                       #

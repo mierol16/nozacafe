@@ -1,19 +1,10 @@
 <?php
 
-use Endroid\QrCode\Color\Color;
-use Endroid\QrCode\Encoding\Encoding;
-use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelLow;
-use Endroid\QrCode\QrCode;
-use Endroid\QrCode\Label\Label;
-use Endroid\QrCode\Logo\Logo;
-use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
-use Endroid\QrCode\Writer\PngWriter;
-
 class Master_runningno_model extends Model
 {
-    protected $table      = 'master_running_no';
-    protected $primaryKey = 'run_id';
-    protected $uniqueKey = [];
+    public $table      = 'master_running_no';
+    public $primaryKey = 'run_id';
+    public $uniqueKey = [];
 
     /**
      * The attributes that are mass assignable.
@@ -53,6 +44,13 @@ class Master_runningno_model extends Model
         'run_type' => 'Type',
         'run_currentno' => 'Current No',
     ];
+
+    /**
+     * Call funtion relation
+     *
+     * @return array
+     */
+    public $with = [];
 
     ###################################################################
     #                                                                 #

@@ -62,7 +62,7 @@ class UserSeeder extends Seeder
             2 => [
                 'name' => 'Administrator',
                 'nickname' => 'Administrator',
-                'email' => 'adminsuria@gmail.com',
+                'email' => 'admincafe@nozacafe.com',
                 'username' => 'admin',
                 'gender' => 'Male',
                 'contact' => '0',

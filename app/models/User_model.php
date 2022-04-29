@@ -65,6 +65,11 @@ class User_model extends Model
         'user_password' => 'password',
     ];
 
+    /**
+     * Call funtion relation
+     *
+     * @return array
+     */
     public $with = [
         'education',
         'files',

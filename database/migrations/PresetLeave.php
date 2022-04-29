@@ -32,7 +32,8 @@ class PresetLeave
                 'type' => 'BIGINT',
                 'unsigned' => TRUE,
                 'comment' => 'Refer table master_role',
-                'null' => TRUE
+                'null' => TRUE,
+                'drop' => TRUE,
             ),
         ];
 

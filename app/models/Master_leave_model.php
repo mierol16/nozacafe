@@ -31,6 +31,11 @@ class Master_leave_model extends Model
      */
     protected $messages = [];
 
+    /**
+     * Call funtion relation
+     *
+     * @return array
+     */
     public $with = [];
 
     ###################################################################
@@ -60,10 +65,5 @@ class Master_leave_model extends Model
         });
 
         echo $this->serversideDt->generate();
-    }
-
-    public function getAllLeave()
-    {
-        return $this->db->get($this->table, null);
     }
 }

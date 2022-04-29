@@ -2,6 +2,12 @@
 
 // defined('BASEPATH') OR exit('No direct script access allowed');
 
+function auditStatus($status = true)
+{
+    global $audit;
+    $config['audit_enable'] = filter_var($status, FILTER_VALIDATE_BOOLEAN);
+}
+
 function trailPreviousData($table, $pkValue, $pkTable = NULL)
 {
     if (empty($pkTable)) {

@@ -9,7 +9,7 @@
         </div>
     </div>
 
-    <div class="row mt-2">
+    <!-- <div class="row mt-2">
         <div class="col-lg-12">
             <div class="form-group">
                 <label> Role <span class="text-danger">*</span> </label>
@@ -18,7 +18,7 @@
                 </select>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <div class="row mt-4">
         <div class="col-lg-12">
@@ -77,20 +77,20 @@
     function getPassData(baseUrl, token, data) {
         const ids = (data != null) ? data['leave_id_array'] : null;
         const values = (data != null) ? data['leave_duration_array'] : null;
-        const role_id = (data != null) ? data.role_id : null;
-        getSelectRole(role_id);
+        // const role_id = (data != null) ? data.role_id : null;
+        // getSelectRole(role_id);
         getListLeave(ids, values);
     }
 
-    async function getSelectRole(roleID = null) {
-        const res = await callApi('post', "roles/getListSelect", roleID);
-        // check if request is success
-        if (isSuccess(res)) {
-            $('#role_id').html(res.data);
-        } else {
-            noti(res.status); // show error message
-        }
-    }
+    // async function getSelectRole(roleID = null) {
+    //     const res = await callApi('post', "roles/getListSelect", roleID);
+    //     // check if request is success
+    //     if (isSuccess(res)) {
+    //         $('#role_id').html(res.data);
+    //     } else {
+    //         noti(res.status); // show error message
+    //     }
+    // }
 
     async function getListLeave(ids = null, values = null) {
         const res = await callApi('post', "leave/getLeaveListTD", {
@@ -107,13 +107,11 @@
     }
 
     function inputRead(check, id) {
-        
         if (check.checked == true) {
-            // alert('checked');
             $('#duration' + id).attr('readonly', false);
         } else {
+            $('#duration' + id).val('');
             $('#duration' + id).attr('readonly', true);
-            // alert('null');
 
         }
     };

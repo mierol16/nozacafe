@@ -35,6 +35,11 @@ class Staff_leave_model extends Model
      */
     protected $messages = [];
 
+    /**
+     * Call funtion relation
+     *
+     * @return array
+     */
     public $with = [];
 
     ###################################################################
@@ -42,10 +47,9 @@ class Staff_leave_model extends Model
     #               Start custom function below                       #
     #                                                                 #
     ###################################################################
-    
+
     public function getList()
     {
-
     }
 
     public function getListByUserID($userID)

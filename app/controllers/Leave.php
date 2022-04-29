@@ -56,7 +56,7 @@ class Leave extends Controller
 
     public function getListPreset()
     {
-        $data = $this->PLM->getAllPreset();
+        $data = PLM::all();
         $selected = NULL;
 
         echo '<option value=""> - Select - </option>';
@@ -79,15 +79,19 @@ class Leave extends Controller
 
     public function getLeaveListTD()
     {
-        $data = $this->MLM->getAllLeave();
-
-        $ids = (isset($_POST['id'])) ? explode(",", $_POST['id']) : '';
-        $durations = (isset($_POST['duration'])) ? explode(",", $_POST['duration']) : '';
+        $data = MLM::all();
 
         foreach ($data as $key => $row) {
             $leave_id = $row['leave_id'];
             $leave_name = $row['leave_name'];
-            $leave_duration = $durations[$key];
+
+            $leave_duration = '';
+            if (isset($_POST['id'])) {
+                $ids = explode(",", $_POST['id']);
+                $durations = explode(",", $_POST['duration']);
+                $durationKey = array_search($leave_id, $ids);
+                $leave_duration = ($durationKey === false) ? '' : $durations[$durationKey];
+            }
 
             $checked = NULL;
             $readonly = 'readonly';
@@ -114,12 +118,13 @@ class Leave extends Controller
 
     public function presetSave()
     {
-        $data = PLM::updateOrInsert(
+        $leave_durationArr = array_filter($_POST['leave_duration'], 'strlen');
+        $data = PLM::save(
             [
                 'preset_leave_id' => $_POST['preset_leave_id'],
                 'preset_name' => $_POST['preset_name'],
                 'leave_id_array' =>  implode(",", $_POST['leave_id']),
-                'leave_duration_array' =>  implode(",", $_POST['leave_duration']),
+                'leave_duration_array' =>  implode(",", $leave_durationArr),
                 'role_id' => $_POST['role_id'],
             ]
         );
@@ -165,7 +170,6 @@ class Leave extends Controller
         $data = PLM::delete($_POST['id']); // call static function
         json($data);
     }
-
 }
 
 

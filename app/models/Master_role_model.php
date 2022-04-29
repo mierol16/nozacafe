@@ -34,6 +34,13 @@ class Master_role_model extends Model
         'role_name' => 'Role Name',
     ];
 
+    /**
+     * Call funtion relation
+     *
+     * @return array
+     */
+    public $with = [];
+
     ###################################################################
     #                                                                 #
     #               Start custom function below                       #

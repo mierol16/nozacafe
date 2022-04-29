@@ -121,12 +121,11 @@ class User extends Controller
     {
         $_POST['user_password'] = password_hash($_POST['user_nric'], PASSWORD_DEFAULT);
 
-        // $data = users::save($_POST);
         $data = users::save($_POST); // call static function
-
         $userID = $data['id'];
 
         $folderQR = folder('directory', $_POST['user_fullname'], 'qrcode');
+
         // update user
         $user_no = $this->RunningNo->generateEmployeeNo();
         $user_qrcode = generateQR($user_no, $folderQR);
@@ -155,7 +154,9 @@ class User extends Controller
                 );
 
                 if (isset($_FILES['education_file']['name'][$key])) {
-                    $folder = folder('directory', $_POST['user_fullname'], 'certificate');
+
+                    $files = $_FILES['education_file'];
+                    $folderEdu = folder('directory', $_POST['user_fullname'], 'certificate');
 
                     $dataFolder = [
                         'type' => 'Education_info_model',
@@ -164,7 +165,7 @@ class User extends Controller
                         'user_id' => $userID,
                     ];
 
-                    $upload = upload($_FILES['education_file'], $folder, $dataFolder, $key, true);
+                    $upload = upload($files, $folderEdu, $dataFolder, $key, true);
 
                     if (!empty($upload)) {
                         Files::save($upload);

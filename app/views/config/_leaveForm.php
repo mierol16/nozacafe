@@ -22,7 +22,7 @@
         <div class="col-lg-12">
             <div class="form-group">
                 <label> Carry Foward <span class="text-danger">*</span> </label>
-                <input type="number" id="leave_carry" name="leave_carry" class="form-control" min="0" step=".5" autocomplete="off" required></input>
+                <input type="number" id="leave_carry" name="leave_carry" class="form-control" min="0" step=".5" value="0" autocomplete="off" required></input>
             </div>
         </div>
     </div>

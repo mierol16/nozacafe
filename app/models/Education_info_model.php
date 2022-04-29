@@ -41,6 +41,11 @@ class Education_info_model extends Model
         'education_university' => 'University Name',
     ];
 
+    /**
+     * Call funtion relation
+     *
+     * @return array
+     */
     public $with = [
         'user',
         'files',

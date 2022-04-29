@@ -15,7 +15,6 @@ class Preset_leave_model extends Model
         'preset_name',
         'leave_id_array',
         'leave_duration_array',
-        'role_id'
     ];
 
     /**
@@ -32,6 +31,11 @@ class Preset_leave_model extends Model
      */
     protected $messages = [];
 
+    /**
+     * Call funtion relation
+     *
+     * @return array
+     */
     public $with = [];
 
     ###################################################################
@@ -45,11 +49,11 @@ class Preset_leave_model extends Model
         //  server side datatables
         $cols = array(
             "preset_name",
-            "role_name",
+            "created_at", // dummy
             "preset_leave_id",
         );
 
-        $this->db->join("master_role role", "pl.role_id = role.role_id", "LEFT");
+        // $this->db->join("master_role role", "pl.role_id = role.role_id", "LEFT");
         $this->db->get($this->table . " pl", null, $cols);
 
         $this->serversideDt->query($this->getInstanceDB->getLastQuery());
@@ -63,10 +67,5 @@ class Preset_leave_model extends Model
         });
 
         echo $this->serversideDt->generate();
-    }
-
-    public function getAllPreset()
-    {
-        return $this->db->get($this->table, null);
     }
 }
