@@ -41,7 +41,7 @@ class RunningNoSeeder extends Seeder
                 'prefix' => 'NZ',
                 'suffix' => NULL,
                 'type' => '1',
-                'zero' => '5',
+                'zero' => '4',
                 'no' => '0',
             ],
             2 => [

@@ -101,7 +101,7 @@ class User extends Controller
 
     public function getUsersByID()
     {
-        $data = users::find($_POST['id'], NULL, ['education', 'education.files', 'contact', 'leave']);
+        $data = users::find($_POST['id'], NULL, ['education', 'files', 'education.files', 'contact', 'leave']);
         json($data);
     }
 

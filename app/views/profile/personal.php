@@ -32,6 +32,7 @@
                 <div class="flex-grow-1 mt-3 mt-sm-5">
                     <div class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
                         <div class="user-profile-info">
+                            <small id="user_no"></small>
                             <h4 id="user_fullname"></h4>
                             <ul class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
                                 <li class="list-inline-item fw-semibold">
@@ -286,6 +287,7 @@
         var path = "{{ asset('upload/image/user/') }}";
 
         $('#user_nric').text(res.data.user_nric);
+        $('#user_no').text(res.data.user_no);
         $('#user_fullname').text(res.data.user_fullname);
         $('#user_email').text(res.data.user_email);
         $('#user_contact_no').text(res.data.user_contact_no);

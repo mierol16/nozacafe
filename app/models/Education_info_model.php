@@ -59,6 +59,6 @@ class Education_info_model extends Model
 
     public function filesRelation($data)
     {
-        return hasMany('Files_model', 'table_id', $data[$this->primaryKey]);
+        return hasMany('Files_model', 'entity_id', $data[$this->primaryKey], ['entity_file_type' => 'CERTIFICATE']);
     }
 }

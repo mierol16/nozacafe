@@ -110,7 +110,7 @@ class Master_runningno_model extends Model
 
     public function updateEmployeeNo()
     {
-        $this->db->where("run_type", 2); // get type application
+        $this->db->where("run_type", 1); // get type application
         $data = $this->db->fetchRow($this->table);
         $dataUpdate = [
             'run_currentno' => $data['run_currentno'] + 1,
