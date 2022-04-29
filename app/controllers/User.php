@@ -131,28 +131,61 @@ class User extends Controller
 
     public function register()
     {
-        $_POST['user_password'] = password_hash($_POST['user_nric'], PASSWORD_DEFAULT);
+        if ($_POST['user_id'] == '') {
+            $folderQR = folder('directory', $_POST['user_fullname'], 'qrcode');
+            $user_no = $this->RunningNo->generateEmployeeNo();
+            $user_qrcode = generateQR($user_no, $folderQR);
+
+            $_POST['user_password'] = password_hash($_POST['user_nric'], PASSWORD_DEFAULT);
+            $_POST['user_no'] = $user_no;
+            $_POST['user_qrcode'] = $user_qrcode;
+        }
 
         $data = users::save($_POST); // call static function
         $userID = $data['id'];
 
-        $folderQR = folder('directory', $_POST['user_fullname'], 'qrcode');
-
-        // update user
-        $user_no = $this->RunningNo->generateEmployeeNo();
-        $user_qrcode = generateQR($user_no, $folderQR);
-
-        $userData = users::update([
-            'user_id' => $userID,
-            'user_no' => $user_no,
-            'user_qrcode' => $user_qrcode,
-        ]);
-
         // update user running no
-        if (isset($userData['resCode']) == 200) {
+        if (isset($data['resCode']) == 200) {
             $this->RunningNo->updateEmployeeNo();
         }
 
+        // register contact person
+        if (isset($_POST['contact_name'])) {
+            foreach ($_POST['contact_name'] as $key => $level) {
+                $contact = Contact::save(
+                    [
+                        'contact_id' => $_POST['contact_id'][$key],
+                        'contact_name' => $_POST['contact_name'][$key],
+                        'contact_relation' => $_POST['contact_relation'][$key],
+                        'contact_phone_1' => $_POST['contact_phone_1'][$key],
+                        'contact_phone_2' => $_POST['contact_phone_2'][$key],
+                        'user_id' => $userID,
+                    ]
+                );
+            }
+        }
+
+        // register leave
+        if (isset($_POST['leave_preset'])) {
+            $preset = PLM::find($_POST['leave_preset']);
+            $leave_id = explode(",", $preset['leave_id_array']);
+            $duration = explode(",", $preset['leave_duration_array']);
+
+            foreach ($leave_id as $key => $value) {
+                $leave = CLM::save(
+                    [
+                        'config_leave_id' => $_POST['config_leave_id'],
+                        'leave_id' => $value,
+                        'preset_id' => $_POST['leave_preset'],
+                        'leave_duration' => $duration[$key],
+                        'leave_year' => date('Y'),
+                        'user_id' => $userID,
+                    ]
+                );
+            }
+        }
+
+        // register education
         if (isset($_POST['education_level'])) {
             foreach ($_POST['education_level'] as $key => $edu) {
                 $education = Edu::save(
@@ -183,40 +216,6 @@ class User extends Controller
                         Files::save($upload);
                     }
                 }
-            }
-        }
-
-        if (isset($_POST['contact_name'])) {
-            foreach ($_POST['contact_name'] as $key => $level) {
-                $contact = Contact::save(
-                    [
-                        'contact_id' => $_POST['contact_id'][$key],
-                        'contact_name' => $_POST['contact_name'][$key],
-                        'contact_relation' => $_POST['contact_relation'][$key],
-                        'contact_phone_1' => $_POST['contact_phone_1'][$key],
-                        'contact_phone_2' => $_POST['contact_phone_2'][$key],
-                        'user_id' => $userID,
-                    ]
-                );
-            }
-        }
-
-        if (isset($_POST['leave_preset'])) {
-            $preset = PLM::find($_POST['leave_preset']);
-            $leave_id = explode(",", $preset['leave_id_array']);
-            $duration = explode(",", $preset['leave_duration_array']);
-
-            foreach ($leave_id as $key => $value) {
-                $leave = CLM::save(
-                    [
-                        'config_leave_id' => $_POST['config_leave_id'],
-                        'leave_id' => $value,
-                        'preset_id' => $_POST['leave_preset'],
-                        'leave_duration' => $duration[$key],
-                        'leave_year' => date('Y'),
-                        'user_id' => $userID,
-                    ]
-                );
             }
         }
 
