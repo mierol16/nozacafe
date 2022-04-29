@@ -28,13 +28,6 @@ class PresetLeave
                 'length' => 150,
                 'null' => TRUE,
             ),
-            'role_id' => array(
-                'type' => 'BIGINT',
-                'unsigned' => TRUE,
-                'comment' => 'Refer table master_role',
-                'null' => TRUE,
-                'drop' => TRUE,
-            ),
         ];
 
         $key = [

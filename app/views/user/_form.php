@@ -176,7 +176,7 @@
 
 <script>
     function getPassData(baseUrl, token, data) {
-        console.log(data);
+        // console.log(data);
         const preset = (data.leave) ? data.leave[0].preset_id : null;
         const config_leave = (data.leave) ? data.leave[0].config_leave_id : null;
 
@@ -208,6 +208,7 @@
             for (i = 0; i < data.contact.length; i++) {
                 addContact(data.contact[i]);
             }
+            getDisplayLeavePreset(preset);
         } else {
             addEducation();
             addContact();
@@ -292,8 +293,8 @@
                 if (data.files.length > 0) {
 
                     var display = '';
-                    for (i = 0; i < data.files.length; i++) {
-                        const files = data.files[i];
+                    for (j = 0; j < data.files.length; j++) {
+                        const files = data.files[j];
                         display += files.files_name + '<span id="upload' + files.files_id + '" class="float-end"><i class="fa fa-trash" style="color:red" onclick="removeUploadFile(' + files.files_id + ')"></i></span><hr>';
                     }
 

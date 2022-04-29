@@ -101,10 +101,10 @@ function get_mime_type($filename)
     }
 }
 
-function upload($files, $folder, $data = NULL, $index = NULL, $compress = false)
+function upload($files, $folder, $data = NULL, $index = false, $compress = false)
 {
-    $fileTmpPath = ($index != NULL) ? $files['tmp_name'] : $files['tmp_name'][$index];
-    $fileName = ($index != NULL) ? $files['name'] : $files['name'][$index];
+    $fileTmpPath = ($index === false) ? $files['tmp_name'] : $files['tmp_name'][$index];
+    $fileName = ($index === false) ? $files['name'] : $files['name'][$index];
 
     $ext = pathinfo($fileName, PATHINFO_EXTENSION);
     $newName = md5($fileName) . date('dmYhis');
@@ -139,12 +139,12 @@ function upload($files, $folder, $data = NULL, $index = NULL, $compress = false)
 
         return [
             'files_name' => $saveName,
-            'file_original_name' => $fileName,
+            'files_original_name' => $fileName,
             'files_folder' => $folder,
             'files_type' => $fileType,
             'files_mime' => $filesMime,
             'files_extension' => $ext,
-            'files_size' => ($index != NULL) ? $files['size'] : $files['size'][$index],
+            'files_size' => ($index === false) ? $files['size'] : $files['size'][$index],
             'file_compression' => $file_compression,
             'files_path' => $path,
             'file_path_is_url' => 0,

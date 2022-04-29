@@ -1,7 +1,5 @@
 <?php
 
-// Import all model want to use
-// REMINDER : Make sure alias or 'as' are not same as any class name
 use User_model as users;
 use Education_info_model as Edu;
 use Contact_info_model as Contact;
