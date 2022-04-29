@@ -110,6 +110,44 @@ class Leave extends Controller
         }
     }
 
+    public function getDisplayTblListPreset()
+    {
+        $data = PLM::find($_POST['id']);
+
+        $leaveidArr = $data['leave_id_array'];
+        $leaveValueArr = $data['leave_duration_array'];
+
+        echo '<table class="table table-bordered table-sm">
+                    <thead class="table-dark">
+                        <tr>
+                            <th> Leave Name </th>
+                            <th> Total Leave </th>
+                            <th> Carry Forward </th>
+                        </tr>
+                    </thead>
+                    <tbody>';
+
+        $ids = explode(",", $leaveidArr);
+        $durations = explode(",", $leaveValueArr);
+
+        foreach ($ids as $key => $leaveid) {
+
+            $leave_duration = $durations[$key];
+            $leave = MLM::find($leaveid);
+            $leaveName = $leave['leave_name'];
+            $leaveCarry = $leave['leave_carry'];
+
+            echo '<tr>
+                    <td> ' . $leaveName . '</td>
+                    <td> ' . $leave_duration . '</td>
+                    <td> ' . $leaveCarry . '</td>
+                </tr>';
+        }
+
+        echo '<tbody>
+            </table>';
+    }
+
     public function create()
     {
         $data = MLM::insert($_POST); // call static function

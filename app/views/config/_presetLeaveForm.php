@@ -82,16 +82,6 @@
         getListLeave(ids, values);
     }
 
-    // async function getSelectRole(roleID = null) {
-    //     const res = await callApi('post', "roles/getListSelect", roleID);
-    //     // check if request is success
-    //     if (isSuccess(res)) {
-    //         $('#role_id').html(res.data);
-    //     } else {
-    //         noti(res.status); // show error message
-    //     }
-    // }
-
     async function getListLeave(ids = null, values = null) {
         const res = await callApi('post', "leave/getLeaveListTD", {
             id: ids,

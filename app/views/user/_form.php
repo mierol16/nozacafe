@@ -1,7 +1,7 @@
 <form id="formUser" action="user/save" method="POST">
 
     <div class="row">
-        <div class="col-lg-6 col-md-12 p-4 fill border-right">
+        <div class="col-lg-4 col-md-12 p-4 fill border-right">
             <div class="row">
                 <div class="alert alert-primary" role="alert">
                     <h4 class="alert-heading fw-bold mb-1">Personal Information</h4>
@@ -14,30 +14,30 @@
                     <input type="text" id="user_fullname" name="user_fullname" class="form-control" maxlength="100" autocomplete="off" onKeyUP="this.value = this.value.toUpperCase();" required>
                 </div>
                 <div class="col-md-4">
-                    <label class="form-label">NRIC No. <span class="text-danger">*</span></label>
-                    <input type="text" id="user_nric" name="user_nric" class="form-control" maxlength="15" autocomplete="off" required>
-                </div>
-            </div>
-
-            <div class="row mt-2">
-                <div class="col-md-6">
                     <label class="form-label">Preferred Name <span class="text-danger">*</span></label>
                     <input type="text" id="user_preferred_name" name="user_preferred_name" class="form-control" maxlength="15" autocomplete="off" onKeyUP="ucfirstVal(this.value, 'user_preferred_name');" required>
                 </div>
+            </div>
+
+            <div class="row mt-2">
                 <div class="col-md-6">
-                    <label class="form-label">Birthdate<span class="text-danger">*</span></label>
-                    <input type="date" id="user_dob" name="user_dob" class="form-control" autocomplete="off" required>
+                    <label class="form-label">NRIC No. <span class="text-danger">*</span></label>
+                    <input type="text" id="user_nric" name="user_nric" class="form-control" maxlength="15" autocomplete="off" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Email <span class="text-danger">*</span></label>
+                    <input type="email" id="user_email" name="user_email" class="form-control" maxlength="50" autocomplete="off" required>
                 </div>
             </div>
 
             <div class="row mt-2">
                 <div class="col-md-4">
-                    <label class="form-label">Email <span class="text-danger">*</span></label>
-                    <input type="email" id="user_email" name="user_email" class="form-control" maxlength="50" autocomplete="off" required>
-                </div>
-                <div class="col-md-4">
                     <label class="form-label">Contact / HP No <span class="text-danger">*</span></label>
                     <input type="text" id="user_contact_no" name="user_contact_no" class="form-control" maxlength="13" autocomplete="off" onkeypress="return isNumberKey(event)" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Birthdate<span class="text-danger">*</span></label>
+                    <input type="date" id="user_dob" name="user_dob" class="form-control" autocomplete="off" required>
                 </div>
                 <div class="col-md-4">
                     <label class="form-label"> Gender <span class="text-danger">*</span></label>
@@ -90,7 +90,7 @@
             </div>
 
             <div class="row mt-2">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <label class="form-label"> Religion </label>
                     <select id="user_religion" name="user_religion" class="form-control">
                         <option value=""> - Select - </option>
@@ -102,7 +102,7 @@
                         <option value="Others"> Others </option>
                     </select>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <label class="form-label"> Race </label>
                     <select id="user_race" name="user_race" class="form-control">
                         <option value=""> - Select - </option>
@@ -112,15 +112,10 @@
                         <option value="Others"> Others </option>
                     </select>
                 </div>
-                <div class="col-md-4">
-                    <label class="form-label"> Leave Assign <span class="text-danger">*</span></label>
-                    <select id="leave_preset" name="leave_preset" class="form-control" required>
-                        <option value=""> - Select - </option>
-                    </select>
-                </div>
             </div>
         </div>
-        <div class="col-lg-6 col-md-12 p-4 fill border-right">
+
+        <div class="col-lg-4 col-md-12 p-4 fill border-right h-100 show" data-simplebar="init">
             <div class="row">
                 <div class="alert alert-primary" role="alert">
                     <button type="button" id="add_input_education" class="btn btn-success btn-sm px-2 float-end" onclick="addEducation()">
@@ -133,7 +128,7 @@
             <div id="education_row">
             </div>
 
-            <div class="row mt-2">
+            <div class="row mt-1">
                 <div class="alert alert-primary" role="alert">
                     <button type="button" class="btn btn-success btn-sm px-2 float-end" onclick="addContact()">
                         <i class="fas fa-plus"></i>
@@ -144,7 +139,24 @@
 
             <div id="contact_row">
             </div>
+        </div>
 
+        <div class="col-lg-4 col-md-12 p-4 fill border-right">
+            <div class="row">
+                <div class="alert alert-primary" role="alert">
+                    <h4 class="alert-heading fw-bold mb-1">Leave Information</h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="form-label"> Preset Leave <span class="text-danger">*</span></label>
+                    <select id="leave_preset" name="leave_preset" class="form-control" onchange="getDisplayLeavePreset(this.value)" required>
+                        <option value=""> - Select - </option>
+                    </select>
+                    <div id="showDetail" class="mt-2"></div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -167,7 +179,7 @@
         console.log(data);
         const preset = (data.leave) ? data.leave[0].preset_id : null;
         const config_leave = (data.leave) ? data.leave[0].config_leave_id : null;
-        
+
         $('#user_id').val(data.user_id);
         $('#role_id').val(data.role_id);
         $('#config_leave_id').val(config_leave);
@@ -216,6 +228,22 @@
             $('#leave_preset').html(res.data);
         } else {
             noti(res.status); // show error message
+        }
+    }
+
+    async function getDisplayLeavePreset(id = '') {
+        if (id != '') {
+            const res = await callApi('post', "leave/getDisplayTblListPreset", id);
+            // check if request is success
+            if (isSuccess(res)) {
+                $('#showDetail').empty();
+                $('#showDetail').html(res.data);
+            } else {
+                noti(res.status); // show error message
+                $('#showDetail').empty();
+            }
+        } else {
+            $('#showDetail').empty();
         }
     }
 
@@ -269,48 +297,60 @@
                         display += files.files_name + '<span id="upload' + files.files_id + '" class="float-end"><i class="fa fa-trash" style="color:red" onclick="removeUploadFile(' + files.files_id + ')"></i></span><hr>';
                     }
 
-                    listFiles = '<div class="col-lg-12">\
-                                <div class="card">\
-                                    <div class="card-header">\
-                                        List Files\
-                                    </div>\
-                                    <div class="card-body">\
+                    listFiles = '<tr class="table-dark">\
+                                    <td colspan="3">\
+                                        Files \
+                                    </td>\
+                                 </tr>\
+                                 <tr>\
+                                    <td colspan="3">\
                                         ' + display + '\
-                                    </div>\
-                                </div>\
-                            </div>';
+                                    </td>\
+                                 </tr>';
                 }
             }
 
             $('#education_row').append('\
-            <div class="row mt-2 education_div" data-row="' + i + '">\
-                <div class="col-md-3">\
-                    <label class="form-label">Level of Education <span class="text-danger">*</span></label>\
-                    <input type="text" name="education_level[]" class="form-control education_input" value="' + education_level + '" maxlength="20" autocomplete="off" required>\
-                    <input type="hidden" name="education_id[]" class="form-control education_input education_id" value="' + education_id + '" readonly>\
-                </div>\
-                <div class="col-md-4">\
-                    <label class="form-label">Course <span class="text-danger">*</span></label>\
-                    <input type="text" name="education_course[]" class="form-control education_input" value="' + education_course + '" maxlength="30" autocomplete="off" required>\
-                </div>\
-                <div class="col-md-4">\
-                    <label class="form-label">Institutions Name <span class="text-danger">*</span></label>\
-                    <input type="text" name="education_university[]" class="form-control education_input" value="' + education_university + '" maxlength="50" autocomplete="off" required>\
-                </div>\
-                <div class="col-md-1 mt-1 text-center">\
-                    <button type="button" id="remove_input_education" class="btn btn-danger btn-sm px-2 mt-3 education_btn" ' + btnRemove + '>\
-                        <i class="fas fa-minus"></i>\
-                    </button>\
-                </div>\
-                <div class="col-md-12 mt-2 mb-2">\
-                    <div class="form-group">\
-                        <label> Upload Attachement </label>\
-                        <input type="file" name="education_file[]" class="form-control" accept="image/x-png,image/jpeg,image/jpg, .pdf">\
-                        <input type="hidden" name="files_id[]" class="form-control" value="" readonly>\
-                    </div>\
-                </div>\
-                ' + listFiles + '\
-            </div>');
+                <div class="row education_div" data-row="' + i + '">\
+                    <table class="table table-bordered table-sm">\
+                        <thead class="table-dark">\
+                            <tr>\
+                                <th colspan="3"> <span id="text' + i + '" class="countEdu" data-row="' + i + '"> Education #' + (i + 1) + '</span> </th>\
+                            </tr>\
+                        </thead>\
+                        <tbody>\
+                            <tr>\
+                                <td>\
+                                    <label class="form-label">Level of Education <span class="text-danger">*</span></label>\
+                                    <input type="text" name="education_level[]" class="form-control education_input" value="' + education_level + '" maxlength="20" autocomplete="off" required>\
+                                    <input type="hidden" name="education_id[]" class="form-control education_input education_id" value="' + education_id + '" readonly>\
+                                </td>\
+                                <td>\
+                                    <label class="form-label">Course <span class="text-danger">*</span></label>\
+                                    <input type="text" name="education_course[]" class="form-control education_input" value="' + education_course + '" maxlength="30" autocomplete="off" required>\
+                                </td>\
+                                <td rowspan="2">\
+                                    <center>\
+                                        <button type="button" id="remove_input_education" class="btn btn-danger btn-sm px-2 education_btn" ' + btnRemove + '>\
+                                            <i class="fas fa-minus"></i>\
+                                        </button>\
+                                    </center>\
+                                </td>\
+                            </tr>\
+                            <tr>\
+                                <td>\
+                                    <label class="form-label">Institutions Name <span class="text-danger">*</span></label>\
+                                    <input type="text" name="education_university[]" class="form-control education_input" value="' + education_university + '" maxlength="50" autocomplete="off" required>\
+                                </td>\
+                                <td>\
+                                    <label class="form-label"> Upload Attachement </label>\
+                                    <input type="file" name="education_file[]" class="form-control" accept="image/x-png,image/jpeg,image/jpg, .pdf">\
+                                </td>\
+                            </tr>\
+                            ' + listFiles + '\
+                        </tbody>\
+                    </table>\
+                </div>');
             i++;
         } else {
             noti(500, 'Only ' + maxIndex + ' education are allowed!');
@@ -327,6 +367,7 @@
             const divArr = document.getElementsByClassName('education_div');
             const btnArr = document.getElementsByClassName('education_btn');
             const ids = document.getElementsByClassName('education_id');
+            const textCount = document.getElementsByClassName('countEdu');
 
             let curr = 0;
             for (i = 0; i < divArr.length; i++) {
@@ -335,6 +376,12 @@
                 var id = ids[i].attributes[3].value;
 
                 divArr[i].setAttribute('data-row', newValue);
+
+                var textCountids = textCount[i].attributes[0].value;
+                $('#' + textCountids).text('Education #' + (newValue + 1));
+                textCount[i].setAttribute('id', newValue);
+                textCount[i].setAttribute('data-row', newValue);
+
                 if (id != '') {
                     btnArr[i].setAttribute('onclick', 'deleteEdu(' + id + ',' + oldValue + ')');
                 } else {
@@ -379,31 +426,47 @@
             var btnRemove = (data != null) ? 'onclick="deleteHp(' + contact_id + ', ' + i + ')"' : 'onclick="removeHp(' + i + ')"';
 
             $('#contact_row').append('\
-            <div class="row mt-2 contact_div" data-row="' + i + '">\
-                <div class="col-md-4">\
-                    <label class="form-label">Name <span class="text-danger">*</span></label>\
-                    <input type="text" name="contact_name[]" class="form-control contact_input" maxlength="100" autocomplete="off" value="' + contact_name + '" required>\
-                    <input type="hidden" name="contact_id[]" class="form-control contact_input contact_id" value="' + contact_id + '" readonly>\
-                </div>\
-                <div class="col-md-3">\
-                    <label class="form-label">Relationship <span class="text-danger">*</span></label>\
-                    <input type="text" name="contact_relation[]" class="form-control contact_input" maxlength="15" autocomplete="off" value="' + contact_relation + '" required>\
-                </div>\
-                <div class="col-md-2">\
-                    <label class="form-label">HP No. 1 <span class="text-danger">*</span></label>\
-                    <input type="text" name="contact_phone_1[]" class="form-control contact_input" maxlength="13" autocomplete="off" onkeypress="return isNumberKey(event)" value="' + contact_phone_1 + '" required>\
-                </div>\
-                <div class="col-md-2">\
-                    <label class="form-label">HP No. 2</label>\
-                    <input type="text" name="contact_phone_2[]" class="form-control contact_input" maxlength="13" autocomplete="off" onkeypress="return isNumberKey(event) value="' + contact_phone_2 + '"">\
-                </div>\
-                <div class="col-md-1 mt-1 text-center">\
-                    <button type="button" id="remove_input_contact" class="btn btn-danger btn-sm px-2 mt-3 contact_btn" ' + btnRemove + '>\
-                        <i class="fas fa-minus"></i>\
-                    </button>\
-                </div>\
+            <div class="row contact_div" data-row="' + i + '">\
+                <table class="table table-bordered table-sm">\
+                    <thead class="table-dark">\
+                        <tr>\
+                        <th colspan="3"> <span id="text' + i + '" class="countContact" data-row="' + i + '"> Contact #' + (i + 1) + '</span> </th>\
+                        </tr>\
+                    </thead>\
+                    <tbody>\
+                        <tr>\
+                            <td>\
+                                <label class="form-label">Name <span class="text-danger">*</span></label>\
+                                <input type="text" name="contact_name[]" class="form-control contact_input" maxlength="100" autocomplete="off" value="' + contact_name + '" required>\
+                                <input type="hidden" name="contact_id[]" class="form-control contact_input contact_id" value="' + contact_id + '" readonly>\
+                            </td>\
+                            <td>\
+                                <label class="form-label">Relationship <span class="text-danger">*</span></label>\
+                                <input type="text" name="contact_relation[]" class="form-control contact_input" maxlength="15" autocomplete="off" value="' + contact_relation + '" required>\
+                            </td>\
+                            <td rowspan="2">\
+                                <center>\
+                                    <button type="button" id="remove_input_contact" class="btn btn-danger btn-sm px-2 contact_btn" ' + btnRemove + '>\
+                                        <i class="fas fa-minus"></i>\
+                                    </button>\
+                                </center>\
+                            </td>\
+                        </tr>\
+                        <tr>\
+                            <td>\
+                                <label class="form-label">HP No. 1 <span class="text-danger">*</span></label>\
+                                <input type="text" name="contact_phone_1[]" class="form-control contact_input" maxlength="12" autocomplete="off" onkeypress="return isNumberKey(event)" value="' + contact_phone_1 + '" required>\
+                            </td>\
+                            <td>\
+                                <label class="form-label">HP No. 2</label>\
+                                <input type="text" name="contact_phone_2[]" class="form-control contact_input" maxlength="12" autocomplete="off" onkeypress="return isNumberKey(event) value="' + contact_phone_2 + '"">\
+                            </td>\
+                        </tr>\
+                    </tbody>\
+                </table>\
             </div>');
             i++;
+
         } else {
             noti(500, 'Only ' + maxIndex + ' contact are allowed!');
         }
@@ -419,6 +482,7 @@
             const divArr = document.getElementsByClassName('contact_div');
             const btnArr = document.getElementsByClassName('contact_btn');
             const ids = document.getElementsByClassName('contact_id');
+            const textCountCntact = document.getElementsByClassName('countContact');
 
             let curr = 0;
             for (i = 0; i < divArr.length; i++) {
@@ -427,6 +491,12 @@
                 var id = ids[i].attributes[3].value;
 
                 divArr[i].setAttribute('data-row', newValue);
+
+                var textCountids = textCountCntact[i].attributes[0].value;
+                $('#' + textCountids).text('Contact #' + (newValue + 1));
+                textCountCntact[i].setAttribute('id', newValue);
+                textCountCntact[i].setAttribute('data-row', newValue);
+
                 if (id != '') {
                     btnArr[i].setAttribute('onclick', 'deleteHp(' + id + ',' + oldValue + ')');
                 } else {
