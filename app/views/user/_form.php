@@ -443,7 +443,19 @@
                             </td>\
                             <td>\
                                 <label class="form-label">Relationship <span class="text-danger">*</span></label>\
-                                <input type="text" name="contact_relation[]" class="form-control contact_input" maxlength="15" autocomplete="off" value="' + contact_relation + '" required>\
+                                <select id="contact_relation" name="contact_relation[]" class="form-control relation' + i + '" required>\
+                                    <option value=""> - Select - </option>\
+                                    <option value="Mother"> Ibu Kandung / Mother </option>\
+                                    <option value="Father"> Bapa Kandung / Father </option>\
+                                    <option value="Adoptive Mother"> Ibu Angkat / Adoptive Mother </option>\
+                                    <option value="Adoptive Father"> Bapa Angkat / Adoptive Father </option>\
+                                    <option value="Brother"> Abang / Brother </option>\
+                                    <option value="Sister"> Kakak / Sister </option>\
+                                    <option value="Auntie"> Ibu Saudara / Auntie </option>\
+                                    <option value="Uncle"> Bapa Saudara / Uncle </option>\
+                                    <option value="Cousin"> Sepupu / Cousin </option>\
+                                    <option value="Guardian"> Penjaga / Guardian </option>\
+                                </select>\
                             </td>\
                             <td rowspan="2">\
                                 <center>\
@@ -466,6 +478,7 @@
                     </tbody>\
                 </table>\
             </div>');
+            $('.relation' + i).val(contact_relation);
             i++;
 
         } else {

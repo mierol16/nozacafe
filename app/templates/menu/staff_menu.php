@@ -10,7 +10,7 @@
 
     <li class="menuitem-<?= ($currentSubSidebar == 'user_leave') ? 'active' : '' ?>">
         <a href="{{ url('leave/userLeave') }}">
-            <i class="mdi mdi-account"></i>
+            <i class="mdi mdi-calendar-account"></i>
             <span>My Leave</span>
         </a>
     </li>

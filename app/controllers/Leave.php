@@ -12,6 +12,50 @@ class Leave extends Controller
         redirect('settings/leave');
     }
 
+    public function all()
+    {
+        $data = [
+            'title' => 'All Leave',
+            'currentSidebar' => 'leave',
+            'currentSubSidebar' => 'allLeave',
+        ];
+
+        render('leave/all_list', $data);
+    }
+
+    public function new()
+    {
+        $data = [
+            'title' => 'New Leave',
+            'currentSidebar' => 'leave',
+            'currentSubSidebar' => 'new',
+        ];
+
+        render('leave/new_list', $data);
+    }
+
+    public function approve()
+    {
+        $data = [
+            'title' => 'Approved Leave',
+            'currentSidebar' => 'leave',
+            'currentSubSidebar' => 'approve',
+        ];
+
+        render('leave/approve_list', $data);
+    }
+
+    public function reject()
+    {
+        $data = [
+            'title' => 'Rejected Leave',
+            'currentSidebar' => 'leave',
+            'currentSubSidebar' => 'reject',
+        ];
+
+        render('leave/reject_list', $data);
+    }
+
     public function userLeave()
     {
         $data = [
@@ -24,9 +68,24 @@ class Leave extends Controller
         render('leave/userLeave_list', $data);
     }
 
-    public function getListDt()
+    public function getListAllDt()
     {
-        echo $this->MLM->getlist();
+        echo $this->SLM->getlist();
+    }
+
+    public function getListNewDt()
+    {
+        echo $this->SLM->getlist(1);
+    }
+
+    public function getListApproveDt()
+    {
+        echo $this->SLM->getlist(2);
+    }
+
+    public function getListrejectDt()
+    {
+        echo $this->SLM->getlist(3);
     }
 
     public function getListByUserIDDt()
@@ -52,6 +111,17 @@ class Leave extends Controller
     public function getLeaveByUserID()
     {
         json(MLM::where(['user' => $_POST['id']]));
+    }
+
+    public function countLeave()
+    {
+        $data = [
+            'new' => $this->SLM->countLve(1),
+            'reject' => $this->SLM->countLve(3),
+            'approve' => $this->SLM->countLve(2)
+        ];
+
+        json($data);
     }
 
     public function getListPreset()
@@ -184,7 +254,7 @@ class Leave extends Controller
                 'leave_date_to' =>  $_POST['leave_date_to'],
                 'leave_duration' =>  $days,
                 'leave_description' => $_POST['leave_description'],
-                'leave_status' => '0',
+                'leave_status' => '1',
                 'user_id' => session()->get('userID'),
             ]
         );

@@ -40,6 +40,7 @@
             <span class="text-danger mb-2">* Indicates a required field</span>
             <center>
                 <input type="hidden" id="staff_leave_id" name="staff_leave_id" class="form-control" readonly>
+                <input type="hidden" id="user_id" name="user_id" class="form-control" readonly>
                 <button type="submit" id="submitBtn" class="btn btn-success"> <i class='fa fa-save'></i> Save </button>
             </center>
         </div>
@@ -64,7 +65,12 @@
         }).then(
             async (e) => {
                 if (e == 'confirm') {
-                    const res = await submitApi(url, form.serializeArray(), 'formApplyLeave', getDataList);
+                    const res = await submitApi(url, form.serializeArray(), 'formApplyLeave');
+                    
+                    if (isSuccess(res)) {
+                        const user_id = $('#user_id').val();
+                        getDataList(user_id);
+                    }
                 }
             }
         );

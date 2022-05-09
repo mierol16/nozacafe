@@ -24,6 +24,29 @@
             </ul>
         </div>
     </li>
+    <li>
+        <a href="#leave" data-bs-toggle="collapse">
+            <i class="mdi mdi-calendar-multiple-check"></i>
+            <span> Leaves </span>
+            <span class="menu-arrow"></span>
+        </a>
+        <div class="collapse <?= ($currentSidebar == 'leave') ? 'show' : '' ?>" id="leave">
+            <ul class="nav-second-level">
+            <li class="menuitem-<?= ($currentSubSidebar == 'allLeave') ? 'active' : '' ?>">
+                    <a href="{{ url('leave/all') }}">All Leave</a>
+                </li>
+                <li class="menuitem-<?= ($currentSubSidebar == 'new') ? 'active' : '' ?>">
+                    <a href="{{ url('leave/new') }}">New Leave</a>
+                </li>
+                <li class="menuitem-<?= ($currentSubSidebar == 'approve') ? 'active' : '' ?>">
+                    <a href="{{ url('leave/approve') }}">Approved Leave</a>
+                </li>
+                <li class="menuitem-<?= ($currentSubSidebar == 'rejected') ? 'active' : '' ?>">
+                    <a href="{{ url('leave/reject') }}">Rejected Leave</a>
+                </li>
+            </ul>
+        </div>
+    </li>
 
     <li class="menu-title mt-2">MANAGEMENT</li>
 

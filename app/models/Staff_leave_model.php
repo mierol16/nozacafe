@@ -48,8 +48,64 @@ class Staff_leave_model extends Model
     #                                                                 #
     ###################################################################
 
-    public function getList()
+    public function getlist($status = null)
     {
+        //  server side datatables
+        $cols = array(
+            "user.user_fullname",
+            "ml.leave_name",
+            "ul.leave_date_from",
+            "ul.leave_date_to",
+            "ul.leave_remark",
+            "ul.leave_status",
+            "ul.staff_leave_id",
+        );
+
+        if(!empty($status)) {
+            $this->db->where("ul.leave_status", $status);
+        }
+        $this->db->join("config_leave cl", "ul.config_leave_id=cl.config_leave_id", "LEFT");
+        $this->db->join("master_leave ml", "cl.leave_id=ml.leave_id", "LEFT");
+        $this->db->join("user", "ul.user_id=user.user_id", "LEFT");
+
+        $result = $this->db->get($this->table . " ul", null, $cols);
+        $this->serversideDt->query($this->getInstanceDB->getLastQuery());
+
+        $this->serversideDt->edit('leave_date_from', function ($data) {
+            return date('d.m.Y', strtotime($data['leave_date_from'])) . ' - ' . date('d.m.Y', strtotime($data['leave_date_to']));
+        });
+
+        $this->serversideDt->hide('leave_date_to');
+
+        if($status == 1) {
+            $this->serversideDt->hide('leave_remark');
+        }
+
+        $this->serversideDt->edit('leave_status', function ($data) {
+            if ($data['leave_status'] == 1) {
+                return '<h4><span class="badge bg-warning">Waiting for Approval</span></h4>';
+            } elseif ($data['leave_status'] == 2) {
+                return '<h4><span class="badge bg-success">Approved</span></h4>';
+            } elseif ($data['leave_status'] == 3) {
+                return '<h4?><span class="badge bg-danger">Not Approved</span></h4>';
+            } else {
+                return '';
+            }
+        });
+
+        $this->serversideDt->edit('staff_leave_id', function ($data) {
+            $del = $edit = $view = '';
+            if ($data['leave_status'] == 1) {
+                $del = '<button onclick="rejectApplication(' . $data[$this->primaryKey] . ')" data-toggle="confirm" data-id="' . $data[$this->primaryKey] . '" class="btn btn-xs btn-danger" title="Reject"> <i class="fa fa-times"></i> </button>';
+                $edit = '<button class="btn btn-xs btn-info" onclick="approveApplication(' . $data[$this->primaryKey] . ')" title="Approve"><i class="fa fa-check"></i> </button>';
+            } else if ($data['leave_status'] == 2 || $data['leave_status'] == 3) {
+                $view = '<button class="btn btn-xs btn-success" onclick="viewDetail(' . $data[$this->primaryKey] . ')" title="View"><i class="fa fa-eye"></i> </button>';
+            }
+
+            return "<center> $del $edit $view </center>";
+        });
+
+        echo $this->serversideDt->generate();
     }
 
     public function getListByUserID($userID)
@@ -82,12 +138,14 @@ class Staff_leave_model extends Model
         });
 
         $this->serversideDt->edit('leave_status', function ($data) {
-            if ($data['leave_status'] == '1') {
-                return '<span class="badge bg-success">Approved</span>';
-            } elseif ($data['leave_status'] == '2') {
-                return '<span class="badge bg-danger">Not Approved</span>';
+            if ($data['leave_status'] == 1) {
+                return '<h4><span class="badge bg-warning">Waiting for Approval</span></h4>';
+            } elseif ($data['leave_status'] == 2) {
+                return '<h4><span class="badge bg-success">Approved</span></h4>';
+            } elseif ($data['leave_status'] == 3) {
+                return '<h4?><span class="badge bg-danger">Not Approved</span></h4>';
             } else {
-                return '<span class="badge bg-warning">Waiting for Approval</span>';
+                return '';
             }
         });
 
@@ -100,5 +158,11 @@ class Staff_leave_model extends Model
         });
 
         echo $this->serversideDt->generate();
+    }
+
+    public function countLve($status)
+    {
+        $this->db->where("leave_status", $status);
+        return $this->db->getValue($this->table, "count(*)");
     }
 }
