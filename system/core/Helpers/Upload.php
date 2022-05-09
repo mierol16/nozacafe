@@ -119,9 +119,9 @@ function upload($files, $folder, $data = NULL, $index = false, $compress = false
             $canCompress = ['jpg', 'png', 'jpeg', 'gif'];
             if (in_array(pathinfo($saveName, PATHINFO_EXTENSION), $canCompress)) {
                 $compressfolder = $folder . '/' . $newName . "_compress." . $ext;
-                $compressImage = compress($path, $compressfolder, '50');
+                $compressImage = compress($path, $compressfolder, '30');
                 $thumbnailfolder = $folder . '/' . $newName . "_thumbnail." . $ext;
-                $thumbnailImage = compress($path, $thumbnailfolder, '10');
+                $thumbnailImage = compress($path, $thumbnailfolder, '5');
                 $file_compression = 3;
             }
         }
@@ -146,6 +146,53 @@ function upload($files, $folder, $data = NULL, $index = false, $compress = false
             'files_extension' => $ext,
             'files_size' => ($index === false) ? $files['size'] : $files['size'][$index],
             'file_compression' => $file_compression,
+            'files_path' => $path,
+            'file_path_is_url' => 0,
+            'entity_type' => $entity_type,
+            'entity_file_type' => $entity_file_type,
+            'entity_id' => $entity_id,
+            'user_id' => $user_id,
+        ];
+    }
+
+    return [];
+}
+
+function moveFile($filesName, $currentPath, $folder, $data = NULL, $type = 'rename')
+{
+    $ext = pathinfo($filesName, PATHINFO_EXTENSION);
+    $newName = md5($filesName) . date('dmYhis');
+    $saveName = $newName . '.' . $ext;
+    $path = $folder . '/' . $saveName;
+    $fileSize = filesize($currentPath);
+
+    if ($type($currentPath, $path)) {
+
+        $entity_type = $entity_file_type = $entity_id = $user_id = 0;
+
+        if (!empty($data)) {
+            $user_id = (isset($data['user_id'])) ? $data['user_id'] : NULL;
+            $entity_type = (isset($data['type'])) ? $data['type'] : NULL;
+            $entity_file_type = (isset($data['file_type'])) ? $data['file_type'] : 'PROFILE_PHOTO';
+            $entity_id = (isset($data['entity_id'])) ? $data['entity_id'] : NULL;
+        }
+
+        $filesMime = get_mime_type($filesName);
+        $fileType = explodeArr($filesMime, '/',  0);
+        $fileType = $fileType[0];
+
+        //Clear cache and check filesize again
+        clearstatcache();
+
+        return [
+            'files_name' => $saveName,
+            'files_original_name' => $filesName,
+            'files_folder' => $folder,
+            'files_type' => $fileType,
+            'files_mime' => $filesMime,
+            'files_extension' => $ext,
+            'files_size' => round($fileSize, 2),
+            'file_compression' => 0,
             'files_path' => $path,
             'file_path_is_url' => 0,
             'entity_type' => $entity_type,

@@ -99,7 +99,7 @@ class User extends Controller
 
     public function getUsersByID()
     {
-        $data = users::find($_POST['id'], NULL, ['education', 'files', 'education.files', 'contact', 'leave']);
+        $data = users::find($_POST['id'], NULL, ['qrcode', 'education', 'files', 'education.files', 'contact', 'leave']);
         json($data);
     }
 
@@ -129,89 +129,118 @@ class User extends Controller
 
     public function register()
     {
+        $generateQrCode = false;
         if ($_POST['user_id'] == '') {
-            $folderQR = folder('directory', $_POST['user_fullname'], 'qrcode');
+
             $user_no = $this->RunningNo->generateEmployeeNo();
-            $user_qrcode = generateQR($user_no, $folderQR);
+            // $user_qrcode = generateQR($user_no, $folderQR);
 
             $_POST['user_password'] = password_hash($_POST['user_nric'], PASSWORD_DEFAULT);
             $_POST['user_no'] = $user_no;
-            $_POST['user_qrcode'] = $user_qrcode;
+            $generateQrCode = true;
         }
 
         $data = users::save($_POST); // call static function
-        $userID = $data['id'];
 
-        // update user running no
         if (isset($data['resCode']) == 200) {
+
+            // update user running no
             $this->RunningNo->updateEmployeeNo();
-        }
 
-        // register contact person
-        if (isset($_POST['contact_name'])) {
-            foreach ($_POST['contact_name'] as $key => $level) {
-                $contact = Contact::save(
+            $userID = $data['id'];
+
+            if ($generateQrCode) {
+
+                // generate folder for qr
+                $folderQR = folder('directory', $_POST['user_fullname'], 'qrcode');
+
+                //generate QR Code
+                $qrCode = generateQR($user_no, $folderQR);
+
+                // move qr code to specific folder
+                $moveQr = moveFile(
+                    $qrCode['qrFilename'],
+                    $qrCode['qrPath'],
+                    $folderQR,
                     [
-                        'contact_id' => $_POST['contact_id'][$key],
-                        'contact_name' => $_POST['contact_name'][$key],
-                        'contact_relation' => $_POST['contact_relation'][$key],
-                        'contact_phone_1' => $_POST['contact_phone_1'][$key],
-                        'contact_phone_2' => $_POST['contact_phone_2'][$key],
+                        'type' => 'User_model',
+                        'file_type' => 'QR_CODE',
+                        'entity_id' => $userID,
                         'user_id' => $userID,
-                    ]
+                    ],
                 );
+
+                if (!empty($moveQr)) {
+                    Files::save($moveQr);
+                }
             }
-        }
 
-        // register leave
-        if (isset($_POST['leave_preset'])) {
-            $preset = PLM::find($_POST['leave_preset']);
-            $leave_id = explode(",", $preset['leave_id_array']);
-            $duration = explode(",", $preset['leave_duration_array']);
-
-            foreach ($leave_id as $key => $value) {
-                $leave = CLM::save(
-                    [
-                        'config_leave_id' => $_POST['config_leave_id'],
-                        'leave_id' => $value,
-                        'preset_id' => $_POST['leave_preset'],
-                        'leave_duration' => $duration[$key],
-                        'leave_year' => date('Y'),
-                        'user_id' => $userID,
-                    ]
-                );
+            // register contact person
+            if (isset($_POST['contact_name'])) {
+                foreach ($_POST['contact_name'] as $key => $level) {
+                    $contact = Contact::save(
+                        [
+                            'contact_id' => $_POST['contact_id'][$key],
+                            'contact_name' => $_POST['contact_name'][$key],
+                            'contact_relation' => $_POST['contact_relation'][$key],
+                            'contact_phone_1' => $_POST['contact_phone_1'][$key],
+                            'contact_phone_2' => $_POST['contact_phone_2'][$key],
+                            'user_id' => $userID,
+                        ]
+                    );
+                }
             }
-        }
 
-        // register education
-        if (isset($_POST['education_level'])) {
-            foreach ($_POST['education_level'] as $key => $edu) {
-                $education = Edu::save(
-                    [
-                        'education_id' => $_POST['education_id'][$key],
-                        'education_level' => $_POST['education_level'][$key],
-                        'education_course' => $_POST['education_course'][$key],
-                        'education_university' => $_POST['education_university'][$key],
-                        'user_id' => $userID,
-                    ]
-                );
+            // register leave
+            if (isset($_POST['leave_preset'])) {
+                $preset = PLM::find($_POST['leave_preset']);
+                $leave_id = explode(",", $preset['leave_id_array']);
+                $duration = explode(",", $preset['leave_duration_array']);
 
-                if (isset($_FILES['education_file']['name'][$key])) {
+                foreach ($leave_id as $key => $value) {
+                    $leave = CLM::save(
+                        [
+                            'config_leave_id' => $_POST['config_leave_id'],
+                            'leave_id' => $value,
+                            'preset_id' => $_POST['leave_preset'],
+                            'leave_duration' => $duration[$key],
+                            'leave_year' => date('Y'),
+                            'user_id' => $userID,
+                        ]
+                    );
+                }
+            }
 
-                    $files = $_FILES['education_file'];
-                    $folderEdu = folder('directory', $_POST['user_fullname'], 'certificate');
+            // register education
+            if (isset($_POST['education_level'])) {
+                foreach ($_POST['education_level'] as $key => $edu) {
+                    $education = Edu::save(
+                        [
+                            'education_id' => $_POST['education_id'][$key],
+                            'education_level' => $_POST['education_level'][$key],
+                            'education_course' => $_POST['education_course'][$key],
+                            'education_university' => $_POST['education_university'][$key],
+                            'user_id' => $userID,
+                        ]
+                    );
 
-                    $dataFolder = [
-                        'type' => 'Education_info_model',
-                        'file_type' => 'CERTIFICATE',
-                        'entity_id' => $education['id'],
-                        'user_id' => $userID,
-                    ];
+                    if (isset($_FILES['education_file']['name'][$key])) {
 
-                    $upload = upload($files, $folderEdu, $dataFolder, $key, true);
+                        $files = $_FILES['education_file'];
+                        $folderEdu = folder('directory', $_POST['user_fullname'], 'certificate');
 
-                    if (!empty($upload)) {
-                        Files::save($upload);
+                        $dataFolder = [
+                            'type' => 'Education_info_model',
+                            'file_type' => 'CERTIFICATE',
+                            'entity_id' => $education['id'],
+                            'user_id' => $userID,
+                        ];
+
+                        $upload = upload($files, $folderEdu, $dataFolder, $key, true);
+
+                        if (!empty($upload)) {
+                            Files::save($upload);
+                        }
                     }
                 }
             }

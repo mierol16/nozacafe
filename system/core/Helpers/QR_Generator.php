@@ -42,5 +42,10 @@ function generateQR($code, $folder, $logo = NULL, $fileName = "qr.png")
 
     // Save it to a file
     $result->saveToFile($folder . '/' . $fileName);
-    return $folder . '/' . $fileName;
+
+    return [
+        'qrFolder' => $folder,
+        'qrFilename' => $fileName,
+        'qrPath' => $folder . '/' . $fileName,
+    ];
 }

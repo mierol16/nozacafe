@@ -71,11 +71,17 @@ class User_model extends Model
      * @return array
      */
     public $with = [
+        'qrcode',
         'education',
         'files',
         'contact',
         'leave',
     ];
+
+    public function qrcodeRelation($data)
+    {
+        return hasOne('Files_model', 'entity_id', $data[$this->primaryKey], ['entity_file_type' => 'QR_CODE']);
+    }
 
     public function educationRelation($data)
     {

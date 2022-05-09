@@ -20,6 +20,7 @@ class Files_model extends Model
         'files_extension',
         'files_size',
         'file_compression',
+        'files_description',
         'files_path',
         'file_path_is_url',
         'entity_type',

@@ -56,6 +56,12 @@ class Files
                 'null' => TRUE,
                 'default' => 1,
             ),
+            'files_description' => array(
+                'type' => 'VARCHAR',
+                'length' => 250,
+                'null' => TRUE,
+                'after' => 'file_compression',
+            ),
             'files_path' => array(
                 'type' => 'VARCHAR',
                 'length' => 250,
