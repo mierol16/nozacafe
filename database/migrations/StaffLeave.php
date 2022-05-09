@@ -23,6 +23,7 @@ class StaffLeave
                 'length' => 50,
                 'null' => TRUE,
                 'comment' => 'generate by system and only generate for leave application',
+                'after' => 'config_leave_id',
             ),
             'leave_date_from' => array(
                 'type' => 'DATE',

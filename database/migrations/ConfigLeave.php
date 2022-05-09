@@ -23,10 +23,11 @@ class ConfigLeave
                 'unsigned' => TRUE,
                 'null' => TRUE,
             ),
-            'preset_duration' => array(
+            'leave_duration' => array(
                 'type' => 'DECIMAL',
                 'length' => '10,1',
                 'null' => TRUE,
+                'rename' => 'preset_duration',
             ),
             'leave_year' => array(
                 'type' => 'VARCHAR',
