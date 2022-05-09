@@ -4,7 +4,8 @@ class Config_leave_model extends Model
 {
     public $table      = 'config_leave';
     public $primaryKey = 'config_leave_id';
-    public $uniqueKey = ['leave_id', 'preset_id', 'user_id'];
+    public $uniqueKey = [];
+    public $foreignKey = ['leave_id', 'preset_id', 'user_id'];
 
     /**
      * The attributes that are mass assignable.
@@ -14,7 +15,7 @@ class Config_leave_model extends Model
     protected $fillable = [
         'leave_id',
         'preset_id',
-        'leave_duration',
+        'preset_duration',
         'leave_year',
         'user_id',
     ];

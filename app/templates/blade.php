@@ -69,98 +69,7 @@
         <div class="navbar-custom">
             <ul class="list-unstyled topnav-menu float-end mb-0">
 
-                <li class="dropdown notification-list topbar-dropdown">
-                    <a class="nav-link dropdown-toggle waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                        <i class="fe-bell noti-icon"></i>
-                        <span class="badge bg-danger rounded-circle noti-icon-badge">9</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end dropdown-lg">
-
-                        <!-- item-->
-                        <div class="dropdown-item noti-title">
-                            <h5 class="m-0">
-                                <span class="float-end">
-                                    <a href="" class="text-dark">
-                                        <small>Clear All</small>
-                                    </a>
-                                </span>Notification
-                            </h5>
-                        </div>
-
-                        <div class="noti-scroll" data-simplebar>
-
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item active">
-                                <div class="notify-icon">
-                                    <img src="{{ asset('images/users/user-1.jpg') }}" class="img-fluid rounded-circle" alt="" />
-                                </div>
-                                <p class="notify-details">Cristina Pride</p>
-                                <p class="text-muted mb-0 user-msg">
-                                    <small>Hi, How are you? What about our next meeting</small>
-                                </p>
-                            </a>
-
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <div class="notify-icon bg-primary">
-                                    <i class="mdi mdi-comment-account-outline"></i>
-                                </div>
-                                <p class="notify-details">Caleb Flakelar commented on Admin
-                                    <small class="text-muted">1 min ago</small>
-                                </p>
-                            </a>
-
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <div class="notify-icon">
-                                    <img src="{{ asset('images/users/user-4.jpg') }}" class="img-fluid rounded-circle" alt="" />
-                                </div>
-                                <p class="notify-details">Karen Robinson</p>
-                                <p class="text-muted mb-0 user-msg">
-                                    <small>Wow ! this admin looks good and awesome design</small>
-                                </p>
-                            </a>
-
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <div class="notify-icon bg-warning">
-                                    <i class="mdi mdi-account-plus"></i>
-                                </div>
-                                <p class="notify-details">New user registered.
-                                    <small class="text-muted">5 hours ago</small>
-                                </p>
-                            </a>
-
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <div class="notify-icon bg-info">
-                                    <i class="mdi mdi-comment-account-outline"></i>
-                                </div>
-                                <p class="notify-details">Caleb Flakelar commented on Admin
-                                    <small class="text-muted">4 days ago</small>
-                                </p>
-                            </a>
-
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <div class="notify-icon bg-secondary">
-                                    <i class="mdi mdi-heart"></i>
-                                </div>
-                                <p class="notify-details">Carlos Crouch liked
-                                    <b>Admin</b>
-                                    <small class="text-muted">13 days ago</small>
-                                </p>
-                            </a>
-                        </div>
-
-                        <!-- All-->
-                        <a href="javascript:void(0);" class="dropdown-item text-center text-primary notify-item notify-all">
-                            View all
-                            <i class="fe-arrow-right"></i>
-                        </a>
-
-                    </div>
-                </li>
+                @include('app.templates.notification')
 
                 <li class="dropdown notification-list topbar-dropdown">
                     <a class="nav-link dropdown-toggle nav-user me-0 waves-effect waves-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
@@ -369,6 +278,120 @@
 
     <!-- App js-->
     <script src="{{ asset('js/app.min.js') }}"></script>
+
+    <script>
+         $(document).ready(function() {
+            getNotification();
+        });
+
+        async function markAllRead()
+        {
+            const res = await callApi('post', "notification/markAllRead");
+            if(isSuccess(res.status))
+            {
+                getNotification();
+            }
+        }
+
+        async function getNotification()
+        {
+            const res = await callApi('post', "notification/getListNotiByUser");
+
+            if(isSuccess(res.status))
+            {
+                const data = res.data;
+                const count = data.countUnread;
+                const notiArr = data.listNoti;
+                $('#countUnreadNoti').text(count);
+                if(count > 0){
+                    $('#listnotification').empty(); // reset list
+                    notiArr.forEach(function(data) {
+                        var typeDisplay = '';
+                        var type = data.noti_type;
+                        var text = data.noti_text;
+                        var name = data.user_preferred_name;
+                        // var date = moment(data.created_at).format("DD/MM/YYYY");
+                        var date = '';
+
+                        if(type == 1) {
+                            typeDisplay = '<span class="avatar-initial rounded-circle bg-danger">LEAVE</span>';
+                        } else if(type == 2) {
+                            typeDisplay = '<span class="avatar-initial rounded-circle bg-info">GEN</span>';
+                        }
+
+                        var noti = '<li class="list-group-item list-group-item-action dropdown-notifications-item">\
+                                        <div class="d-flex">\
+                                            <div class="flex-shrink-0 me-3">\
+                                                <div class="avatar">\
+                                                    '+typeDisplay+'\
+                                                </div>\
+                                            </div>\
+                                            <div class="flex-grow-1">\
+                                                <h6 class="mb-1">'+ucfirst(name)+'</h6>\
+                                                <p class="mb-0">'+text+'</p>\
+                                                <small class="text-muted"> '+date+'</small>\
+                                            </div>\
+                                            <div class="flex-shrink-0 dropdown-notifications-actions">\
+                                                <a href="javascript:void(0)" onclick="readNoti('+data.noti_id+')" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>\
+                                                <a href="javascript:void(0)" onclick="removeNoti('+data.noti_id+')"  class="dropdown-notifications-archive"><span class="bx bx-x"></span></a>\
+                                            </div>\
+                                        </div>\
+                                    </li>';
+
+                        $('#listnotification').append(noti);
+                    });
+                }else{
+                    $('#listnotification').empty();
+                    var noti = '<li class="list-group-item list-group-item-action dropdown-notifications-item">\
+                                    <div class="d-flex">\
+                                        No new notification\
+                                    </div>\
+                                </li>';
+                    $('#listnotification').append(noti);
+                }
+            }
+        }
+
+        async function readNoti(id)
+        {
+            const res = await callApi('post', "notification/read", id);
+            if(isSuccess(res.status))
+            {
+                getNotification();
+            }
+        }
+
+        async function removeNoti(id)
+        {
+            const res = await callApi('post', "notification/delete", id);
+
+            if(isSuccess(res.status))
+            {
+                getNotification();
+            }
+            // alert(id);
+            // console.log(id);
+        }
+
+        function previewPDF(fileLoc, fileType) {
+            $('#showPDF').empty();
+            $('#previewPdfModal').modal('show');
+            $('#previewPdfModal').css('z-index', 1500);
+            $('#showPDF').css('display', 'block');
+            $('#showPDF').append('<object type="application/' + fileType + '" data="' + fileLoc + '" width="100%" height="500" style="height: 85vh;"></object>');
+        }
+
+        function downloadPDF(fileLoc, fileType) {
+            // console.log(data);
+            var a = document.createElement('a');
+            // var url = window.URL.createObjectURL(data);
+            a.href = fileLoc;
+            a.download = "Payment";
+            document.body.append(a);
+            a.click();
+            a.remove();
+        }
+    </script>
 
 </body>
 <!--end::Body-->

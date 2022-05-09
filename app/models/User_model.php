@@ -4,8 +4,8 @@ class User_model extends Model
 {
     public $table      = 'user';
     public $primaryKey = 'user_id';
-    public $uniqueKey = ['user_email', 'user_username'];
-    public $foreignKey = [];
+    public $uniqueKey = [];
+    public $foreignKey = ['user_email', 'user_username'];
 
     /**
      * The attributes that are mass assignable.

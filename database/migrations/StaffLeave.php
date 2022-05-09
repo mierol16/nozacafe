@@ -18,6 +18,12 @@ class StaffLeave
                 'length' => 150,
                 'null' => TRUE,
             ),
+            'leave_no' => array(
+                'type' => 'VARCHAR',
+                'length' => 50,
+                'null' => TRUE,
+                'comment' => 'generate by system and only generate for leave application',
+            ),
             'leave_date_from' => array(
                 'type' => 'DATE',
                 'null' => TRUE,

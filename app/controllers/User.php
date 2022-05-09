@@ -203,7 +203,7 @@ class User extends Controller
                             'config_leave_id' => $_POST['config_leave_id'],
                             'leave_id' => $value,
                             'preset_id' => $_POST['leave_preset'],
-                            'leave_duration' => $duration[$key],
+                            'preset_duration' => $duration[$key],
                             'leave_year' => date('Y'),
                             'user_id' => $userID,
                         ]

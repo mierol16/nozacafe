@@ -4,7 +4,8 @@ class Education_info_model extends Model
 {
     public $table      = 'staff_education_info';
     public $primaryKey = 'education_id';
-    public $uniqueKey = ['user_id'];
+    public $uniqueKey = [];
+    public $foreignKey = ['user_id'];
 
     /**
      * The attributes that are mass assignable.

@@ -1,51 +1,58 @@
 <?php
 
-class ConfigLeave
+class Notification
 {
-    protected $table = 'config_leave';
+    protected $table = 'notification';
 
     public function up()
     {
         $column =  [
-            'config_leave_id' => array(
+            'noti_id' => array(
                 'type' => 'BIGINT',
                 'unsigned' => TRUE,
                 'auto_increment' => TRUE,
                 'null' => FALSE,
             ),
-            'leave_id' => array(
-                'type' => 'BIGINT',
-                'unsigned' => TRUE,
-                'null' => TRUE,
+            'noti_type' => array(
+                'type' => 'TINYINT',
+                'length' => 4,
+                'comment' => '1-leave, 2-general',
+                'default' => '4',
+                'null' => TRUE
             ),
-            'preset_id' => array(
-                'type' => 'BIGINT',
-                'unsigned' => TRUE,
-                'null' => TRUE,
+            'noti_text' => array(
+                'type' => 'LONGTEXT',
+                'null' => TRUE
             ),
-            'preset_duration' => array(
-                'type' => 'DECIMAL',
-                'length' => '10,1',
-                'null' => TRUE,
-            ),
-            'leave_year' => array(
+            'noti_redirect' => array(
                 'type' => 'VARCHAR',
-                'length' => 15,
-                'null' => TRUE,
+                'length' => 255,
+                'null' => TRUE
+            ),
+            'noti_status' => array(
+                'type' => 'TINYINT',
+                'length' => 4,
+                'comment' => '0-unread, 1-read',
+                'default' => '0',
+                'null' => TRUE
             ),
             'user_id' => array(
                 'type' => 'BIGINT',
                 'unsigned' => TRUE,
                 'comment' => 'Refer table user',
-                'null' => TRUE
+                'null' => TRUE,
+            ),
+            'user_preferred_name' => array(
+                'type' => 'VARCHAR',
+                'length' => 20,
+                'comment' => 'Refer table user',
+                'null' => TRUE,
             ),
         ];
 
         $key = [
-            1 => ['type' => 'PRIMARY KEY', 'reference' => 'config_leave_id'],
+            1 => ['type' => 'PRIMARY KEY', 'reference' => 'noti_id'],
             2 => ['type' => 'INDEX', 'reference' => 'user_id'],
-            3 => ['type' => 'INDEX', 'reference' => 'leave_id'],
-            4 => ['type' => 'INDEX', 'reference' => 'preset_id'],
         ];
 
         migrate($this->table, $column, $key);
@@ -61,24 +68,10 @@ class ConfigLeave
     public function relation()
     {
         $relation = [
-            'CONFIG_LEAVE_USER' => array(
+            'NOTIFICATION_USER' => array(
                 'FOREIGN_KEY' => 'user_id',
                 'REFERENCES_TABLE' => 'user',
                 'REFERENCES_KEY' => 'user_id',
-                'ON_DELETE' => 'CASCADE',
-                'ON_UPDATE' => 'NO ACTION',
-            ),
-            'CONFIG_LEAVE' => array(
-                'FOREIGN_KEY' => 'leave_id',
-                'REFERENCES_TABLE' => 'master_leave',
-                'REFERENCES_KEY' => 'leave_id',
-                'ON_DELETE' => 'CASCADE',
-                'ON_UPDATE' => 'NO ACTION',
-            ),
-            'CONFIG_PRESET' => array(
-                'FOREIGN_KEY' => 'preset_id',
-                'REFERENCES_TABLE' => 'preset_leave',
-                'REFERENCES_KEY' => 'preset_leave_id',
                 'ON_DELETE' => 'CASCADE',
                 'ON_UPDATE' => 'NO ACTION',
             ),

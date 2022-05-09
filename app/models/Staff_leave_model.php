@@ -4,7 +4,7 @@ class Staff_leave_model extends Model
 {
     public $table      = 'staff_leave';
     public $primaryKey = 'staff_leave_id';
-    public $uniqueKey = ['config_leave_id', 'user_id'];
+    public $foreignKey = ['config_leave_id', 'user_id'];
 
     /**
      * The attributes that are mass assignable.
@@ -96,8 +96,8 @@ class Staff_leave_model extends Model
         $this->serversideDt->edit('staff_leave_id', function ($data) {
             $del = $edit = $view = '';
             if ($data['leave_status'] == 1) {
-                $del = '<button onclick="rejectApplication(' . $data[$this->primaryKey] . ')" data-toggle="confirm" data-id="' . $data[$this->primaryKey] . '" class="btn btn-xs btn-danger" title="Reject"> <i class="fa fa-times"></i> </button>';
-                $edit = '<button class="btn btn-xs btn-info" onclick="approveApplication(' . $data[$this->primaryKey] . ')" title="Approve"><i class="fa fa-check"></i> </button>';
+                $del = '<button onclick="rejectLeave(' . $data[$this->primaryKey] . ')" data-toggle="confirm" data-id="' . $data[$this->primaryKey] . '" class="btn btn-xs btn-danger" title="Reject"> <i class="fa fa-times"></i> </button>';
+                $edit = '<button class="btn btn-xs btn-info" onclick="approveLeave(' . $data[$this->primaryKey] . ')" title="Approve"><i class="fa fa-check"></i> </button>';
             } else if ($data['leave_status'] == 2 || $data['leave_status'] == 3) {
                 $view = '<button class="btn btn-xs btn-success" onclick="viewDetail(' . $data[$this->primaryKey] . ')" title="View"><i class="fa fa-eye"></i> </button>';
             }
@@ -128,7 +128,7 @@ class Staff_leave_model extends Model
         $this->serversideDt->query($this->getInstanceDB->getLastQuery());
 
         $this->serversideDt->edit('leave_date_from', function ($data) {
-            return date('d.m.Y', strtotime($data['leave_date_from'])) . ' - ' . date('d.m.Y', strtotime($data['leave_date_to']));
+            return date('d/m/Y', strtotime($data['leave_date_from'])) . ' - ' . date('d/m/Y', strtotime($data['leave_date_to']));
         });
 
         $this->serversideDt->hide('leave_date_to');
@@ -158,6 +158,16 @@ class Staff_leave_model extends Model
         });
 
         echo $this->serversideDt->generate();
+    }
+
+    public function getDetailByID($leaveID)
+    {
+        $this->db->where("ul.staff_leave_id", $leaveID);
+        $this->db->join("config_leave cl", "ul.config_leave_id=cl.config_leave_id", "LEFT");
+        $this->db->join("master_leave ml", "cl.leave_id=ml.leave_id", "LEFT");
+        $this->db->join("user", "ul.user_id=user.user_id", "LEFT");
+
+        return $this->db->fetchRow($this->table . " ul", null);
     }
 
     public function countLve($status)

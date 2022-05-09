@@ -4,7 +4,7 @@ class Preset_leave_model extends Model
 {
     public $table      = 'preset_leave';
     public $primaryKey = 'preset_leave_id';
-    public $uniqueKey = ['role_id'];
+    public $foreignKey = ['role_id'];
 
     /**
      * The attributes that are mass assignable.

@@ -4,6 +4,8 @@ use Master_leave_model as MLM;
 use Preset_leave_model as PLM;
 use Config_leave_model as CLM;
 use Staff_leave_model as SLM;
+use User_model as Users;
+use Notification_model as Noti;
 
 class Leave extends Controller
 {
@@ -118,6 +120,11 @@ class Leave extends Controller
         json(MLM::where(['user' => $_POST['id']]));
     }
 
+    public function getLeaveDetailByID()
+    {
+        json($this->SLM->getDetailByID($_POST['id']));
+    }
+
     public function countLeave()
     {
         $data = [
@@ -148,7 +155,7 @@ class Leave extends Controller
 
         echo '<option value=""> - Select - </option>';
         foreach ($data as $row) {
-            echo '<option value="' . $row['config_leave_id'] . '""> ' . $row['leave_name'] . ' | ' . $row['leave_duration'] . ' remaining</option>';
+            echo '<option value="' . $row['config_leave_id'] . '""> ' . $row['leave_name'] . ' | ' . $row['preset_duration'] . ' remaining</option>';
         }
     }
 
@@ -251,10 +258,13 @@ class Leave extends Controller
         $interval = $date_from->modify("-1 day")->diff($date_to);
         $days = $interval->format('%a');
 
+        $leave_no = $this->RunningNo->generateLeaveNo();
+
         $data = SLM::save(
             [
                 'staff_leave_id' => $_POST['staff_leave_id'],
                 'config_leave_id' => $_POST['config_leave_id'],
+                'leave_no' => $leave_no,
                 'leave_date_from' =>  $_POST['leave_date_from'],
                 'leave_date_to' =>  $_POST['leave_date_to'],
                 'leave_duration' =>  $days,
@@ -263,6 +273,96 @@ class Leave extends Controller
                 'user_id' => session()->get('userID'),
             ]
         );
+
+        // Add notification
+        if ($data['resCode'] == 200) {
+            $this->RunningNo->updateLeaveNo();
+            $users = Users::find($data['data']['user_id']);
+            $getAdmissionAcc = Users::where(['role_id' => '2']);
+    
+            if (count($getAdmissionAcc) > 0) {
+                foreach ($getAdmissionAcc as $noti) {
+                    Noti::save(
+                        [
+                            'noti_type' => '1',
+                            'noti_text' => 'New Leave Application from ' . $users['user_fullname'],
+                            'noti_redirect' => url('leave/new'),
+                            'noti_status' => '0',
+                            'user_id' => $noti['user_id'],
+                            'user_preferred_name' => $users['user_preferred_name'],
+                        ]
+                    );
+                }
+            }
+        }
+
+        json($data);
+    }
+
+    public function approveLeave()
+    {
+        $data = SLM::save(
+            [
+                'staff_leave_id' => $_POST['staff_leave_id'],
+                'leave_remark' => $_POST['leave_remark'],
+                'leave_status' => $_POST['leave_status'],
+            ]
+        );
+
+        if ($data['resCode'] == 200) {
+            $leaveConfig = CLM::find($_POST['user_id'], 'user_id');
+            $userLeave = SLM::find($_POST['staff_leave_id']);
+            $getAdmin = Users::find(session()->get('userID'));
+    
+            $balance = $leaveConfig['preset_duration'] - $userLeave['leave_duration'];
+    
+            CLM::save(
+                [
+                    'config_leave_id' => $leaveConfig['config_leave_id'],
+                    'preset_duration' => $balance,
+                ]
+            );
+
+            Noti::save(
+                [
+                    'noti_type' => '1',
+                    'noti_text' => 'Your leave no has been approved by' . $getAdmin['user_fullname'],
+                    'noti_redirect' => url('leave/userLeave'),
+                    'noti_status' => '0',
+                    'user_id' => $getAdmin['user_id'],
+                    'user_preferred_name' => $getAdmin['user_preferred_name'],
+                ]
+            );
+        }
+
+        json($data);
+    }
+
+    public function rejectLeave()
+    {
+        $data = SLM::save(
+            [
+                'staff_leave_id' => $_POST['staff_leave_id'],
+                'leave_remark' => $_POST['leave_remark'],
+                'leave_status' => $_POST['leave_status'],
+            ]
+        );
+
+        if ($data['resCode'] == 200) {
+            $getAdmin = Users::find(session()->get('userID'));
+
+            Noti::save(
+                [
+                    'noti_type' => '1',
+                    'noti_text' => 'Your leave no has been reject by' . $getAdmin['user_fullname'],
+                    'noti_redirect' => url('leave/userLeave'),
+                    'noti_status' => '0',
+                    'user_id' => $getAdmin['user_id'],
+                    'user_preferred_name' => $getAdmin['user_preferred_name'],
+                ]
+            );
+        }
+
         json($data);
     }
 

@@ -4,7 +4,8 @@ class Files_model extends Model
 {
     public $table      = 'files';
     public $primaryKey = 'files_id';
-    public $uniqueKey  = ['user_id'];
+    public $uniqueKey = [];
+    public $foreignKey  = ['user_id'];
 
     /**
      * The attributes that are mass assignable.

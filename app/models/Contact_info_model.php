@@ -4,7 +4,8 @@ class Contact_info_model extends Model
 {
     public $table      = 'staff_contact_info';
     public $primaryKey = 'contact_id';
-    public $uniqueKey = ['user_id'];
+    public $uniqueKey = [];
+    public $foreignKey = ['user_id'];
 
     /**
      * The attributes that are mass assignable.

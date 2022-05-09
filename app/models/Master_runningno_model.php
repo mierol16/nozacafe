@@ -117,4 +117,31 @@ class Master_runningno_model extends Model
 
         return update($this->table, $dataUpdate, $data['run_id']);
     }
+
+    public function generateLeaveNo()
+    {
+        $this->db->where("run_type", 2); // get type student no
+        $data = $this->db->fetchRow($this->table);
+
+        $prefix = $data['run_prefix'];
+        $suffix = (!empty($data['run_suffix'])) ? '|' . $data['run_suffix']  : NULL;
+        $currentNo = $data['run_currentno'];
+        $zerodigit = $data['run_zerodigit'];
+        $no = str_pad($currentNo + 1, $zerodigit, 0, STR_PAD_LEFT);
+        $runningNo = $prefix . '|' . $no . $suffix;
+
+        return $runningNo;
+    }
+
+    public function updateLeaveNo()
+    {
+        $this->db->where("run_type", 2); // get type application
+        $data = $this->db->fetchRow($this->table);
+        $dataUpdate = [
+            'run_currentno' => $data['run_currentno'] + 1,
+            'updated_at' => timestamp()
+        ];
+
+        return update($this->table, $dataUpdate, $data['run_id']);
+    }
 }
