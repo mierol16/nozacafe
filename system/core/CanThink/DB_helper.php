@@ -370,7 +370,7 @@ function hasOne($modelRef, $columnRef, $condition, $option = NULL)
         'table' => $tableRef,
         'column' => $columnRef,
         'id' => $condition,
-        'data' => $result[0],
+        'data' => (!empty($result)) ? $result[0] : NULL,
     ];
 
     return $data;
