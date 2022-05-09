@@ -68,6 +68,11 @@ class Leave extends Controller
         render('leave/userLeave_list', $data);
     }
 
+    public function getListDt()
+    {
+        echo $this->MLM->getlist();
+    }
+
     public function getListAllDt()
     {
         echo $this->SLM->getlist();
