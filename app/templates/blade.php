@@ -62,7 +62,7 @@
 
 <!--begin::Body-->
 
-<body class="loading" data-layout-color="light" data-layout-mode="default" data-layout-size="fluid" data-topbar-color="light" data-leftbar-position="fixed" data-leftbar-color="dark" data-leftbar-size='default' data-sidebar-user='true'>
+<body class="loading" data-layout-color="light" data-layout-mode="default" data-layout-size="fluid" data-topbar-color="light" data-leftbar-position="fixed" data-leftbar-color="gradient" data-leftbar-size='default' data-sidebar-user='true'>
     <!-- Begin page -->
     <div id="wrapper">
         <!-- Topbar Start -->
