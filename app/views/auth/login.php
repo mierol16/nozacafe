@@ -9,6 +9,7 @@
     
     <meta name="description" content="Start your development with a Dashboard for Bootstrap 5" />
     <meta name="keywords" content="dashboard, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
+    <link rel="shortcut icon" href="{{ asset('framework/favicon.ico') }}" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 	<meta name="base_url" content="{{ base_url }}" />
     
@@ -53,9 +54,9 @@
                 <div class="col-md-8 col-lg-6 col-xl-4">
                     <div class="text-center">
                         <a href="index.html">
-                            <img src="{{ asset('images/logo-dark.png') }}" alt="" height="22" class="mx-auto">
+                            <img src="{{ asset('images/logo-sm.png') }}" alt="" height="22" class="mx-auto">
                         </a>
-                        <p class="text-muted mt-2 mb-4">Noza Cafe</p>
+                        <h4 class="text-muted text-dark mt-2 mb-4">Noza Cafe</h4>
 
                     </div>
                     <div class="card">
