@@ -52,11 +52,11 @@
             </div>
             <div class="col-lg-8">
                 <label style="color : #b3b3cc">Leave Description </label><br>
-                <span id="leave_description" style="font-weight:bold"></span>
+                <span id="leave_comment" style="font-weight:bold"></span>
             </div>
         </div>
 
-        <form id="formApproveLeave" action="leave/approveLeave" method="POST">
+        <form id="formApproveLeave" action="leave/rejectLeave" method="POST">
         
         <div class="row mt-2">
             <div class="alert alert-primary" role="alert">
@@ -105,6 +105,12 @@
             async (e) => {
                 if (e == 'confirm') {
                     const res = await submitApi(url, form.serializeArray(), 'formApproveLeave', getDataList);
+
+                    if (isSuccess(res)) {
+                        setTimeout(function() {
+                            $('#generalModal-xl').modal('hide');
+                        }, 200);
+                    }
                 }
             }
         );
@@ -134,7 +140,7 @@
 
         $('#leave_status').html(status);
         $('#leave_name').text(data.leave_name);
-        $('#leave_description').text(data.leave_description);
+        $('#leave_comment').text(data.leave_comment);
 
         var balance = data.preset_duration - data.leave_duration;
 

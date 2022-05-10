@@ -13,9 +13,11 @@ class Staff_leave_model extends Model
      */
     protected $fillable = [
         'config_leave_id',
+        'leave_no',
         'leave_date_from',
         'leave_date_to',
         'leave_duration',
+        'leave_comment',
         'leave_status',
         'leave_remark',
         'user_id',
@@ -53,6 +55,7 @@ class Staff_leave_model extends Model
         //  server side datatables
         $cols = array(
             "user.user_fullname",
+            "ul.leave_no",
             "ml.leave_name",
             "ul.leave_date_from",
             "ul.leave_date_to",
@@ -70,6 +73,12 @@ class Staff_leave_model extends Model
 
         $result = $this->db->get($this->table . " ul", null, $cols);
         $this->serversideDt->query($this->getInstanceDB->getLastQuery());
+        
+        $this->serversideDt->hide('leave_no');
+
+        $this->serversideDt->edit('leave_name', function ($data) {
+            return $data['leave_name'] . '<br>' . $data['leave_no'];
+        });
 
         $this->serversideDt->edit('leave_date_from', function ($data) {
             return date('d.m.Y', strtotime($data['leave_date_from'])) . ' - ' . date('d.m.Y', strtotime($data['leave_date_to']));
@@ -87,7 +96,7 @@ class Staff_leave_model extends Model
             } elseif ($data['leave_status'] == 2) {
                 return '<h4><span class="badge bg-success">Approved</span></h4>';
             } elseif ($data['leave_status'] == 3) {
-                return '<h4?><span class="badge bg-danger">Not Approved</span></h4>';
+                return '<h4><span class="badge bg-danger">Not Approved</span></h4>';
             } else {
                 return '';
             }
@@ -113,6 +122,7 @@ class Staff_leave_model extends Model
         //  server side datatables
         $cols = array(
             "ml.leave_name",
+            "ul.leave_no",
             "ul.leave_date_from",
             "ul.leave_date_to",
             "ul.created_at",
@@ -126,6 +136,12 @@ class Staff_leave_model extends Model
 
         $result = $this->db->get($this->table . " ul", null, $cols);
         $this->serversideDt->query($this->getInstanceDB->getLastQuery());
+
+        $this->serversideDt->hide('leave_no');
+        
+        $this->serversideDt->edit('leave_name', function ($data) {
+            return $data['leave_name'] . '<br>' . $data['leave_no'];
+        });
 
         $this->serversideDt->edit('leave_date_from', function ($data) {
             return date('d/m/Y', strtotime($data['leave_date_from'])) . ' - ' . date('d/m/Y', strtotime($data['leave_date_to']));
@@ -143,7 +159,7 @@ class Staff_leave_model extends Model
             } elseif ($data['leave_status'] == 2) {
                 return '<h4><span class="badge bg-success">Approved</span></h4>';
             } elseif ($data['leave_status'] == 3) {
-                return '<h4?><span class="badge bg-danger">Not Approved</span></h4>';
+                return '<h4><span class="badge bg-danger">Not Approved</span></h4>';
             } else {
                 return '';
             }

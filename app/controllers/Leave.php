@@ -6,6 +6,7 @@ use Config_leave_model as CLM;
 use Staff_leave_model as SLM;
 use User_model as Users;
 use Notification_model as Noti;
+use Master_runningno_model as RunningNo;
 
 class Leave extends Controller
 {
@@ -268,7 +269,7 @@ class Leave extends Controller
                 'leave_date_from' =>  $_POST['leave_date_from'],
                 'leave_date_to' =>  $_POST['leave_date_to'],
                 'leave_duration' =>  $days,
-                'leave_description' => $_POST['leave_description'],
+                'leave_comment' => $_POST['leave_comment'],
                 'leave_status' => '1',
                 'user_id' => session()->get('userID'),
             ]
@@ -326,10 +327,10 @@ class Leave extends Controller
             Noti::save(
                 [
                     'noti_type' => '1',
-                    'noti_text' => 'Your leave no has been approved by' . $getAdmin['user_fullname'],
+                    'noti_text' => 'Your leave no ' . $userLeave['leave_no'] . ' has been approved by' . $getAdmin['user_fullname'],
                     'noti_redirect' => url('leave/userLeave'),
                     'noti_status' => '0',
-                    'user_id' => $getAdmin['user_id'],
+                    'user_id' => $_POST['user_id'],
                     'user_preferred_name' => $getAdmin['user_preferred_name'],
                 ]
             );
@@ -349,15 +350,16 @@ class Leave extends Controller
         );
 
         if ($data['resCode'] == 200) {
+            $userLeave = SLM::find($_POST['staff_leave_id']);
             $getAdmin = Users::find(session()->get('userID'));
 
             Noti::save(
                 [
                     'noti_type' => '1',
-                    'noti_text' => 'Your leave no has been reject by' . $getAdmin['user_fullname'],
+                    'noti_text' => 'Your leave no ' . $userLeave['leave_no'] . ' has been reject by' . $getAdmin['user_fullname'],
                     'noti_redirect' => url('leave/userLeave'),
                     'noti_status' => '0',
-                    'user_id' => $getAdmin['user_id'],
+                    'user_id' => $_POST['user_id'],
                     'user_preferred_name' => $getAdmin['user_preferred_name'],
                 ]
             );
@@ -375,6 +377,12 @@ class Leave extends Controller
     public function delete()
     {
         $data = MLM::delete($_POST['id']); // call static function
+        json($data);
+    }
+
+    public function cancelLeave()
+    {
+        $data = SLM::delete($_POST['id']); // call static function
         json($data);
     }
 

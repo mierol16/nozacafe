@@ -38,6 +38,11 @@ class StaffLeave
                 'length' => 150,
                 'null' => TRUE,
             ),
+            'leave_comment' => array(
+                'type' => 'TEXT',
+                'null' => TRUE,
+                'after' => 'leave_duration',
+            ),
             'leave_status' => array(
                 'type' => 'TINYINT',
                 'length' => 4,

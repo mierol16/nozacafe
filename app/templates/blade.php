@@ -314,9 +314,9 @@
                         var date = '';
 
                         if(type == 1) {
-                            typeDisplay = '<span class="avatar-initial rounded-circle bg-danger">LEAVE</span>';
+                            typeDisplay = '<span class="rounded-circle bg-danger">LEAVE</span>';
                         } else if(type == 2) {
-                            typeDisplay = '<span class="avatar-initial rounded-circle bg-info">GEN</span>';
+                            typeDisplay = '<span class="rounded-circle bg-info">GEN</span>';
                         }
 
                         var noti = '<li class="list-group-item list-group-item-action dropdown-notifications-item">\

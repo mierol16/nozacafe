@@ -30,7 +30,7 @@
         <div class="col-lg-12">
             <div class="form-group">
                 <label> Description <span class="text-danger">*</span> </label>
-                <textarea id="leave_description" name="leave_description" class="form-control" autocomplete="off" required></textarea>
+                <textarea id="leave_comment" name="leave_comment" class="form-control" autocomplete="off" required></textarea>
             </div>
         </div>
     </div>

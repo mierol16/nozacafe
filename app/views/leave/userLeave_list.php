@@ -76,15 +76,22 @@
         }).then(
             async (e) => {
                 if (e == 'confirm') {
-                    const res = await deleteApi(id, 'leave/delete', getDataList);
+                    const res = await deleteApi(id, 'leave/cancelLeave');
+
+                    if (isSuccess(res)) {
+                        getDataList('{{$userID}}');
+                    }
                 }
             }
         );
     }
 
     function formModal(type = 'create', data = null) {
+        var id = '{{$userID}}';
         // loadFormContent(fileToLoad, modalBodyID, modalSize, urlForm, modalTitle, data, modalType);
-        loadFormContent('leave/_applyLeaveForm.php', 'generalContent', 'lg', 'leave/userLeaveSave', 'Apply Leave', data);
+        loadFormContent('leave/_applyLeaveForm.php', 'generalContent', 'lg', 'leave/userLeaveSave', 'Apply Leave', {
+            'user_id': id
+        });
     }
 </script>
 
