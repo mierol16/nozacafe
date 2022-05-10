@@ -4,9 +4,10 @@
         <div class="col-lg-12">
             <div class="form-group">
                 <label> Leave Type <span class="text-danger">*</span> </label>
-                <select id="config_leave_id" name="config_leave_id" class="form-control" required>
+                <select id="config_leave_id" name="config_leave_id" onchange="countBal()" class="form-control" required>
                     <option value="">- Select -</option>
                 </select>
+                <span id="countBal" class="text-danger"></span>
             </div>
         </div>
     </div>
@@ -15,13 +16,13 @@
         <div class="col-lg-6">
             <div class="form-group">
                 <label> Date From <span class="text-danger">*</span> </label>
-                <input type="date" id="leave_date_from" name="leave_date_from" class="form-control" required>
+                <input type="date" id="leave_date_from" name="leave_date_from" onchange="countDays()" class="form-control" required>
             </div>
         </div>
         <div class="col-lg-6">
             <div class="form-group">
                 <label> Date To <span class="text-danger">*</span> </label>
-                <input type="date" id="leave_date_to" name="leave_date_to" class="form-control" required>
+                <input type="date" id="leave_date_to" name="leave_date_to" onchange="countDays()" class="form-control" required>
             </div>
         </div>
     </div>
@@ -88,5 +89,56 @@
         } else {
             noti(res.status); // show error message
         }
+    }
+
+    async function countDays() {
+        var leave_id = $('#config_leave_id').val();
+        if (leave_id == "" || leave_id == null) {
+            return noti(500, 'Leave type is required');
+        }
+
+        const res = await callApi('post', "leave/countDayLeave", {
+            'user_id': $('#user_id').val(),
+            'config_leave_id': $('#config_leave_id').val(),
+            'leave_date_from': $('#leave_date_from').val(),
+            'leave_date_to': $('#leave_date_to').val(),
+        });
+        // check if request is success
+        if (isSuccess(res)) {
+            var data = res.data;
+
+            var days = parseFloat(data.days);
+            var bal = parseFloat(data.balance);
+
+            if (bal != 0.0) {
+                if (days > bal) {
+                    $('#submitBtn').attr('disabled', true);
+                }
+            } else {
+                $('#submitBtn').attr('disabled', true);
+            }
+
+        } else {
+            noti(res.status); // show error message
+        }
+
+    }
+
+    async function countBal() {
+        const res = await callApi('post', "leave/countBalLeave", {
+            'user_id': $('#user_id').val(),
+            'config_leave_id': $('#config_leave_id').val(),
+        });
+        // check if request is success
+        if (isSuccess(res)) {
+            var bal = res.data;
+            if (res.data < '0.0') {
+                bal = '0.0';
+            }
+            $('#countBal').html('<i>' + bal + ' days remaining</i>');
+        } else {
+            noti(res.status); // show error message
+        }
+
     }
 </script>

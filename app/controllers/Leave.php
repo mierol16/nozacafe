@@ -126,6 +126,52 @@ class Leave extends Controller
         json($this->SLM->getDetailByID($_POST['id']));
     }
 
+    public function countDayLeave()
+    {
+        $date_from = (isset($_POST['leave_date_from'])) ? new DateTime($_POST['leave_date_from']) : null;
+        $date_to = (isset($_POST['leave_date_to'])) ? new DateTime($_POST['leave_date_to']) : null;
+        $interval = $date_from->modify("-1 day")->diff($date_to);
+        $days = $interval->format('%a');
+
+        $pendingLv = SLM::where(['config_leave_id' => $_POST['config_leave_id'], 'user_id' => $_POST['user_id'], 'leave_status' => '1']);
+        $leaveConfig = CLM::find($_POST['config_leave_id']);
+
+        $noOfDays = $bal = 0;
+
+        if (count($pendingLv) > 0) {
+            foreach ($pendingLv as $row) {
+                $noOfDays += $row['leave_duration'];
+            }
+        }
+
+        $bal = $leaveConfig['preset_duration'] - $noOfDays;
+
+        $data = [
+            'days' => $days,
+            'balance' => $bal,
+        ];
+
+        json($data);
+    }
+
+    public function countBalLeave()
+    {
+        $pendingLv = SLM::where(['config_leave_id' => $_POST['config_leave_id'], 'user_id' => $_POST['user_id'], 'leave_status' => '1']);
+        $leaveConfig = CLM::find($_POST['config_leave_id']);
+
+        $noOfDays = $bal = 0;
+
+        if (count($pendingLv) > 0) {
+            foreach ($pendingLv as $row) {
+                $noOfDays += $row['leave_duration'];
+            }
+        }
+
+        $bal = $leaveConfig['preset_duration'] - $noOfDays;
+
+        json($bal);
+    }
+
     public function countLeave()
     {
         $data = [
@@ -156,7 +202,7 @@ class Leave extends Controller
 
         echo '<option value=""> - Select - </option>';
         foreach ($data as $row) {
-            echo '<option value="' . $row['config_leave_id'] . '""> ' . $row['leave_name'] . ' | ' . $row['preset_duration'] . ' remaining</option>';
+            echo '<option value="' . $row['config_leave_id'] . '""> ' . $row['leave_name'] . ' remaining</option>';
         }
     }
 
@@ -311,8 +357,8 @@ class Leave extends Controller
         );
 
         if ($data['resCode'] == 200) {
-            $leaveConfig = CLM::find($_POST['user_id'], 'user_id');
             $userLeave = SLM::find($_POST['staff_leave_id']);
+            $leaveConfig = CLM::where(['config_leave_id' => $userLeave['config_leave_id'], 'user_id' => $_POST['user_id']], 'fetchRow');
             $getAdmin = Users::find(session()->get('userID'));
     
             $balance = $leaveConfig['preset_duration'] - $userLeave['leave_duration'];
