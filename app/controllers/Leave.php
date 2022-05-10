@@ -202,7 +202,7 @@ class Leave extends Controller
 
         echo '<option value=""> - Select - </option>';
         foreach ($data as $row) {
-            echo '<option value="' . $row['config_leave_id'] . '""> ' . $row['leave_name'] . ' remaining</option>';
+            echo '<option value="' . $row['config_leave_id'] . '""> ' . $row['leave_name'] . ' </option>';
         }
     }
 

@@ -25,6 +25,7 @@
                 <input type="date" id="leave_date_to" name="leave_date_to" onchange="countDays()" class="form-control" required>
             </div>
         </div>
+        <span id="alertLeave" class="text-danger"></span>
     </div>
 
     <div class="row mt-2">
@@ -105,6 +106,9 @@
         });
         // check if request is success
         if (isSuccess(res)) {
+            $('#alertLeave').empty();
+            $('#submitBtn').attr('disabled', false);
+
             var data = res.data;
 
             var days = parseFloat(data.days);
@@ -113,11 +117,12 @@
             if (bal != 0.0) {
                 if (days > bal) {
                     $('#submitBtn').attr('disabled', true);
+                    $('#alertLeave').html("<i>You don't have enough balance remaining</i>");
                 }
             } else {
                 $('#submitBtn').attr('disabled', true);
+                $('#alertLeave').html("<i>You don't have enough balance remaining</i>");
             }
-
         } else {
             noti(res.status); // show error message
         }
@@ -131,9 +136,10 @@
         });
         // check if request is success
         if (isSuccess(res)) {
-            var bal = res.data;
-            if (res.data < '0.0') {
-                bal = '0.0';
+            var bal = parseFloat(res.data);;
+            if (res.data < 0.0) {
+                bal = 0.0;
+                $('#submitBtn').attr('disabled', true);
             }
             $('#countBal').html('<i>' + bal + ' days remaining</i>');
         } else {
