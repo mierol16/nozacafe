@@ -23,7 +23,7 @@ function db_name($debug = false)
 
 function escape($str)
 {
-    return db()->escape_data($str);
+    return db()->escape_data(trim($str));
 }
 
 function insert($table, $data)
@@ -189,12 +189,6 @@ function insertMulti($table, $data)
         "id" => $ids,
         "data" => $data
     ];
-
-    // if ($ids) {
-    //     return (db()->insertMulti($table, $data)) ?? 400;
-    // } else {
-    //     return (db()->insertMulti($table, $data)) ? 200 : 400;
-    // }
 }
 
 function table_list()
@@ -304,26 +298,28 @@ function hasMany($modelRef, $columnRef, $condition, $option = NULL)
     $dbName = db_name();
     $result = $obj = $tableRef = '';
 
-    $fileName = "../app/models/" . $modelRef . ".php";
-    if (file_exists($fileName)) {
+    if (!empty($condition)) {
+        $fileName = "../app/models/" . $modelRef . ".php";
+        if (file_exists($fileName)) {
 
-        $className = getClassNameFromFile($fileName);
-        $obj = new $className;
+            $className = getClassNameFromFile($fileName);
+            $obj = new $className;
 
-        $tableRef = $obj->table;
-        $tableRefPK = $obj->primaryKey;
+            $tableRef = $obj->table;
+            $tableRefPK = $obj->primaryKey;
 
-        // check table
-        if (isTableExist($tableRef)) {
+            // check table
+            if (isTableExist($tableRef)) {
 
-            $whereCon = NULL;
-            if (!empty($option)) {
-                foreach ($option as $key => $value) {
-                    $whereCon .= "AND {$key}='$value'";
+                $whereCon = NULL;
+                if (!empty($option)) {
+                    foreach ($option as $key => $value) {
+                        $whereCon .= "AND {$key}='$value'";
+                    }
                 }
-            }
 
-            $result = rawQuery("SELECT * FROM $tableRef WHERE {$columnRef}='$condition' $whereCon");
+                $result = rawQuery("SELECT * FROM $tableRef WHERE {$columnRef}='$condition' $whereCon");
+            }
         }
     }
 
@@ -343,25 +339,27 @@ function hasOne($modelRef, $columnRef, $condition, $option = NULL)
     $dbName = db_name();
     $result = $obj = $tableRef = '';
 
-    $fileName = "../app/models/" . $modelRef . ".php";
-    if (file_exists($fileName)) {
-        $className = getClassNameFromFile($fileName);
-        $obj = new $className;
+    if (!empty($condition)) {
+        $fileName = "../app/models/" . $modelRef . ".php";
+        if (file_exists($fileName)) {
+            $className = getClassNameFromFile($fileName);
+            $obj = new $className;
 
-        $tableRef = $obj->table;
-        $tableRefPK = $obj->primaryKey;
+            $tableRef = $obj->table;
+            $tableRefPK = $obj->primaryKey;
 
-        // check table
-        if (isTableExist($tableRef)) {
+            // check table
+            if (isTableExist($tableRef)) {
 
-            $whereCon = NULL;
-            if (!empty($option)) {
-                foreach ($option as $key => $value) {
-                    $whereCon .= "AND {$key}='$value'";
+                $whereCon = NULL;
+                if (!empty($option)) {
+                    foreach ($option as $key => $value) {
+                        $whereCon .= "AND {$key}='$value'";
+                    }
                 }
-            }
 
-            $result = rawQuery("SELECT * FROM $tableRef WHERE {$columnRef}='$condition' $whereCon LIMIT 1");
+                $result = rawQuery("SELECT * FROM $tableRef WHERE {$columnRef}='$condition' $whereCon LIMIT 1");
+            }
         }
     }
 

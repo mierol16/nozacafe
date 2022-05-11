@@ -440,12 +440,12 @@ class Model
                         $dataRelation = $obj->$functionCall($dataArr);
                         $dataStore = [
                             $functionName => [
-                                'data' => $dataRelation['data'],
-                                'objData' => $dataRelation['obj'],
+                                'data' => (isset($dataRelation['data'])) ? $dataRelation['data'] : NULL,
+                                'objData' => (isset($dataRelation['obj'])) ? $dataRelation['obj'] : NULL,
                             ]
                         ];
                         array_push($objStore, $dataStore);
-                        $dataArr[$functionName] = $dataRelation['data'];
+                        $dataArr[$functionName] = (isset($dataRelation['data'])) ? $dataRelation['data'] : NULL;
                     }
                 } else {
                     $withArr = explode(".", $functionName);
