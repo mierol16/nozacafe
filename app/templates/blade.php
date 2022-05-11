@@ -310,33 +310,25 @@
                         var type = data.noti_type;
                         var text = data.noti_text;
                         var name = data.user_preferred_name;
+                        var url = data.noti_redirect
                         // var date = moment(data.created_at).format("DD/MM/YYYY");
                         var date = '';
 
                         if(type == 1) {
-                            typeDisplay = '<span class="rounded-circle bg-danger">LEAVE</span>';
+                            typeDisplay = '<i class="mdi mdi-calendar-alert"></i>';
                         } else if(type == 2) {
-                            typeDisplay = '<span class="rounded-circle bg-info">GEN</span>';
+                            typeDisplay = '<i class="mdi mdi-file-alert"></i>';
                         }
 
-                        var noti = '<li class="list-group-item list-group-item-action dropdown-notifications-item">\
-                                        <div class="d-flex">\
-                                            <div class="flex-shrink-0 me-3">\
-                                                <div class="avatar">\
-                                                    '+typeDisplay+'\
-                                                </div>\
-                                            </div>\
-                                            <div class="flex-grow-1">\
-                                                <h6 class="mb-1">'+ucfirst(name)+'</h6>\
-                                                <p class="mb-0">'+text+'</p>\
-                                                <small class="text-muted"> '+date+'</small>\
-                                            </div>\
-                                            <div class="flex-shrink-0 dropdown-notifications-actions">\
-                                                <a href="javascript:void(0)" onclick="readNoti('+data.noti_id+')" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>\
-                                                <a href="javascript:void(0)" onclick="removeNoti('+data.noti_id+')"  class="dropdown-notifications-archive"><span class="bx bx-x"></span></a>\
-                                            </div>\
+                        var noti = '<a href="'+url+'" class="dropdown-item notify-item">\
+                                        <div class="notify-icon bg-primary">\
+                                            '+typeDisplay+'\
                                         </div>\
-                                    </li>';
+                                        <p class="notify-details text-bold">'+ucfirst(name)+'</p>\
+                                        <p class="text-muted mb-0 user-msg">\
+                                            <small>'+text+'</small>\
+                                        </p>\
+                                    </a>';
 
                         $('#listnotification').append(noti);
                     });

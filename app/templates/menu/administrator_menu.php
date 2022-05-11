@@ -15,9 +15,6 @@
         </a>
         <div class="collapse <?= ($currentSidebar == 'user') ? 'show' : '' ?>" id="user">
             <ul class="nav-second-level">
-                <li class="menuitem-<?= ($currentSubSidebar == 'admin') ? 'active' : '' ?>">
-                    <a href="{{ url('user/admin') }}">Administrator</a>
-                </li>
                 <li class="menuitem-<?= ($currentSubSidebar == 'staff') ? 'active' : '' ?>">
                     <a href="{{ url('user/employee') }}">Employee</a>
                 </li>

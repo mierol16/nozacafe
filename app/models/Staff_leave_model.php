@@ -92,11 +92,11 @@ class Staff_leave_model extends Model
 
         $this->serversideDt->edit('leave_status', function ($data) {
             if ($data['leave_status'] == 1) {
-                return '<h4><span class="badge bg-warning">Waiting for Approval</span></h4>';
+                return '<h4 class="m-0"><span class="badge bg-warning">Waiting for Approval</span></h4>';
             } elseif ($data['leave_status'] == 2) {
-                return '<h4><span class="badge bg-success">Approved</span></h4>';
+                return '<h4 class="m-0"><span class="badge bg-success">Approved</span></h4>';
             } elseif ($data['leave_status'] == 3) {
-                return '<h4><span class="badge bg-danger">Not Approved</span></h4>';
+                return '<h4 class="m-0"><span class="badge bg-danger">Not Approved</span></h4>';
             } else {
                 return '';
             }
@@ -155,11 +155,11 @@ class Staff_leave_model extends Model
 
         $this->serversideDt->edit('leave_status', function ($data) {
             if ($data['leave_status'] == 1) {
-                return '<h4><span class="badge bg-warning">Waiting for Approval</span></h4>';
+                return '<h4 class="m-0"><span class="badge bg-warning">Waiting for Approval</span></h4>';
             } elseif ($data['leave_status'] == 2) {
-                return '<h4><span class="badge bg-success">Approved</span></h4>';
+                return '<h4 class="m-0"><span class="badge bg-success">Approved</span></h4>';
             } elseif ($data['leave_status'] == 3) {
-                return '<h4><span class="badge bg-danger">Not Approved</span></h4>';
+                return '<h4 class="m-0"><span class="badge bg-danger">Not Approved</span></h4>';
             } else {
                 return '';
             }
@@ -167,8 +167,10 @@ class Staff_leave_model extends Model
 
         $this->serversideDt->edit('staff_leave_id', function ($data) {
             $del = $view = '';
-            $del = '<button onclick="deleteRecord(' . $data[$this->primaryKey] . ')" data-toggle="confirm" data-id="' . $data[$this->primaryKey] . '" class="btn btn-xs btn-danger" title="Cancel"> <i class="fa fa-trash"></i> </button>';
-            $view = '<button class="btn btn-xs btn-success" onclick="viewRecord(' . $data[$this->primaryKey] . ')" title="View"><i class="fa fa-eye"></i> </button>';
+            if ($data['leave_status'] == 1) {
+                $del = '<button onclick="deleteRecord(' . $data[$this->primaryKey] . ')" data-toggle="confirm" data-id="' . $data[$this->primaryKey] . '" class="btn btn-xs btn-danger" title="Cancel"> <i class="fa fa-trash"></i> </button>';
+            }
+            $view = '<button class="btn btn-xs btn-success" onclick="viewDetail(' . $data[$this->primaryKey] . ')" title="View"><i class="fa fa-eye"></i> </button>';
 
             return "<center> $del $view </center>";
         });

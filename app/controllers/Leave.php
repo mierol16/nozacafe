@@ -332,7 +332,7 @@ class Leave extends Controller
                     Noti::save(
                         [
                             'noti_type' => '1',
-                            'noti_text' => 'New Leave Application from ' . $users['user_fullname'],
+                            'noti_text' => 'New Leave Application ' . $data['leave_no'] . ' from ' . $users['user_fullname'],
                             'noti_redirect' => url('leave/new'),
                             'noti_status' => '0',
                             'user_id' => $noti['user_id'],

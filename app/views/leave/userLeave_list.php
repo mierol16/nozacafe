@@ -55,11 +55,11 @@
         });
     }
 
-    async function viewRecord(id) {
-        const res = await callApi('post', "leave/getLeaveByUserID", id);
+    async function viewDetail(id) {
+        const res = await callApi('post', "leave/getLeaveDetailByID", id);
         // check if request is success
         if (isSuccess(res)) {
-            formModal('update', res.data);
+            loadFileContent('leave/_leaveView.php', 'generalContent', 'xl', 'Leave View', res.data);
         } else {
             noti(res.status); // show error message
         }

@@ -134,11 +134,11 @@ class User_model extends Model
 
         $this->serversideDt->edit('user_status', function ($data) {
             if ($data['user_status'] == 0) {
-                return '<h4><span class="badge bg-warning">Inactive</span></h4>';
+                return '<h4 class="m-0"><span class="badge bg-warning">Inactive</span></h4>';
             } else if ($data['user_status'] == 1) {
-                return '<h4><span class="badge bg-success">Active</span></h4>';
+                return '<h4 class="m-0"><span class="badge bg-success">Active</span></h4>';
             } else if ($data['user_status'] == 2) {
-                return '<h4><span class="badge bg-danger">Terminate</span></h4>';
+                return '<h4 class="m-0"><span class="badge bg-danger">Terminate</span></h4>';
             } else {
                 return '';
             }
@@ -180,11 +180,11 @@ class User_model extends Model
 
         $this->serversideDt->edit('user_status', function ($data) {
             if ($data['user_status'] == 0) {
-                return '<h4><span class="badge bg-warning">Inactive</span></h4>';
+                return '<h4 class="m-0"><span class="badge bg-warning">Inactive</span></h4>';
             } else if ($data['user_status'] == 1) {
-                return '<h4><span class="badge bg-success">Active</span></h4>';
+                return '<h4 class="m-0"><span class="badge bg-success">Active</span></h4>';
             } else if ($data['user_status'] == 2) {
-                return '<h4><span class="badge bg-danger">Terminate</span></h4>';
+                return '<h4 class="m-0"><span class="badge bg-danger">Terminate</span></h4>';
             } else {
                 return '';
             }

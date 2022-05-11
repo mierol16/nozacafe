@@ -129,11 +129,11 @@
         var status = '';
 
         if (data.leave_status == 1) {
-            status = '<h4><span class="badge bg-warning">Waiting for Approval</span></h4>';
+            status = '<h4 class="m-0"><span class="badge bg-warning">Waiting for Approval</span></h4>';
         } else if (data.leave_status == 2) {
-            status = '<h4><span class="badge bg-success">Approved</span></h4>';
+            status = '<h4 class="m-0"><span class="badge bg-success">Approved</span></h4>';
         } else if (data.leave_status == 3) {
-            status = '<h4?><span class="badge bg-danger">Not Approved</span></h4>';
+            status = '<h4 class="m-0"><span class="badge bg-danger">Not Approved</span></h4>';
         } else {
             status = '';
         }
