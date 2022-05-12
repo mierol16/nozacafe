@@ -99,6 +99,6 @@
 
         $('#leave_balance').text(balance + '/' + data.preset_duration);
 
-        $('#leave_date').html(moment(data.leave_date_from).format("DD/MM/YYYY") + ' - ' + moment(data.leave_date_to).format("DD/MM/YYYY"));
+        $('#leave_date').html(moment(data.leave_date_from).format("DD/MM/YYYY, dddd") + ' - ' + moment(data.leave_date_to).format("DD/MM/YYYY, dddd"));
     }
 </script>

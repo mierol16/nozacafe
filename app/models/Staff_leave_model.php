@@ -81,7 +81,7 @@ class Staff_leave_model extends Model
         });
 
         $this->serversideDt->edit('leave_date_from', function ($data) {
-            return date('d.m.Y', strtotime($data['leave_date_from'])) . ' - ' . date('d.m.Y', strtotime($data['leave_date_to']));
+            return date('d/m/Y, l', strtotime($data['leave_date_from'])) . ' - ' . date('d/m/Y, l', strtotime($data['leave_date_to']));
         });
 
         $this->serversideDt->hide('leave_date_to');
@@ -144,7 +144,7 @@ class Staff_leave_model extends Model
         });
 
         $this->serversideDt->edit('leave_date_from', function ($data) {
-            return date('d/m/Y', strtotime($data['leave_date_from'])) . ' - ' . date('d/m/Y', strtotime($data['leave_date_to']));
+            return date('d/m/Y, l', strtotime($data['leave_date_from'])) . ' - ' . date('d/m/Y, l', strtotime($data['leave_date_to']));
         });
 
         $this->serversideDt->hide('leave_date_to');
