@@ -2,12 +2,13 @@
 
 class App
 {
-  protected $controller = 'Auth';
+  protected $controller = NULL;
   protected $method = 'index';
   protected $params = [];
 
   function __construct()
   {
+    $this->controller = $_ENV['DEFAULT_CONTROLLER'];
     $this->session = new \Configuration\SessionManager();
     $url = $this->urlParse();
 
