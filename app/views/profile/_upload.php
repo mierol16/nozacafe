@@ -25,9 +25,8 @@
             <span class="form-text text-muted"><b> A few notes before you upload a new profile picture </b></span>
             <span class="form-text text-muted">
                 <ul>
-                    <li> Muat naik fail jpeg, png sahaja. </li>
-                    <li> Upload jpeg, png files only <b><i style="color: red"> 2 MB only. </i> </b></li>
-                    <li> Make sure the size is 640x640. </li>
+                    <li> Upload only file with extension jpeg and png. </li>
+                    <li> Files size support only <b><i style="color: red"> 4 MB. </i> </b></li>
                     <li> Please wait for the upload to complete. </li>
                 </ul>
             </span>

@@ -173,6 +173,22 @@ class User extends Controller
                 if (!empty($moveQr)) {
                     Files::save($moveQr);
                 }
+
+                $userData = $data['data'];
+                $content = '<div>Dear ' . $userData['user_fullname'] . ',</div>
+                            <br>
+                            <div>We would like to inform you that your employee no <b>' . $userData['user_no'] . '</b> has been created.</div>
+                            <div><br></div>
+                            <div>Kindly login to our system using this credential:-</div>
+                            <div>Username : ' . $userData['user_email'] . '</div>
+                            <div>Password : ' . $userData['user_nric'] . '</div>
+                            <br>
+                            <div>Thank you.</div>
+                            <br>
+                            <font color="#666666" face="Open Sans, Helvetica Neue, Helvetica, Arial, sans-serif"><span style="font-size: 10px; letter-spacing: normal;">(This is an auto-generated email. Please do not reply this email)</span></font>
+                            <p style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;">&copy; <strong>nozacafe.canthinksolution.com</strong></p>';
+                
+                sentMail(['recipient_name' => $userData['user_fullname'], 'recipient_email' => $userData['user_email'], 'subject' => 'User Registration'], $content);
             }
 
             // register contact person

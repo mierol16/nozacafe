@@ -204,7 +204,7 @@
                         <div class="row ">
                             <div class="col-12">
                                 <button type="button" class="btn btn-warning btn-sm float-end ms-2" onclick="getDataList('{{ $userID }}')" title="Refresh">
-                                    <i class="fa fa-refresh"></i>
+                                    <i class="fas fa-redo-alt"></i>
                                 </button>
                             </div>
                         </div>
