@@ -65,6 +65,43 @@ class Education_info_model extends Model
 
     public function filesRelation($data)
     {
-        return hasMany('Files_model', 'entity_id', $data[$this->primaryKey], ['entity_file_type' => 'CERTIFICATE']);
+        return hasOne('Files_model', 'entity_id', $data[$this->primaryKey], ['entity_file_type' => 'CERTIFICATE']);
+    }
+
+    public function getListByUserID($userID, $decode = false)
+    {
+        if ($decode) {
+            $userID = decodeID($userID);
+        }
+
+        //  server side datatables
+        $cols = array(
+            "edu.education_university",
+            "edu.education_level",
+            "edu.education_course",
+            "edu.education_id",
+            "edu.user_id"
+        );
+
+        $this->db->where("user.user_id", $userID);
+
+        $this->db->join("user", "edu.user_id=user.user_id", "LEFT");
+        $this->db->get($this->table . " edu", null, $cols); // get data to show in table
+
+        $this->serversideDt->query($this->getInstanceDB->getLastQuery());
+
+        $this->serversideDt->hide('user_id');
+
+        $this->serversideDt->edit('education_id', function ($data) {
+            $del = $edit = '';
+            if (session()->get('userID') == $data['user_id']) {
+                $del = '<button onclick="deleteRecord(' . $data[$this->primaryKey] . ', \'education\')" data-toggle="confirm" data-id="' . $data[$this->primaryKey] . '" class="btn btn-xs btn-danger" title="Delete"> <i class="fa fa-trash"></i> </button>';
+            }
+            $edit = '<button class="btn btn-xs btn-info" onclick="updateRecord(' . $data[$this->primaryKey] . ', \'education\')" title="Edit"><i class="fa fa-edit"></i> </button>';
+
+            return "<center> $del $edit </center>";
+        });
+
+        echo $this->serversideDt->generate();
     }
 }

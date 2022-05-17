@@ -290,25 +290,20 @@
             var listFiles = '';
 
             if (data != null) {
-                if (data.files.length > 0) {
 
-                    var display = '';
-                    for (j = 0; j < data.files.length; j++) {
-                        const files = data.files[j];
-                        display += files.files_name + '<span id="upload' + files.files_id + '" class="float-end"><i class="fa fa-trash" style="color:red" onclick="removeUploadFile(' + files.files_id + ')"></i></span><hr>';
-                    }
+                const files = data.files;
+                display = files.files_name + '<span id="upload' + files.files_id + '" class="float-end"><i class="fa fa-eye" style="color:blue" onclick="previewPDF(\'' + files.files_path + '\', \'' + files.files_extension + '\')"></i></span><hr>';
 
-                    listFiles = '<tr class="table-dark">\
-                                    <td colspan="3">\
-                                        Files \
-                                    </td>\
-                                 </tr>\
-                                 <tr>\
-                                    <td colspan="3">\
-                                        ' + display + '\
-                                    </td>\
-                                 </tr>';
-                }
+                listFiles = '<tr class="table-dark">\
+                                <td colspan="3">\
+                                    Files \
+                                </td>\
+                                </tr>\
+                                <tr>\
+                                <td colspan="3">\
+                                    ' + display + '\
+                                </td>\
+                                </tr>';
             }
 
             $('#education_row').append('\
@@ -323,12 +318,12 @@
                             <tr>\
                                 <td>\
                                     <label class="form-label">Level of Education <span class="text-danger">*</span></label>\
-                                    <input type="text" name="education_level[]" class="form-control education_input" value="' + education_level + '" maxlength="20" autocomplete="off" required>\
+                                    <input type="text" name="education_level[]" class="form-control education_input" value="' + education_level + '" maxlength="50" autocomplete="off" required>\
                                     <input type="hidden" name="education_id[]" class="form-control education_input education_id" value="' + education_id + '" readonly>\
                                 </td>\
                                 <td>\
                                     <label class="form-label">Course <span class="text-danger">*</span></label>\
-                                    <input type="text" name="education_course[]" class="form-control education_input" value="' + education_course + '" maxlength="30" autocomplete="off" required>\
+                                    <input type="text" name="education_course[]" class="form-control education_input" value="' + education_course + '" maxlength="100" autocomplete="off" required>\
                                 </td>\
                                 <td rowspan="2">\
                                     <center>\
@@ -341,7 +336,7 @@
                             <tr>\
                                 <td>\
                                     <label class="form-label">Institutions Name <span class="text-danger">*</span></label>\
-                                    <input type="text" name="education_university[]" class="form-control education_input" value="' + education_university + '" maxlength="50" autocomplete="off" required>\
+                                    <input type="text" name="education_university[]" class="form-control education_input" value="' + education_university + '" maxlength="255" onKeyUP="this.value = this.value.toUpperCase();" autocomplete="off" required>\
                                 </td>\
                                 <td>\
                                     <label class="form-label"> Upload Attachement </label>\
