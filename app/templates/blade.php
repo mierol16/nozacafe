@@ -240,6 +240,14 @@
 
             </div> <!-- content -->
 
+            <!-- Modal Preview PDF -->
+            <div class="modal fade" id="previewPdfModal" tabindex="-1" aria-hidden="true" data-backdrop="true">
+                <div class="modal-dialog modal-lg">
+                    <div id="showNotFoundPDF" class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"></div>
+                    <div id="showPDF" style="display: none;"></div>
+                </div>
+            </div>
+
             <!-- Footer Start -->
             <footer class="footer">
                 <div class="container-fluid">

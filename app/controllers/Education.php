@@ -1,6 +1,8 @@
 <?php
 
 use Education_info_model as Edu;
+use Files_model as Files;
+use User_model as users;
 
 class Education extends Controller
 {
@@ -14,15 +16,20 @@ class Education extends Controller
         json(Edu::all());
     }
 
+    public function getListByUserIDDt()
+    {
+        echo $this->Edu->getListByUserID(escape($_POST['id']));
+    }
+
     public function getEduByUserID()
     {
         $data = Edu::where(['user_id' => $_POST['id']]); // call static function
         json($data);
     }
 
-    public function getEduByID()
+    public function getDataByID()
     {
-        $data = Edu::find($_POST['id']); // call static function
+        $data = Edu::where(['education_id' => $_POST['id']], 'fetchRow', ['files']); // call static function
         json($data);
     }
 
@@ -40,7 +47,30 @@ class Education extends Controller
 
     public function save()
     {
-        $data = Edu::updateOrInsert($_POST);
+        $data = Edu::save($_POST); // call static function
+
+        if (isset($_FILES['education_file']['name'])) {
+
+            $userData = users::find($_POST['user_id']);
+            $files = $_FILES['education_file'];
+            $folderEdu = folder('directory', $_POST['user_fullname'], 'certificate');
+
+            $dataFolder = [
+                'type' => 'Education_info_model',
+                'file_type' => 'CERTIFICATE',
+                'entity_id' => $data['id'],
+                'user_id' => $_POST['user_id'],
+            ];
+
+            $upload = upload($files, $folderEdu, $dataFolder);
+            $upload['files_id'] = (isset($_POST['files_id'])) ? escape($_POST['files_id']) : NULL;
+            
+            if (!empty($upload)) {
+                Files::save($upload);
+            }
+        }
+
+        json($data);
         json($data);
     }
 

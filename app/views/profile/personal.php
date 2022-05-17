@@ -155,6 +155,31 @@
                         <div class="card mb-4">
                             <div class="card-body">
                                 <small class="text-muted text-uppercase">Education</small>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <button type="button" class="btn btn-warning btn-xs float-end ms-2" title="Refresh" onclick="getListEdu('{{$userID}}')">
+                                            <i class="fas fa-redo-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-12">
+                                        <div id="nodatadivEducation"> {{ nodata() }} </div>
+                                        <div id="dataListEducationDiv" class="card-datatable table-responsive" style="display: none;">
+                                            <table id="dataListEducation" class="table border-top" width="100%">
+                                                <thead class="table-dark table border-top">
+                                                    <tr>
+                                                        <th> Institution Name </th>
+                                                        <th> Education Level </th>
+                                                        <th> Education Course </th>
+                                                        <th width="2%"> Action </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -283,6 +308,7 @@
         getUserData('{{ $userID }}');
         setTimeout(function() {
             getDataListLeave('{{$userID}}');
+            getListEdu('{{$userID}}');
         }, 100);
     });
 
@@ -318,9 +344,41 @@
             id: id,
         });
     }
+    // server side datatable
+    async function getListEdu(id) {
+        generateDatatable('dataListEducation', 'serverside', 'education/getListByUserIDDt', 'nodatadivEducation', {
+            id: id,
+        });
+    }
 
-    async function updateRecord(id, encodeID, baseURL) {
-        window.location.href = baseURL + 'student/profile/' + encodeID;
+    async function updateRecord(id, type) {
+        console.log(type);
+        const url = (type == 'education') ? "education/getDataByID" : "contact/getDataByID";
+        const res = await callApi('post', url, id);
+
+        if (isSuccess(res)) {
+            (type == 'education') ? addEdu('update', res.data) : addContact('update', res.data)
+        } else {
+            noti(res.status);
+        }
+    }
+
+    function deleteRecord(id, type) {
+        const url = (type == 'education') ? 'education/delete' : 'contact/delete';
+        cuteAlert({
+            type: 'question',
+            title: 'Are you sure?',
+            message: 'Records will be permanently deleted !',
+            closeStyle: 'circle',
+            cancelText: 'Abort',
+            confirmText: 'Yes, Confirm!',
+        }).then(
+            async (e) => {
+                if (e == 'confirm') {
+                    const res = await deleteApi(id, url, getDataList);
+                }
+            }
+        );
     }
 
     async function updateProfile(id, data = null) {
@@ -331,6 +389,30 @@
         };
         // loadFormContent('application/application_form.php', null, null, 'application/addNewApplication', 'New Application', data, 'offcanvas');
         loadFileContent('profile/_upload.php', 'generalContent', null, 'Upload Profile', data, 'offcanvas');
+    }
+
+    function addEdu(type = 'create', data = null) {
+        const modalTitle = (type == 'create') ? 'Add Education' : 'Update Education';
+        const urlForm = (type == 'create') ? 'education/save' : 'contact/save';
+
+        if (data == null) {
+            data = {
+                'user_id': '{{$userID}}',
+            };
+        } else {
+            const current = {
+                'current_userid': "{{ session()->get('userID') }}",
+            };
+
+            const obj = {
+                ...data, 
+                ...current
+            };
+
+            data = obj;
+        }
+
+        loadFormContent('profile/_educationForm.php', 'generalContent', 'xl', urlForm, modalTitle, data);
     }
 
     $("#formAccountSettings").submit(function(event) {
