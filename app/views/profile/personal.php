@@ -222,7 +222,9 @@
                                                 <th> Date </th>
                                                 <th> Apply on </th>
                                                 <th> Status </th>
+                                                @if (session()->get('userID') == $userID)
                                                 <th width="2%"> Action </th>
+                                                @endif
                                             </tr>
                                         </thead>
                                         <tbody></tbody>
@@ -238,7 +240,7 @@
                     <div class="card-body">
                         <div class="row ">
                             <div class="col-12">
-                                <button type="button" class="btn btn-warning btn-sm float-end ms-2" onclick="getDataList('{{ $userID }}')" title="Refresh">
+                                <button type="button" class="btn btn-warning btn-sm float-end ms-2" onclick="getListContact('{{ $userID }}')" title="Refresh">
                                     <i class="fas fa-redo-alt"></i>
                                 </button>
                             </div>
@@ -246,15 +248,15 @@
                         <hr>
                         <div class="row">
                             <div class="col-12">
-                                <div id="nodatadiv"> {{ nodata() }} </div>
-                                <div id="dataListDiv" class="card-datatable table-responsive" style="display: none;">
-                                    <table id="dataList" class="table border-top" width="100%">
+                                <div id="nodatadivContact"> {{ nodata() }} </div>
+                                <div id="dataListContactDiv" class="card-datatable table-responsive" style="display: none;">
+                                    <table id="dataListContact" class="table border-top" width="100%">
                                         <thead class="table-dark table border-top">
                                             <tr>
-                                                <th> Student Name </th>
-                                                <th> Level </th>
-                                                <th> Class </th>
-                                                <th> Status </th>
+                                                <th> Name </th>
+                                                <th> Relationship </th>
+                                                <th> HP No. 1 </th>
+                                                <th> HP No. 2 </th>
                                                 <th width="2%"> Action </th>
                                             </tr>
                                         </thead>
@@ -317,9 +319,10 @@
     $(document).ready(function() {
         getUserData('{{ $userID }}');
         setTimeout(function() {
+            getQR('{{$userID}}');
             getDataListLeave('{{$userID}}');
             getListEdu('{{$userID}}');
-            getQR('{{$userID}}');
+            getListContact('{{$userID}}');
         }, 100);
     });
 
@@ -355,6 +358,7 @@
             id: id,
         });
     }
+
     // server side datatable
     async function getListEdu(id) {
         generateDatatable('dataListEducation', 'serverside', 'education/getListByUserIDDt', 'nodatadivEducation', {
@@ -362,8 +366,15 @@
         });
     }
 
+    // server side datatable
+    async function getListContact(id) {
+        generateDatatable('dataListContact', 'serverside', 'contact/getListByUserIDDt', 'nodatadivContact', {
+            id: id,
+        });
+    }
+
     async function updateRecord(id, type) {
-        const url = (type == 'education') ? "education/getDataByID" : "contact/getDataByID";
+        const url = (type == 'education') ? "education/getDataByID" : "contact/getContactByID";
         const res = await callApi('post', url, id);
 
         if (isSuccess(res)) {
@@ -420,7 +431,7 @@
 
     function addEdu(type = 'create', data = null) {
         const modalTitle = (type == 'create') ? 'Add Education' : 'Update Education';
-        const urlForm = (type == 'create') ? 'education/save' : 'contact/save';
+        const urlForm = (type == 'create') ? 'education/save' : 'education/save';
 
         if (data == null) {
             data = {
@@ -429,6 +440,19 @@
         }
 
         loadFormContent('profile/_educationForm.php', 'generalContent', 'xl', urlForm, modalTitle, data);
+    }
+
+    function addContact(type = 'create', data = null) {
+        const modalTitle = (type == 'create') ? 'Add Emergency Contact' : 'Update Emergency Contact';
+        const urlForm = (type == 'create') ? 'contact/save' : 'contact/save';
+
+        if (data == null) {
+            data = {
+                'user_id': '{{$userID}}',
+            };
+        }
+
+        loadFormContent('profile/_contactForm.php', 'generalContent', 'xl', urlForm, modalTitle, data);
     }
 
     async function getQR(id) {

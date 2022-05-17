@@ -14,6 +14,11 @@ class Contact extends Controller
         json(CM::all());
     }
 
+    public function getListByUserIDDt()
+    {
+        echo $this->CM->getListByUserID(escape($_POST['id']));
+    }
+
     public function getContactByUserID()
     {
         $data = CM::where(['user_id' => $_POST['id']]); // call static function
