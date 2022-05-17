@@ -284,6 +284,12 @@ class User extends Controller
 
         json($data);
     }
+
+    public function getQRbyUserID()
+    {
+        $data = Files::where(['user_id' => $_POST['id'], 'entity_file_type' => 'QR_CODE'], 'fetchRow');
+        json($data);
+    }
 }
 
 

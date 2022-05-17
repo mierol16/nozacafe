@@ -76,74 +76,84 @@
                     <div class="col-lg-3 col-md-3">
                         <div class="card mb-4">
                             <div class="card-body">
-                                <small class="text-muted text-uppercase">About</small>
-                                <ul class="list-unstyled mb-4 mt-3">
-                                    <li class="d-flex align-items-center mb-3">
-                                        <i class="fas fa-user"></i>
-                                        <span class="fw-semibold mx-2">Preferred Name:</span>
-                                        <span id="user_preferred_name_view">-</span>
-                                    </li>
-                                    <li class="d-flex align-items-center mb-3">
-                                        <i class="far fa-check-circle"></i>
-                                        <span class="fw-semibold mx-2">Status:</span>
-                                        <span id="user_status_view">-</span>
-                                    </li>
-                                    <li class="d-flex align-items-center mb-3"><i class="far fa-star"></i>
-                                        <span class="fw-semibold mx-2">Role:</span>
-                                        <span id="role_name_view">-</span>
-                                    </li>
-                                    <li class="d-flex align-items-center mb-3"><i class="fas fa-transgender"></i>
-                                        <span class="fw-semibold mx-2">Gender:</span>
-                                        <span id="user_gender_view">-</span>
-                                    </li>
-                                </ul>
+                                <small class="text-muted text-uppercase">QR Code</small><br>
+                                <center>
+                                    <img src="" id="qr_view" alt="qr image" class="img-fluid" width="77%">
+                                </center>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-9 col-md-9">
                         <div class="card mb-4">
                             <div class="card-body">
-                                <small class="text-muted text-uppercase">Personal Information</small>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
+                                        <small class="text-muted text-uppercase">About</small>
                                         <ul class="list-unstyled mb-4 mt-3">
                                             <li class="d-flex align-items-center mb-3">
-                                                <i class="fas fa-map-marker-alt"></i>
-                                                <span class="fw-semibold mx-2">Address:</span>
-                                                <span id="user_address_view">-</span>
+                                                <i class="fas fa-user"></i>
+                                                <span class="fw-semibold mx-2">Preferred Name:</span>
+                                                <span id="user_preferred_name_view">-</span>
                                             </li>
                                             <li class="d-flex align-items-center mb-3">
-                                                <i class="fas fa-map-marked-alt"></i>
-                                                <span class="fw-semibold mx-2">Postal Code:</span>
-                                                <span id="user_postcode_view">-</span>
+                                                <i class="far fa-check-circle"></i>
+                                                <span class="fw-semibold mx-2">Status:</span>
+                                                <span id="user_status_view">-</span>
                                             </li>
-                                            <li class="d-flex align-items-center mb-3"><i class="fas fa-map-signs"></i>
-                                                <span class="fw-semibold mx-2">City:</span>
-                                                <span id="user_city_view">-</span>
+                                            <li class="d-flex align-items-center mb-3"><i class="far fa-star"></i>
+                                                <span class="fw-semibold mx-2">Role:</span>
+                                                <span id="role_name_view">-</span>
                                             </li>
-                                            <li class="d-flex align-items-center mb-3"><i class="fas fa-flag"></i>
-                                                <span class="fw-semibold mx-2">State:</span>
-                                                <span id="user_state_view">-</span>
+                                            <li class="d-flex align-items-center mb-3"><i class="fas fa-transgender"></i>
+                                                <span class="fw-semibold mx-2">Gender:</span>
+                                                <span id="user_gender_view">-</span>
                                             </li>
                                         </ul>
                                     </div>
-                                    <div class="col-md-6">
-                                        <ul class="list-unstyled mb-4 mt-3">
-                                            <li class="d-flex align-items-center mb-3">
-                                                <i class="fas fa-birthday-cake"></i>
-                                                <span class="fw-semibold mx-2">Birthdate:</span>
-                                                <span id="user_dob_view">-</span>
-                                            </li>
-                                            <li class="d-flex align-items-center mb-3">
-                                                <i class="fas fa-handshake"></i>
-                                                <span class="fw-semibold mx-2">Race:</span>
-                                                <span id="user_race_view">-</span>
-                                            </li>
-                                            <li class="d-flex align-items-center mb-3"><i class="fas fa-book-open"></i>
-                                                <span class="fw-semibold mx-2">Religion:</span>
-                                                <span id="user_religion_view">-</span>
-                                            </li>
-                                        </ul>
+                                    <div class="col-md-9">
+                                        <small class="text-muted text-uppercase">Personal Information</small>
+                                        <div class="row">
+                                            <div class="col-md-7">
+                                                <ul class="list-unstyled mb-4 mt-3">
+                                                    <li class="d-flex align-items-center mb-3">
+                                                        <i class="fas fa-map-marker-alt"></i>
+                                                        <span class="fw-semibold mx-2">Address:</span>
+                                                        <span id="user_address_view">-</span>
+                                                    </li>
+                                                    <li class="d-flex align-items-center mb-3">
+                                                        <i class="fas fa-map-marked-alt"></i>
+                                                        <span class="fw-semibold mx-2">Postal Code:</span>
+                                                        <span id="user_postcode_view">-</span>
+                                                    </li>
+                                                    <li class="d-flex align-items-center mb-3"><i class="fas fa-map-signs"></i>
+                                                        <span class="fw-semibold mx-2">City:</span>
+                                                        <span id="user_city_view">-</span>
+                                                    </li>
+                                                    <li class="d-flex align-items-center mb-3"><i class="fas fa-flag"></i>
+                                                        <span class="fw-semibold mx-2">State:</span>
+                                                        <span id="user_state_view">-</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <ul class="list-unstyled mb-4 mt-3">
+                                                    <li class="d-flex align-items-center mb-3">
+                                                        <i class="fas fa-birthday-cake"></i>
+                                                        <span class="fw-semibold mx-2">Birthdate:</span>
+                                                        <span id="user_dob_view">-</span>
+                                                    </li>
+                                                    <li class="d-flex align-items-center mb-3">
+                                                        <i class="fas fa-handshake"></i>
+                                                        <span class="fw-semibold mx-2">Race:</span>
+                                                        <span id="user_race_view">-</span>
+                                                    </li>
+                                                    <li class="d-flex align-items-center mb-3"><i class="fas fa-book-open"></i>
+                                                        <span class="fw-semibold mx-2">Religion:</span>
+                                                        <span id="user_religion_view">-</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -309,6 +319,7 @@
         setTimeout(function() {
             getDataListLeave('{{$userID}}');
             getListEdu('{{$userID}}');
+            getQR('{{$userID}}');
         }, 100);
     });
 
@@ -352,12 +363,28 @@
     }
 
     async function updateRecord(id, type) {
-        console.log(type);
         const url = (type == 'education') ? "education/getDataByID" : "contact/getDataByID";
         const res = await callApi('post', url, id);
 
         if (isSuccess(res)) {
             (type == 'education') ? addEdu('update', res.data) : addContact('update', res.data)
+        } else {
+            noti(res.status);
+        }
+    }
+
+    async function viewRecord(id) {
+        const res = await callApi('post', "education/getDataByID", id);
+
+        if (isSuccess(res)) {
+            const data = res.data;
+
+            if (data != null) {
+
+                const files = data.files;
+                previewPDF(files.files_path, files.files_extension);
+            }
+
         } else {
             noti(res.status);
         }
@@ -399,20 +426,20 @@
             data = {
                 'user_id': '{{$userID}}',
             };
-        } else {
-            const current = {
-                'current_userid': "{{ session()->get('userID') }}",
-            };
-
-            const obj = {
-                ...data, 
-                ...current
-            };
-
-            data = obj;
         }
 
         loadFormContent('profile/_educationForm.php', 'generalContent', 'xl', urlForm, modalTitle, data);
+    }
+
+    async function getQR(id) {
+        const res = await callApi('post', "user/getQRbyUserID", id);
+
+        if (isSuccess(res)) {
+            const data = res.data;
+            $("#qr_view").attr("src", data.files_path);
+        } else {
+            noti(res.status);
+        }
     }
 
     $("#formAccountSettings").submit(function(event) {

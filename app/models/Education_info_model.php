@@ -93,13 +93,15 @@ class Education_info_model extends Model
         $this->serversideDt->hide('user_id');
 
         $this->serversideDt->edit('education_id', function ($data) {
-            $del = $edit = '';
+            $del = $edit = $view = '';
             if (session()->get('userID') == $data['user_id']) {
                 $del = '<button onclick="deleteRecord(' . $data[$this->primaryKey] . ', \'education\')" data-toggle="confirm" data-id="' . $data[$this->primaryKey] . '" class="btn btn-xs btn-danger" title="Delete"> <i class="fa fa-trash"></i> </button>';
+                $edit = '<button class="btn btn-xs btn-info" onclick="updateRecord(' . $data[$this->primaryKey] . ', \'education\')" title="Edit"><i class="fa fa-edit"></i> </button>';
+            } else {
+                $view = '<button class="btn btn-xs btn-success" onclick="viewRecord(' . $data[$this->primaryKey] . ')" title="View"><i class="fa fa-eye"></i> </button>';
             }
-            $edit = '<button class="btn btn-xs btn-info" onclick="updateRecord(' . $data[$this->primaryKey] . ', \'education\')" title="Edit"><i class="fa fa-edit"></i> </button>';
 
-            return "<center> $del $edit </center>";
+            return "<center> $del $edit $view </center>";
         });
 
         echo $this->serversideDt->generate();

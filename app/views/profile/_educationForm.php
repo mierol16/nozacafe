@@ -40,7 +40,7 @@
         </div>
     </div>
     
-    <div class="row mt-2" id="btnShow">
+    <div class="row mt-2">
         <div class="col-lg-12">
             <span class="text-danger">* Indicates a required field</span>
             <center>
@@ -56,12 +56,7 @@
 <script>
     function getPassData(baseUrl, token, data) {
         var user_id = data.user_id;
-        var curr_userid = data.current_userid
         $('#user_id_education').val(user_id);
-
-        if (curr_userid != user_id) {
-            $('#btnShow').hide();
-        }
 
         if (data != null) {
             $('#listFilesDiv').show();
