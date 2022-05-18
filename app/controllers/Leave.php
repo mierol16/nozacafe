@@ -7,6 +7,7 @@ use Staff_leave_model as SLM;
 use User_model as Users;
 use Notification_model as Noti;
 use Master_runningno_model as RunningNo;
+use Files_model as Files;
 
 class Leave extends Controller
 {
@@ -123,7 +124,10 @@ class Leave extends Controller
 
     public function getLeaveDetailByID()
     {
-        json($this->SLM->getDetailByID($_POST['id']));
+        $data = $this->SLM->getDetailByID($_POST['id']);
+        $files = SLM::where(['staff_leave_id' => $_POST['id']], 'fetchRow', ['files']);
+        $data['files'] = $files['files'];
+        json($data);
     }
 
     public function countDayLeave()
@@ -326,13 +330,33 @@ class Leave extends Controller
             $this->RunningNo->updateLeaveNo();
             $users = Users::find($data['data']['user_id']);
             $getAdmissionAcc = Users::where(['role_id' => '2']);
+
+            if (isset($_FILES['leave_file']['name'])) {
+
+                $files = $_FILES['leave_file'];
+                $folderEdu = folder('directory', $users['user_fullname'], 'leave');
+    
+                $dataFolder = [
+                    'type' => 'Staff_leave_model',
+                    'file_type' => 'LEAVE',
+                    'entity_id' => $data['id'],
+                    'user_id' => $_POST['user_id'],
+                ];
+    
+                $upload = upload($files, $folderEdu, $dataFolder);
+                $upload['files_id'] = (isset($_POST['files_id'])) ? escape($_POST['files_id']) : NULL;
+                
+                if (!empty($upload)) {
+                    Files::save($upload);
+                }
+            }
     
             if (count($getAdmissionAcc) > 0) {
                 foreach ($getAdmissionAcc as $noti) {
                     Noti::save(
                         [
                             'noti_type' => '1',
-                            'noti_text' => 'New Leave Application ' . $data['leave_no'] . ' from ' . $users['user_fullname'],
+                            'noti_text' => 'New Leave Application ' . $data['data']['leave_no'] . ' from ' . $users['user_fullname'],
                             'noti_redirect' => url('leave/new'),
                             'noti_status' => '0',
                             'user_id' => $noti['user_id'],

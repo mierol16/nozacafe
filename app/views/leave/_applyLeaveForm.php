@@ -37,6 +37,23 @@
         </div>
     </div>
 
+    <div class="row mt-2">
+        <div class="col-lg-12">
+            <label class="form-label"> Upload Cert </label>
+            <input type="file" name="leave_file" class="form-control" accept="image/x-png,image/jpeg,image/jpg, .pdf">
+            <div class="alert alert-warning mt-2" role="alert">
+                <span class="form-text text-muted"><b> A few notes before you upload certification </b></span>
+                <span class="form-text text-muted">
+                    <ul>
+                        <li> Upload only file with extension jpeg, png and pdf. </li>
+                        <li> Files size support <b><i style="color: red"> 5 MB only. </i> </b></li>
+                        <li> Please wait for the upload to complete. </li>
+                    </ul>
+                </span>
+            </div>
+        </div>
+    </div>
+
     <div class="row mt-4">
         <div class="col-lg-12">
             <span class="text-danger mb-2">* Indicates a required field</span>

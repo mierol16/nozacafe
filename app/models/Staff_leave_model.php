@@ -42,13 +42,18 @@ class Staff_leave_model extends Model
      *
      * @return array
      */
-    public $with = [];
+    public $with = ['files'];
 
     ###################################################################
     #                                                                 #
     #               Start custom function below                       #
     #                                                                 #
     ###################################################################
+
+    public function filesRelation($data)
+    {
+        return hasOne('Files_model', 'entity_id', $data[$this->primaryKey], ['entity_file_type' => 'LEAVE']);
+    }
 
     public function getlist($status = null)
     {
@@ -105,8 +110,8 @@ class Staff_leave_model extends Model
         $this->serversideDt->edit('staff_leave_id', function ($data) {
             $del = $edit = $view = '';
             if ($data['leave_status'] == 1) {
-                $del = '<button onclick="rejectLeave(' . $data[$this->primaryKey] . ')" data-toggle="confirm" data-id="' . $data[$this->primaryKey] . '" class="btn btn-xs btn-danger" title="Reject"> <i class="fa fa-times"></i> </button>';
-                $edit = '<button class="btn btn-xs btn-info" onclick="approveLeave(' . $data[$this->primaryKey] . ')" title="Approve"><i class="fa fa-check"></i> </button>';
+                $del = '<button onclick="rejectLeave(' . $data[$this->primaryKey] . ', 3)" data-toggle="confirm" data-id="' . $data[$this->primaryKey] . '" class="btn btn-xs btn-danger" title="Reject"> <i class="fa fa-times"></i> </button>';
+                $edit = '<button class="btn btn-xs btn-info" onclick="approveLeave(' . $data[$this->primaryKey] . ', 2)" title="Approve"><i class="fa fa-check"></i> </button>';
             } else if ($data['leave_status'] == 2 || $data['leave_status'] == 3) {
                 $view = '<button class="btn btn-xs btn-success" onclick="viewDetail(' . $data[$this->primaryKey] . ')" title="View"><i class="fa fa-eye"></i> </button>';
             }

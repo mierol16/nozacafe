@@ -53,7 +53,7 @@ class Education extends Controller
 
             $userData = users::find($_POST['user_id']);
             $files = $_FILES['education_file'];
-            $folderEdu = folder('directory', $_POST['user_fullname'], 'certificate');
+            $folderEdu = folder('directory', $userData['user_fullname'], 'certificate');
 
             $dataFolder = [
                 'type' => 'Education_info_model',
@@ -70,7 +70,6 @@ class Education extends Controller
             }
         }
 
-        json($data);
         json($data);
     }
 

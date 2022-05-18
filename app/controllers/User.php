@@ -188,9 +188,10 @@ class User extends Controller
                             <font color="#666666" face="Open Sans, Helvetica Neue, Helvetica, Arial, sans-serif"><span style="font-size: 10px; letter-spacing: normal;">(This is an auto-generated email. Please do not reply this email)</span></font>
                             <p style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;">&copy; <strong>nozacafe.canthinksolution.com</strong></p>';
                 
-                sentMail(['recipient_name' => $userData['user_fullname'], 'recipient_email' => $userData['user_email'], 'subject' => 'User Registration'], $content);
             }
-
+                        
+            sentMail(['recipient_name' => $userData['user_fullname'], 'recipient_email' => $userData['user_email'], 'subject' => 'User Registration'], $content);
+            
             // register contact person
             if (isset($_POST['contact_name'])) {
                 foreach ($_POST['contact_name'] as $key => $level) {

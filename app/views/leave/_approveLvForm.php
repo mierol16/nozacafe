@@ -50,9 +50,13 @@
                 <label style="color : #b3b3cc">Leave Date </label><br>
                 <span id="leave_date" style="font-weight:bold"></span>
             </div>
-            <div class="col-lg-8">
+            <div class="col-lg-4">
                 <label style="color : #b3b3cc">Leave Description </label><br>
                 <span id="leave_comment" style="font-weight:bold"></span>
+            </div>
+            <div class="col-lg-4">
+                <label style="color : #b3b3cc">Attachment </label><br>
+                <button class="btn btn-xs btn-success" id="preview_file" title="Attachment"><i class="fas fa-folder-open"></i> </button>
             </div>
         </div>
 
@@ -75,7 +79,7 @@
                     <span class="text-danger mb-2">* Indicates a required field</span>
                     <center>
                         <input type="hidden" id="staff_leave_id" name="staff_leave_id" class="form-control" readonly>
-                        <input type="hidden" id="leave_status" name="leave_status" class="form-control" value="2" readonly>
+                        <input type="text" id="leave_status_form" name="leave_status" class="form-control" readonly>
                         <input type="hidden" id="user_id" name="user_id" class="form-control" readonly>
                         <button type="submit" id="submitBtn" class="btn btn-success"> <i class='fa fa-save'></i> Approve </button>
                     </center>
@@ -120,11 +124,20 @@
 
         $('#user_id').val(data.user_id);
         $('#staff_leave_id').val(data.staff_leave_id);
+        $('#leave_status_form').val(data.status);
 
         $('#user_fullname').text(data.user_fullname);
         $('#user_no').text(data.user_no);
         $('#user_email').text(data.user_email);
         $('#user_contact_no').text(data.user_contact_no);
+
+        if (data.files) {
+            var files = data.files;
+            $('#preview_file').attr("onclick", "previewPDF('" + files.payment_receipt_file + "', '" + files.payment_receipt_file_type + "')");
+        } else {
+            $('#preview_file').attr("disabled", true);
+            $('#preview_file').attr("title", "No Attachment");
+        }
 
         var status = '';
 
@@ -136,6 +149,10 @@
             status = '<h4 class="m-0"><span class="badge bg-danger">Not Approved</span></h4>';
         } else {
             status = '';
+        }
+
+        if (data.status == 2) {
+            
         }
 
         $('#leave_status').html(status);
