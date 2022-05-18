@@ -126,7 +126,23 @@ class Leave extends Controller
     {
         $data = $this->SLM->getDetailByID($_POST['id']);
         $files = SLM::where(['staff_leave_id' => $_POST['id']], 'fetchRow', ['files']);
+
+        $pendingLv = SLM::where(['config_leave_id' => $data['config_leave_id'], 'user_id' => $data['user_id'], 'leave_status' => '1']);
+        $leaveConfig = CLM::find($data['config_leave_id']);
+
+        $noOfDays = $bal = 0;
+
+        if (count($pendingLv) > 0) {
+            foreach ($pendingLv as $row) {
+                $noOfDays += $row['leave_duration'];
+            }
+        }
+
+        $bal = $leaveConfig['preset_duration'] - $noOfDays;
+
         $data['files'] = $files['files'];
+        $data['balance'] = $bal;
+        $data['updated_at'] = $files['updated_at'];
         json($data);
     }
 
@@ -332,7 +348,7 @@ class Leave extends Controller
             $getAdmissionAcc = Users::where(['role_id' => '2']);
 
             if (isset($_FILES['leave_file']['name'])) {
-
+                
                 $files = $_FILES['leave_file'];
                 $folderEdu = folder('directory', $users['user_fullname'], 'leave');
     
@@ -344,13 +360,11 @@ class Leave extends Controller
                 ];
     
                 $upload = upload($files, $folderEdu, $dataFolder);
-                $upload['files_id'] = (isset($_POST['files_id'])) ? escape($_POST['files_id']) : NULL;
                 
                 if (!empty($upload)) {
                     Files::save($upload);
                 }
             }
-    
             if (count($getAdmissionAcc) > 0) {
                 foreach ($getAdmissionAcc as $noti) {
                     Noti::save(
@@ -370,7 +384,7 @@ class Leave extends Controller
         json($data);
     }
 
-    public function approveLeave()
+    public function approvalLeave()
     {
         $data = SLM::save(
             [
@@ -385,48 +399,21 @@ class Leave extends Controller
             $leaveConfig = CLM::where(['config_leave_id' => $userLeave['config_leave_id'], 'user_id' => $_POST['user_id']], 'fetchRow');
             $getAdmin = Users::find(session()->get('userID'));
     
-            $balance = $leaveConfig['preset_duration'] - $userLeave['leave_duration'];
-    
-            CLM::save(
-                [
-                    'config_leave_id' => $leaveConfig['config_leave_id'],
-                    'preset_duration' => $balance,
-                ]
-            );
+            if ($_POST['leave_status'] == 2) {
+                $balance = $leaveConfig['preset_duration'] - $userLeave['leave_duration'];
+        
+                CLM::save(
+                    [
+                        'config_leave_id' => $leaveConfig['config_leave_id'],
+                        'preset_duration' => $balance,
+                    ]
+                );
+            }
 
             Noti::save(
                 [
                     'noti_type' => '1',
-                    'noti_text' => 'Your leave no ' . $userLeave['leave_no'] . ' has been approved by' . $getAdmin['user_fullname'],
-                    'noti_redirect' => url('leave/userLeave'),
-                    'noti_status' => '0',
-                    'user_id' => $_POST['user_id'],
-                    'user_preferred_name' => $getAdmin['user_preferred_name'],
-                ]
-            );
-        }
-
-        json($data);
-    }
-
-    public function rejectLeave()
-    {
-        $data = SLM::save(
-            [
-                'staff_leave_id' => $_POST['staff_leave_id'],
-                'leave_remark' => $_POST['leave_remark'],
-                'leave_status' => $_POST['leave_status'],
-            ]
-        );
-
-        if ($data['resCode'] == 200) {
-            $userLeave = SLM::find($_POST['staff_leave_id']);
-            $getAdmin = Users::find(session()->get('userID'));
-
-            Noti::save(
-                [
-                    'noti_type' => '1',
-                    'noti_text' => 'Your leave no ' . $userLeave['leave_no'] . ' has been reject by' . $getAdmin['user_fullname'],
+                    'noti_text' => 'Your leave no ' . $userLeave['leave_no'] . ' has been approved by ' . $getAdmin['user_fullname'],
                     'noti_redirect' => url('leave/userLeave'),
                     'noti_status' => '0',
                     'user_id' => $_POST['user_id'],

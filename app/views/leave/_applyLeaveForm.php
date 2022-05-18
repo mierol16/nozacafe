@@ -39,7 +39,7 @@
 
     <div class="row mt-2">
         <div class="col-lg-12">
-            <label class="form-label"> Upload Cert </label>
+            <label class="form-label"> Attachement </label>
             <input type="file" name="leave_file" class="form-control" accept="image/x-png,image/jpeg,image/jpg, .pdf">
             <div class="alert alert-warning mt-2" role="alert">
                 <span class="form-text text-muted"><b> A few notes before you upload certification </b></span>

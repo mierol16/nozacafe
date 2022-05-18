@@ -2,7 +2,7 @@
     <div class="col-lg-12">
         <div class="row">
             <div class="alert alert-primary" role="alert">
-                <h5 class="alert-heading fw-bold mb-1">Applicant Details</h5>
+                <h5 class="alert-heading fw-bold m-0">Applicant Details</h5>
             </div>
             <div class="col-lg-6">
                 <label style="color : #b3b3cc">Employee No</label><br>
@@ -27,9 +27,9 @@
 
     <div class="col-lg-12">
 
-        <div class="row">
+        <div class="row mt-2">
             <div class="alert alert-primary" role="alert">
-                <h5 class="alert-heading fw-bold mb-1">Leave Details</h5>
+                <h5 class="alert-heading fw-bold m-0">Leave Details</h5>
             </div>
             <div class="col-lg-4">
                 <label style="color : #b3b3cc">Leave Status </label><br>
@@ -60,11 +60,11 @@
             </div>
         </div>
 
-        <form id="formApproveLeave" action="leave/approveLeave" method="POST">
+        <form id="formApproveLeave" action="leave/approvalLeave" method="POST">
         
         <div class="row mt-2">
             <div class="alert alert-primary" role="alert">
-                <h5 class="alert-heading fw-bold mb-1">Approve Details</h5>
+                <h5 class="alert-heading fw-bold m-0">Approve Details</h5>
             </div>
             <div class="col-lg-12">
                 <div class="form-group">
@@ -81,7 +81,7 @@
                         <input type="hidden" id="staff_leave_id" name="staff_leave_id" class="form-control" readonly>
                         <input type="text" id="leave_status_form" name="leave_status" class="form-control" readonly>
                         <input type="hidden" id="user_id" name="user_id" class="form-control" readonly>
-                        <button type="submit" id="submitBtn" class="btn btn-success"> <i class='fa fa-save'></i> Approve </button>
+                        <button type="submit" id="submitBtn" class="btn btn-success">  </button>
                     </center>
                 </div>
             </div>
@@ -133,10 +133,11 @@
 
         if (data.files) {
             var files = data.files;
-            $('#preview_file').attr("onclick", "previewPDF('" + files.payment_receipt_file + "', '" + files.payment_receipt_file_type + "')");
+            $('#preview_file').attr("onclick", "previewPDF('" + files.files_path + "', '" + files.files_extension + "')");
         } else {
             $('#preview_file').attr("disabled", true);
-            $('#preview_file').attr("title", "No Attachment");
+            $('#preview_file').attr("class", "btn btn-xs btn-danger");
+            $('#preview_file').html('<i class="fas fa-times"></i>');
         }
 
         var status = '';
@@ -151,17 +152,23 @@
             status = '';
         }
 
+        var submitBtn = '';
+
         if (data.status == 2) {
-            
+            $('#submitBtn').attr("class", "btn btn-success");
+            submitBtn = '<i class="fa fa-save"></i> Approve';
+        } else {
+            $('#submitBtn').attr("class", "btn btn-danger");
+            submitBtn = '<i class="fa fa-save"></i> Reject';
         }
+
+        $('#submitBtn').html(submitBtn);
 
         $('#leave_status').html(status);
         $('#leave_name').text(data.leave_name);
         $('#leave_comment').text(data.leave_comment);
 
-        var balance = data.preset_duration - data.leave_duration;
-
-        $('#leave_balance').text(balance + '/' + data.preset_duration);
+        $('#leave_balance').text(data.balance + '/' + data.preset_duration);
 
         $('#leave_date').html(moment(data.leave_date_from).format("DD/MM/YYYY, dddd") + ' - ' + moment(data.leave_date_to).format("DD/MM/YYYY, dddd"));
     }

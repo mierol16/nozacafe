@@ -257,7 +257,9 @@
                                                 <th> Relationship </th>
                                                 <th> HP No. 1 </th>
                                                 <th> HP No. 2 </th>
+                                                @if (session()->get('userID') == $userID)
                                                 <th width="2%"> Action </th>
+                                                @endif
                                             </tr>
                                         </thead>
                                         <tbody></tbody>

@@ -4,7 +4,7 @@
         <div class="col-lg-4 col-md-12 p-4 fill border-right">
             <div class="row">
                 <div class="alert alert-primary" role="alert">
-                    <h4 class="alert-heading fw-bold mb-1">Personal Information</h4>
+                    <h4 class="alert-heading fw-bold m-0">Personal Information</h4>
                 </div>
             </div>
 
@@ -118,10 +118,10 @@
         <div class="col-lg-4 col-md-12 p-4 fill border-right h-100 show" data-simplebar="init">
             <div class="row">
                 <div class="alert alert-primary" role="alert">
-                    <button type="button" id="add_input_education" class="btn btn-success btn-sm px-2 float-end" onclick="addEducation()">
+                    <button type="button" id="add_input_education" class="btn btn-success btn-xs px-2 float-end" onclick="addEducation()">
                         <i class="fas fa-plus"></i>
                     </button>
-                    <h4 class="alert-heading fw-bold mb-1">Background Education</h4>
+                    <h4 class="alert-heading fw-bold m-0">Background Education</h4>
                 </div>
             </div>
 
@@ -130,10 +130,10 @@
 
             <div class="row mt-1">
                 <div class="alert alert-primary" role="alert">
-                    <button type="button" class="btn btn-success btn-sm px-2 float-end" onclick="addContact()">
+                    <button type="button" class="btn btn-success btn-xs px-2 float-end" onclick="addContact()">
                         <i class="fas fa-plus"></i>
                     </button>
-                    <h4 class="alert-heading fw-bold mb-1">Contact Information</h4>
+                    <h4 class="alert-heading fw-bold m-0">Contact Information</h4>
                 </div>
             </div>
 
@@ -144,7 +144,7 @@
         <div class="col-lg-4 col-md-12 p-4 fill border-right">
             <div class="row">
                 <div class="alert alert-primary" role="alert">
-                    <h4 class="alert-heading fw-bold mb-1">Leave Information</h4>
+                    <h4 class="alert-heading fw-bold m-0">Leave Information</h4>
                 </div>
             </div>
 
@@ -327,7 +327,7 @@
                                 </td>\
                                 <td rowspan="2">\
                                     <center>\
-                                        <button type="button" id="remove_input_education" class="btn btn-danger btn-sm px-2 education_btn" ' + btnRemove + '>\
+                                        <button type="button" id="remove_input_education" class="btn btn-danger btn-xs px-2 education_btn" ' + btnRemove + '>\
                                             <i class="fas fa-minus"></i>\
                                         </button>\
                                     </center>\
@@ -454,7 +454,7 @@
                             </td>\
                             <td rowspan="2">\
                                 <center>\
-                                    <button type="button" id="remove_input_contact" class="btn btn-danger btn-sm px-2 contact_btn" ' + btnRemove + '>\
+                                    <button type="button" id="remove_input_contact" class="btn btn-danger btn-xs px-2 contact_btn" ' + btnRemove + '>\
                                         <i class="fas fa-minus"></i>\
                                     </button>\
                                 </center>\

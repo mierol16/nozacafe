@@ -63,7 +63,6 @@ class Education extends Controller
             ];
 
             $upload = upload($files, $folderEdu, $dataFolder);
-            $upload['files_id'] = (isset($_POST['files_id'])) ? escape($_POST['files_id']) : NULL;
             
             if (!empty($upload)) {
                 Files::save($upload);

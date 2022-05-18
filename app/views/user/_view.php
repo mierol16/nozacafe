@@ -1,6 +1,6 @@
 <div class="row">
     <div class="alert alert-primary" role="alert">
-        <h4 class="alert-heading fw-bold mb-1">Personal Information</h4>
+        <h4 class="alert-heading fw-bold m-0">Personal Information</h4>
     </div>
     <div class="col-lg-10">
         <div class="row">
@@ -68,7 +68,7 @@
 
 <div class="row mt-4">
     <div class="alert alert-primary" role="alert">
-        <h4 class="alert-heading fw-bold mb-1">Background Education</h4>
+        <h4 class="alert-heading fw-bold m-0">Background Education</h4>
     </div>
     <div class="col-lg-12" id="education_view">
     </div>
@@ -76,7 +76,7 @@
 
 <div class="row mt-4">
     <div class="alert alert-primary" role="alert">
-        <h4 class="alert-heading fw-bold mb-1">Contact Information</h4>
+        <h4 class="alert-heading fw-bold m-0">Contact Information</h4>
     </div>
     <div class="col-lg-12" id="contact_view">
     </div>

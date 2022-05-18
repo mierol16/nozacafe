@@ -1,68 +1,83 @@
 <div class="row">
     <div class="col-lg-12">
-        <div class="alert alert-primary" role="alert">
-            <h5 class="alert-heading fw-bold mb-1">Leave Details</h5>
+        <div class="row">
+            <div class="alert alert-primary" role="alert">
+                <h5 class="alert-heading fw-bold m-0">Applicant Details</h5>
+            </div>
+            <div class="col-lg-6">
+                <label style="color : #b3b3cc">Employee No</label><br>
+                <span id="user_no" style="font-weight:bold"></span>
+            </div>
+            <div class="col-lg-6">
+                <label style="color : #b3b3cc">Full Name</label><br>
+                <span id="user_fullname" style="font-weight:bold"></span>
+            </div>
         </div>
-        <table class="table table-bordered table-sm" width="100%">
-            <tbody>
-                <tr>
-                    <td width="15%" style="background-color: #323a46; color: #fff;">
-                        <strong>Employee Name</strong>
-                    </td>
-                    <td width="30%"><span id="user_fullname" style="font-weight:bold"></span></td>
-                    <td width="15%" style="background-color: #323a46; color: #fff;">
-                        <strong>Employee No</strong>
-                    </td>
-                    <td width="30%"><span id="user_no" style="font-weight:bold"></span></td>
-                </tr>
-                <tr>
-                    <td width="15%" style="background-color: #323a46; color: #fff;">
-                        <strong>Employee Email</strong>
-                    </td>
-                    <td width="30%"><span id="user_email" style="font-weight:bold"></span></td>
-                    <td width="15%" style="background-color: #323a46; color: #fff;">
-                        <strong>Contact No</strong>
-                    </td>
-                    <td width="30%"><span id="user_contact_no" style="font-weight:bold"></span></td>
-                </tr>
-                <tr>
-                    <td width="15%" style="background-color: #323a46; color: #fff;">
-                        <strong>Leave Type</strong>
-                    </td>
-                    <td width="30%"><span id="leave_name" style="font-weight:bold"></span></td>
-                    <td width="15%" style="background-color: #323a46; color: #fff;">
-                        <strong>Leave Balance</strong>
-                    </td>
-                    <td width="30%"><span id="leave_balance" style="font-weight:bold"></span></td>
-                </tr>
-                <tr>
-                    <td width="15%" style="background-color: #323a46; color: #fff;">
-                        <strong>Leave Date</strong>
-                    </td>
-                    <td width="30%"><span id="leave_date" style="font-weight:bold"></span></td>
-                    <td width="15%" style="background-color: #323a46; color: #fff;">
-                        <strong>Leave Status</strong>
-                    </td>
-                    <td width="30%"><span id="leave_status"></span></td>
-                </tr>
-                <tr>
-                    <td style="background-color: #323a46; color: #fff;">
-                        <strong>Leave Description</strong>
-                    </td>
-                    <td colspan="3" width="30%"><span id="leave_comment" style="font-weight:bold">N/A</span></td>
-                </tr>
-                <tr>
-                    <td width="15%" style="background-color: #323a46; color: #fff;">
-                        <strong>Admin Remark</strong>
-                    </td>
-                    <td width="30%"><span id="leave_remark" style="font-weight:bold"> - </span></td>
-                    <td width="15%" style="background-color: #323a46; color: #fff;">
-                        <strong>Admin Action Taken Date</strong>
-                    </td>
-                    <td width="30%"><span id="date_taken" style="font-weight:bold"> - </span></td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="row mt-2">
+            <div class="col-lg-6">
+                <label style="color : #b3b3cc">Email</label><br>
+                <span id="user_email" style="font-weight:bold"></span>
+            </div>
+            <div class="col-lg-6">
+                <label style="color : #b3b3cc">Contact No</label><br>
+                <span id="user_contact_no" style="font-weight:bold"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+
+        <div class="row mt-2">
+            <div class="alert alert-primary" role="alert">
+                <h5 class="alert-heading fw-bold m-0">Leave Details</h5>
+            </div>
+            <div class="col-lg-4">
+                <label style="color : #b3b3cc">Leave Status </label><br>
+                <span id="leave_status" style="font-weight:bold"></span>
+            </div>
+            <div class="col-lg-4">
+                <label style="color : #b3b3cc">Leave Type </label><br>
+                <span id="leave_name" style="font-weight:bold"></span>
+            </div>
+            <div class="col-lg-4">
+                <label style="color : #b3b3cc">Leave Balance </label><br>
+                <span id="leave_balance" style="font-weight:bold"></span>
+            </div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-lg-4">
+                <label style="color : #b3b3cc">Leave Date </label><br>
+                <span id="leave_date" style="font-weight:bold"></span>
+            </div>
+            <div class="col-lg-4">
+                <label style="color : #b3b3cc">Leave Description </label><br>
+                <span id="leave_comment" style="font-weight:bold"></span>
+            </div>
+            <div class="col-lg-4">
+                <label style="color : #b3b3cc">Attachment </label><br>
+                <button class="btn btn-xs btn-success" id="preview_file" title="Attachment"><i class="fas fa-folder-open"></i> </button>
+            </div>
+        </div>
+
+        
+        <div class="row mt-2">
+            <div class="alert alert-primary" role="alert">
+                <h5 class="alert-heading fw-bold m-0">Approval Details</h5>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label style="color : #b3b3cc"> Remarks </label><br>
+                    <span id="leave_remark" style="font-weight:bold"> - </span>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label style="color : #b3b3cc"> Admin Action Taken Date </label><br>
+                    <span id="date_taken" style="font-weight:bold"> - </span>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
     
@@ -76,6 +91,15 @@
         $('#user_no').text(data.user_no);
         $('#user_email').text(data.user_email);
         $('#user_contact_no').text(data.user_contact_no);
+
+        if (data.files) {
+            var files = data.files;
+            $('#preview_file').attr("onclick", "previewPDF('" + files.files_path + "', '" + files.files_extension + "')");
+        } else {
+            $('#preview_file').attr("disabled", true);
+            $('#preview_file').attr("class", "btn btn-xs btn-danger");
+            $('#preview_file').html('<i class="fas fa-times"></i>');
+        }
 
         var status = '';
 
@@ -95,9 +119,7 @@
         $('#leave_remark').text(data.leave_remark);
         $('#date_taken').text(moment(data.updated_at).format("DD/MM/YYYY hh:mm A"));
 
-        var balance = data.preset_duration - data.leave_duration;
-
-        $('#leave_balance').text(balance + '/' + data.preset_duration);
+        $('#leave_balance').text(data.balance + '/' + data.preset_duration);
 
         $('#leave_date').html(moment(data.leave_date_from).format("DD/MM/YYYY, dddd") + ' - ' + moment(data.leave_date_to).format("DD/MM/YYYY, dddd"));
     }

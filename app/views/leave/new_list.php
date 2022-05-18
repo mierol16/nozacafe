@@ -128,7 +128,7 @@
         }
     }
 
-    async function approveLeave(id, type) {
+    async function approvalLeave(id, type) {
         const title = (type == 2) ? 'Leave Approval Form' : 'Leave Reject Form';
         const res = await callApi('post', "leave/getLeaveDetailByID", id);
         const data = {
@@ -137,11 +137,6 @@
         }
 
         loadFileContent('leave/_approveLvForm.php', 'generalContent', 'xl', title, data);
-    }
-
-    async function rejectLeave(id) {
-        const res = await callApi('post', "leave/getLeaveDetailByID", id);
-        loadFileContent('leave/_rejectLvForm.php', 'generalContent', 'xl', 'Leave Reject Form', res.data);
     }
 
     // function formModal(type = 'create', data = null) {
