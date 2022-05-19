@@ -32,7 +32,7 @@
                             <th width="25%"> Duration</th>
                         </tr>
                     </thead>
-                    <tbody id="leave"></tbody>
+                    <tbody id="leaveTable"></tbody>
                 </table>
             </div>
 
@@ -89,8 +89,9 @@
         });
         // check if request is success
         if (isSuccess(res)) {
-            $('#leave').empty();
-            $('#leave').html(res.data);
+            console.log(res.data);
+            $('#leaveTable').empty();
+            $('#leaveTable').html(res.data);
         } else {
             noti(res.status); // show error message
         }
