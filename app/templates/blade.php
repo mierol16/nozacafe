@@ -315,20 +315,22 @@
                     $('#listnotification').empty(); // reset list
                     notiArr.forEach(function(data) {
                         var typeDisplay = '';
+                        var notiID = data.noti_id;
                         var type = data.noti_type;
                         var text = data.noti_text;
                         var name = data.user_preferred_name;
-                        var url = data.noti_redirect
                         // var date = moment(data.created_at).format("DD/MM/YYYY");
                         var date = '';
-
+                        
                         if(type == 1) {
                             typeDisplay = '<i class="mdi mdi-calendar-alert"></i>';
                         } else if(type == 2) {
                             typeDisplay = '<i class="mdi mdi-file-alert"></i>';
                         }
-
-                        var noti = '<a href="'+url+'" class="dropdown-item notify-item">\
+                        
+                        var url = 'redirectNoti("'+data.noti_redirect+'",'+notiID+')';
+                        var redirect = (data.noti_redirect != null) ? 'onclick='+url : '';
+                        var noti = '<a href="javascript:void(0)" class="dropdown-item notify-item" '+redirect+'>\
                                         <div class="notify-icon bg-primary">\
                                             '+typeDisplay+'\
                                         </div>\
@@ -359,6 +361,15 @@
             {
                 getNotification();
             }
+        }
+
+        function redirectNoti(url, id)
+        {
+            readNoti(id);
+            setTimeout(function() {
+                window.location.href = url;
+            }, 250);
+        
         }
 
         async function removeNoti(id)
