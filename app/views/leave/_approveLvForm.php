@@ -79,7 +79,7 @@
                     <span class="text-danger mb-2">* Indicates a required field</span>
                     <center>
                         <input type="hidden" id="staff_leave_id" name="staff_leave_id" class="form-control" readonly>
-                        <input type="text" id="leave_status_form" name="leave_status" class="form-control" readonly>
+                        <input type="hidden" id="leave_status_form" name="leave_status" class="form-control" readonly>
                         <input type="hidden" id="user_id" name="user_id" class="form-control" readonly>
                         <button type="submit" id="submitBtn" class="btn btn-success">  </button>
                     </center>

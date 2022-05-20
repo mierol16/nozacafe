@@ -148,7 +148,7 @@
                         <div class="dropdown-menu user-pro-dropdown">
 
                             <!-- item-->
-                            <a href="{{ url('profile/personal') }}" class="dropdown-item notify-item">
+                            <a href="{{ url('user/profile') }}" class="dropdown-item notify-item">
                                 <i class="fe-user me-1"></i>
                                 <span>My Account</span>
                             </a>
