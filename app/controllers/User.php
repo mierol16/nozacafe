@@ -111,7 +111,7 @@ class User extends Controller
 
     public function update()
     {
-        $data = users::update($_POST); // call static function
+        $data = users::updateOrInsert($_POST); // call static function
         json($data);
     }
 

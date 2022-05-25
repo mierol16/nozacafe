@@ -63,7 +63,8 @@
 
             const files = data.files;
             $('#files_id').val(files.files_id);
-            var display = files.files_name + '<span id="upload' + files.files_id + '" class="float-end"><i class="fa fa-eye" style="color:blue" onclick="previewPDF(\'' + files.files_path + '\', \'' + files.files_extension + '\')"></i></span><hr>';
+            // var preview = (files.files_extension == 'pdf') ? 'previewPDF(\'' + files.files_path + '\', \'' + files.files_extension + '\')' : 'previewIMG(\'' + files.files_path + '\', \'' + files.files_extension + '\')';
+            var display = files.files_name + '<span id="upload' + files.files_id + '" class="float-end"><i class="fa fa-eye" style="color:blue" onclick="previewPDF(\'' + files.files_path + '\', \'' + files.files_mime + '\')"></i></span><hr>';
 
             listFiles = '<tr class="table-dark">\
                             <td colspan="3">\

@@ -33,19 +33,19 @@
                     <div class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
                         <div class="user-profile-info">
                             <small id="user_no"></small>
-                            <h4 id="user_fullname"></h4>
+                            <h4 id="user_fullname_view"></h4>
                             <ul class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
                                 <li class="list-inline-item fw-semibold">
                                     <i class=" fas fa-address-card" aria-hidden="true"></i>
-                                    <span id="user_nric" style="color : #b3b3cc"></span>
+                                    <span id="user_nric_view" style="color : #b3b3cc"></span>
                                 </li>
                                 <li class="list-inline-item fw-semibold">
                                     <i class="fas fa-envelope"></i>
-                                    <span id="user_email" style="color : #b3b3cc"></span>
+                                    <span id="user_email_view" style="color : #b3b3cc"></span>
                                 </li>
                                 <li class="list-inline-item fw-semibold">
                                     <i class="fas fa-phone-square"></i>
-                                    <span id="user_contact_no" style="color : #b3b3cc"></span>
+                                    <span id="user_contact_no_view" style="color : #b3b3cc"></span>
                                 </li>
                             </ul>
                         </div>
@@ -62,7 +62,9 @@
     <div class="col-lg-2 col-md-2 col-sm-2">
         <div class="nav flex-column nav-pills nav-pills-tab" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             <a class="nav-link active show mb-1" id="v-pills-profile-tab" data-bs-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="true">Profile</a>
+            @if (session()->get('roleID') == 3 || session()->get('userID') != $userID)
             <a class="nav-link mb-1" id="v-pills-leave-tab" data-bs-toggle="pill" href="#v-pills-leave" role="tab" aria-controls="v-pills-leave" aria-selected="true">Leave</a>
+            @endif
             <a class="nav-link mb-1" id="v-pills-emergency-tab" data-bs-toggle="pill" href="#v-pills-emergency" role="tab" aria-controls="v-pills-emergency" aria-selected="true">Emergency</a>
             @if (session()->get('userID') == $userID)
             <a class="nav-link mb-1" id="v-pills-setting-tab" data-bs-toggle="pill" href="#v-pills-setting" role="tab" aria-controls="v-pills-setting" aria-selected="false">Account Settings</a>
@@ -73,6 +75,7 @@
         <div class="tab-content pt-0">
             <div class="tab-pane fade active show" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                 <div class="row">
+                    @if (session()->get('roleID') == 3 || session()->get('userID') != $userID)
                     <div class="col-lg-3 col-md-3">
                         <div class="card mb-4">
                             <div class="card-body">
@@ -83,9 +86,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-9 col-md-9">
+                    @endif
+                    <div class="{{ (session()->get('roleID') == 3 || session()->get('userID') != $userID) ? 'col-lg-9 col-md-9' : 'col-lg-12 col-md-12' }}">
                         <div class="card mb-4">
                             <div class="card-body">
+                                @if (session()->get('roleID') == 2 && session()->get('userID') == $userID)
+                                <button onclick="editInfoForm('{{$userID}}')" type="button" class="btn rounded-pill btn-icon btn-outline-info float-end" title="Edit Info">
+                                    <i class="fa fa-edit" aria-hidden="true"></i>
+                                </button>
+                                @endif
                                 <div class="row">
                                     <div class="col-md-3">
                                         <small class="text-muted text-uppercase">About</small>
@@ -170,6 +179,11 @@
                                         <button type="button" class="btn btn-warning btn-xs float-end ms-2" title="Refresh" onclick="getListEdu('{{$userID}}')">
                                             <i class="fas fa-redo-alt"></i>
                                         </button>
+                                        @if (session()->get('roleID') != 3)
+                                        <button type="button" class="btn btn-secondary btn-xs float-end" onclick="addEdu()">
+                                            <i class="fas fa-plus"></i> Add Education
+                                        </button>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="row mt-2">
@@ -243,6 +257,11 @@
                                 <button type="button" class="btn btn-warning btn-sm float-end ms-2" onclick="getListContact('{{ $userID }}')" title="Refresh">
                                     <i class="fas fa-redo-alt"></i>
                                 </button>
+                                @if (session()->get('roleID') != 3)
+                                <button type="button" class="btn btn-secondary btn-xs float-end" onclick="addContact()">
+                                    <i class="fas fa-plus"></i> Add Contact
+                                </button>
+                                @endif
                             </div>
                         </div>
                         <hr>
@@ -333,11 +352,11 @@
 
         var path = "{{ asset('upload/image/user/') }}";
 
-        $('#user_nric').text(res.data.user_nric);
-        $('#user_no').text(res.data.user_no);
-        $('#user_fullname').text(res.data.user_fullname);
-        $('#user_email').text(res.data.user_email);
-        $('#user_contact_no').text(res.data.user_contact_no);
+        $('#user_nric_view').text(res.data.user_nric);
+        $('#user_no_view').text(res.data.user_no);
+        $('#user_fullname_view').text(res.data.user_fullname);
+        $('#user_email_view').text(res.data.user_email);
+        $('#user_contact_no_view').text(res.data.user_contact_no);
         $("#user_avatar_view").attr("src", path + res.data.user_avatar);
         $('#user_status_view').text((res.data.user_status == '1') ? 'Active' : 'Inactive');
         $('#role_name_view').text((res.data.role_id == '2') ? 'Administrator' : (res.data.role_id == '3') ? 'Employee' : 'Superadmin');
@@ -395,7 +414,7 @@
             if (data != null) {
 
                 const files = data.files;
-                previewPDF(files.files_path, files.files_extension);
+                previewPDF(files.files_path, files.files_mime);
             }
 
         } else {
@@ -442,6 +461,16 @@
         }
 
         loadFormContent('profile/_educationForm.php', 'generalContent', 'xl', urlForm, modalTitle, data);
+    }
+
+    async function editInfoForm(id) {
+        const res = await callApi('post', "user/getUsersByID", id);
+
+        if (isSuccess(res)) {
+            loadFormContent('profile/_updateForm.php', 'generalContent', 'xl', 'user/update', 'Update Information', res.data);
+        } else {
+            noti(res.status);
+        }
     }
 
     function addContact(type = 'create', data = null) {

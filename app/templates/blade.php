@@ -154,12 +154,6 @@
                             </a>
 
                             <!-- item-->
-                            <a href="{{ url('profile/setting') }}" class="dropdown-item notify-item">
-                                <i class="fe-settings me-1"></i>
-                                <span>Settings</span>
-                            </a>
-
-                            <!-- item-->
                             <!-- <a href="javascript:void(0);" class="dropdown-item notify-item">
                                 <i class="fe-lock me-1"></i>
                                 <span>Lock Screen</span>
@@ -178,7 +172,7 @@
 
                     <ul class="list-inline">
                         <li class="list-inline-item">
-                            <a href="{{ url('profile/setting') }}" class="text-muted left-user-info">
+                            <a href="{{ url('user/profile') }}" class="text-muted left-user-info">
                                 <i class="mdi mdi-cog"></i>
                             </a>
                         </li>
@@ -241,10 +235,21 @@
             </div> <!-- content -->
 
             <!-- Modal Preview PDF -->
-            <div class="modal fade" id="previewPdfModal" tabindex="-1" aria-hidden="true" data-backdrop="true">
+            <div class="modal fade" id="previewPdfModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
-                    <div id="showNotFoundPDF" class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"></div>
-                    <div id="showPDF" style="display: none;"></div>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="previewPdfModalLabel">Preview</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="showNotFoundPDF" class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"></div>
+                            <div id="showPDF" style="display: none;"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -384,12 +389,13 @@
             // console.log(id);
         }
 
-        function previewPDF(fileLoc, fileType) {
+        function previewPDF(fileLoc, fileMime) {
+            var height = (fileMime == 'application/pdf') ? '650px' : 'auto';
             $('#showPDF').empty();
             $('#previewPdfModal').modal('show');
             $('#previewPdfModal').css('z-index', 1500);
             $('#showPDF').css('display', 'block');
-            $('#showPDF').append('<object type="application/' + fileType + '" data="' + fileLoc + '" width="100%" height="500" style="height: 85vh;"></object>');
+            $('#showPDF').append('<object type="' + fileMime + '" data="' + fileLoc + '" width="100%" height="'+ height +'"></object>');
         }
 
         function downloadPDF(fileLoc, fileType) {
