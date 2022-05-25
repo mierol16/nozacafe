@@ -320,6 +320,13 @@ class Model
         return countValue($obj->table, $columnToCount, $dataToCount);
     }
 
+    public static function countAllData($condition = NULL)
+    {
+        $className = get_called_class();
+        $obj = new $className;
+        return countAllData($obj->table, $condition);
+    }
+
     public static function validate($data)
     {
         $className = get_called_class();
