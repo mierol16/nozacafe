@@ -99,6 +99,7 @@ function migrate($table, $column = array(), $key = array())
                 array_push($keyArray, trim($keyData));
             }
         }
+
         $query .= implode(",", $keyArray);
         $query .= ") ENGINE=InnoDB";
 

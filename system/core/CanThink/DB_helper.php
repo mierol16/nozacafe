@@ -178,6 +178,17 @@ function countValue($table, $columnToCount, $dataToCount)
     return $db->getValue($table, "count(*)");
 }
 
+function countAllData($table, $condition = NULL)
+{
+    $db = db(); // initiate database
+    if (!empty($condition)) {
+        foreach ($condition as $columnToCount => $dataToCount) {
+            $db->where($columnToCount, $dataToCount);
+        }
+    }
+    return $db->getValue($table, "count(*)");
+}
+
 function insertMulti($table, $data)
 {
     $ids = db()->insertMulti($table, $data);
