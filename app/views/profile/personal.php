@@ -254,7 +254,7 @@
                     <div class="card-body">
                         <div class="row ">
                             <div class="col-12">
-                                <button type="button" class="btn btn-warning btn-sm float-end ms-2" onclick="getListContact('{{ $userID }}')" title="Refresh">
+                                <button type="button" class="btn btn-warning btn-xs float-end ms-2" onclick="getListContact('{{ $userID }}')" title="Refresh">
                                     <i class="fas fa-redo-alt"></i>
                                 </button>
                                 @if (session()->get('roleID') != 3)
