@@ -291,6 +291,12 @@ class User extends Controller
         $data = Files::where(['user_id' => $_POST['id'], 'entity_file_type' => 'QR_CODE'], 'fetchRow');
         json($data);
     }
+
+    public function countAllUser()
+    {
+        $data = users::countAllData(['role_id' => '3']);
+        json($data);
+    }
 }
 
 

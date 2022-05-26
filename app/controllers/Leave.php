@@ -203,6 +203,12 @@ class Leave extends Controller
         json($data);
     }
 
+    public function countAllLeave()
+    {
+        $data = SLM::countAllData(['YEAR(leave_date_from)' => date('Y')]);
+        json($data);
+    }
+
     public function getListPreset()
     {
         $data = PLM::all();
@@ -447,6 +453,37 @@ class Leave extends Controller
     {
         $data = PLM::delete($_POST['id']); // call static function
         json($data);
+    }
+
+    public function getTodayLeave()
+    {
+        $data = $this->SLM->todayLeave(date('Y-m-d'));
+
+        if (!empty($data)) {
+            foreach ($data as $row) {
+                echo '<div class="col-12 mb-2">
+                    <div class="card bg-soft-secondary">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between" style="position: relative;">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="avatar">
+                                        <span class="badge bg-secondary rounded-pill">
+                                            <i class="fas fa-user"></i>
+                                        </span>
+                                    </div>
+                                    <div class="card-info">
+                                        <h5 class="card-title mb-0">' . $row['user_fullname'] . '</h5>
+                                        <small class="">' . $row['leave_name'] . '</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>';
+            }
+        } else {
+            echo nodata();
+        }
     }
 }
 

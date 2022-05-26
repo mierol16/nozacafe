@@ -198,4 +198,17 @@ class Staff_leave_model extends Model
         $this->db->where("leave_status", $status);
         return $this->db->getValue($this->table, "count(*)");
     }
+
+    public function todayLeave($date)
+    {
+        $this->db->where('ul.leave_date_from', $date, '>=');
+        $this->db->where('ul.leave_date_from', $date, '<=');
+        $this->db->orWhere('ul.leave_date_to', $date, '<=');
+        $this->db->where('ul.leave_date_to', $date, '>=');
+
+        $this->db->join("config_leave cl", "ul.config_leave_id=cl.config_leave_id", "LEFT");
+        $this->db->join("master_leave ml", "cl.leave_id=ml.leave_id", "LEFT");
+        $this->db->join("user", "ul.user_id=user.user_id", "LEFT");
+        return $this->db->get($this->table. " ul", null);
+    }
 }
