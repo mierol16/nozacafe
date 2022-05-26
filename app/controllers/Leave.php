@@ -209,6 +209,17 @@ class Leave extends Controller
         json($data);
     }
 
+    public function countAllUserLeave()
+    {
+        $data = [
+            'all' => SLM::countAllData(['user_id' => $_POST['id'], 'YEAR(leave_date_from)' => date('Y')]),
+            'approve' => SLM::countAllData(['user_id' => $_POST['id'], 'leave_status' => 2, 'YEAR(leave_date_from)' => date('Y')]),
+            'reject' => SLM::countAllData(['user_id' => $_POST['id'], 'leave_status' => 3, 'YEAR(leave_date_from)' => date('Y')]),
+        ];
+        
+        json($data);
+    }
+
     public function getListPreset()
     {
         $data = PLM::all();

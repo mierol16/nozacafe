@@ -19,7 +19,8 @@ class Dashboard extends Controller
         $data = [
             'title' => 'Dashboard',
             'currentSidebar' => 'dashboard',
-            'currentSubSidebar' => NULL
+            'currentSubSidebar' => NULL,
+            'userID' => session()->get('userID'),
         ];
 
         render('dashboard/' . $page, $data);

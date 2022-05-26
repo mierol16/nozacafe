@@ -21,7 +21,7 @@
         </div>
     </div>
     <div class="col-sm-6 col-xl-6">
-        <div class="card  bg-soft-success">
+        <div class="card bg-soft-success">
             <div class="card-body">
                 <div class="d-flex align-items-start justify-content-between">
                     <div class="content-left">
@@ -31,7 +31,7 @@
                         </div>
                     </div>
                     <span class="badge bg-soft-success rounded p-2">
-                        <i class="mdi mdi-calendar-check-outline" style="font-size: 60px; opacity: 0.7;"></i>
+                        <i class="mdi mdi-calendar-blank-outline" style="font-size: 60px; opacity: 0.7;"></i>
                     </span>
                 </div>
             </div>
@@ -41,7 +41,13 @@
 
 <div class="row mt-2">
     <div class="col-sm-12 col-xl-8">
+        <div class="card">
+            <div class="card-body">
 
+                <div id="calendar"></div>
+
+            </div> <!-- end card body-->
+        </div> <!-- end card -->
     </div>
     <div class="col-sm-12 col-xl-4">
         <div class="card">

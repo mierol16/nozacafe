@@ -28,6 +28,7 @@
 
     <link href="{{ asset('libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('libs/fullcalendar/main.min.css') }}" rel="stylesheet" type="text/css" />
 
     <!-- END : THIS NEED TO REPLACE FROM TEMPLATE ASSET -->
 
@@ -41,14 +42,16 @@
     <!--end::Global Stylesheets Bundle-->
 
     <!-- Vendor -->
-    <script src="{{ asset('libs/moment/min/moment.min.js') }}"></script>
-    <script src="{{ asset('libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('libs/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('libs/simplebar/simplebar.min.js') }}"></script>
+    <script src="{{ asset('libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- <script src="{{ asset('libs/simplebar/simplebar.min.js') }}"></script> -->
     <script src="{{ asset('libs/node-waves/waves.min.js') }}"></script>
     <script src="{{ asset('libs/waypoints/lib/jquery.waypoints.min.js') }}"></script>
     <!-- <script src="{{ asset('libs/jquery.counterup/jquery.counterup.min.js') }}"></script> -->
     <script src="{{ asset('libs/feather-icons/feather.min.js') }}"></script>
+    <script src="{{ asset('libs/moment/min/moment.min.js') }}"></script>
+    <script src="{{ asset('libs/fullcalendar/main.min.js') }}"></script>
+
 
     <!--begin::Javascript-->
     <!--begin::Global Javascript Bundle(used by all pages)-->
@@ -284,6 +287,10 @@
 
     <!-- Dashboar init js-->
     <!-- <script src="{{ asset('js/pages/dashboard.init.js') }}"></script> -->
+
+    <!-- Calendar init -->
+    <!-- <script src="{{ asset('js/pages/calendar.init.js') }}"></script> -->
+
     <script src="{{ asset('libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
     <script src="{{ asset('libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
