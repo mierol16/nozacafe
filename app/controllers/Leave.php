@@ -148,10 +148,9 @@ class Leave extends Controller
 
     public function countDayLeave()
     {
-        $date_from = (isset($_POST['leave_date_from'])) ? new DateTime($_POST['leave_date_from']) : null;
-        $date_to = (isset($_POST['leave_date_to'])) ? new DateTime($_POST['leave_date_to']) : null;
-        $interval = $date_from->modify("-1 day")->diff($date_to);
-        $days = $interval->format('%a');
+        $date_from = (isset($_POST['leave_date_from'])) ? $_POST['leave_date_from'] : null;
+        $date_to = (isset($_POST['leave_date_to'])) ? $_POST['leave_date_to'] : null;
+        $days = dateTimeDiff($date_from, $date_to, 'days', '-1 day');
 
         $pendingLv = SLM::where(['config_leave_id' => $_POST['config_leave_id'], 'user_id' => $_POST['user_id'], 'leave_status' => '1']);
         $leaveConfig = CLM::find($_POST['config_leave_id']);
@@ -337,10 +336,9 @@ class Leave extends Controller
 
     public function userLeaveSave()
     {
-        $date_from = new DateTime($_POST['leave_date_from']);
-        $date_to = new DateTime($_POST['leave_date_to']);
-        $interval = $date_from->modify("-1 day")->diff($date_to);
-        $days = $interval->format('%a');
+        $date_from = $_POST['leave_date_from'];
+        $date_to = $_POST['leave_date_to'];
+        $days = dateTimeDiff($date_from, $date_to, 'days', '-1 day');
 
         $leave_no = $this->RunningNo->generateLeaveNo();
 

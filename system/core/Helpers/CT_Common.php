@@ -103,7 +103,7 @@ function formatIC($icno, $type = 1)
     return $icno;
 }
 
-function dateDiff($d1, $d2)
+function dateDiff($d1, $d2, $format)
 {
     return round(abs(strtotime($d1) - strtotime($d2)) / 86400);
 }
@@ -112,3 +112,47 @@ function timeDiff($t1, $t2)
 {
     return round(abs(strtotime($t1) - strtotime($t2)) / 60);
 }
+
+function dateTimeDiff($val1, $val2, $format = 'seconds', $modify = false)
+{
+    $val1 = new DateTime($val1);
+    $val2 = new DateTime($val2);
+
+    if ($modify) {
+        $val1 = date_modify($val1, $modify);
+    }
+
+    $result = date_diff($val1, $val2);
+
+    switch($format) {
+        case "year":
+            $format = "%y"; 
+            break;
+        case "month":
+            $format = "%m";
+            break;
+        case "days":
+            $format = "%a";
+            break;
+        case "hours":
+            $format = "%h";
+            break;
+        case "minutes":
+            $format = "%i";
+            break;
+        case "seconds":
+            $format = "%s";
+            break;
+    }
+
+    return $result->format($format);
+}
+
+// '%y year %m Month %d Day'   
+// '%m month %d Day'          
+// '%d day %h Hours'           
+// '%d day'                   
+// '%h hours %i Minute %s Seconds' 
+// '%i minute %s Seconds'          
+// '%h hours                       
+// '%a days
