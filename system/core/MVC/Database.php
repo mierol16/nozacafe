@@ -881,6 +881,52 @@ class Database
     }
 
     /**
+     * Update method to add several rows at once
+     *
+     * @param string $tableName       The name of the table.
+     * @param array  $multiInsertData Two-dimensional Data-array containing information for inserting into the DB.
+     * @param array  $dataKeys        Optional Table Key names, if not set in insertDataSet.
+     *
+     * @return bool|array Boolean indicating the insertion failed (false), else return id-array ([int])
+     * @throws Exception
+     */
+    public function updateMulti($tableName, array $multiInsertData)
+    {
+        // only auto-commit our inserts, if no transaction is currently running
+        $autoCommit = (isset($this->_transaction_in_progress) ? !$this->_transaction_in_progress : true);
+        $ids = array();
+
+        if ($autoCommit) {
+            $this->startTransaction();
+        }
+
+        foreach ($multiInsertData as $insertData) {
+
+            $getPKTable = primary_field($tableName);
+            $pkColumnName = $getPKTable[0]['COLUMN_NAME'];
+            $pkValue = false;
+            if (isset($insertData[$pkColumnName])) {
+                $pkValue = $insertData[$pkColumnName];
+
+                $result = $this->where($pkColumnName, $pkValue)->update($tableName, $insertData);
+                if (!$result) {
+                    if ($autoCommit) {
+                        $this->rollback();
+                    }
+                    return false;
+                }
+            }
+            $ids[] = $pkValue;
+        }
+
+        if ($autoCommit) {
+            $this->commit();
+        }
+
+        return $ids;
+    }
+
+    /**
      * Replace method to add new row
      *
      * @param string $tableName  The name of the table.

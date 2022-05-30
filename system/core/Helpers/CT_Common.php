@@ -102,3 +102,13 @@ function formatIC($icno, $type = 1)
 
     return $icno;
 }
+
+function dateDiff($d1, $d2)
+{
+    return round(abs(strtotime($d1) - strtotime($d2)) / 86400);
+}
+
+function timeDiff($t1, $t2)
+{
+    return round(abs(strtotime($t1) - strtotime($t2)) / 60);
+}

@@ -202,6 +202,19 @@ function insertMulti($table, $data)
     ];
 }
 
+function updateMulti($table, $data)
+{
+    $ids = db()->updateMulti($table, $data);
+    $resCode = ($ids) ? 200 : 400;
+
+    return [
+        "resCode" => $resCode,
+        "message" =>  message($resCode, 'update'),
+        "id" => $ids,
+        "data" => $data
+    ];
+}
+
 function table_list()
 {
     $dbName = db_name();
