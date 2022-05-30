@@ -201,10 +201,10 @@ class Staff_leave_model extends Model
 
     public function todayLeave($date)
     {
-        $this->db->where('ul.leave_date_from', $date, '>=');
-        $this->db->where('ul.leave_date_from', $date, '<=');
-        $this->db->orWhere('ul.leave_date_to', $date, '<=');
-        $this->db->where('ul.leave_date_to', $date, '>=');
+        $this->db->where('(ul.leave_date_from >= ? and ul.leave_date_from <= ? or ul.leave_date_to <= ? and ul.leave_date_to >= ?)', Array($date, $date, $date, $date));
+        // $this->db->where('ul.leave_date_from', $date, '<=');
+        // $this->db->orWhere('ul.leave_date_to', $date, '<=');
+        // $this->db->where('ul.leave_date_to', $date, '>=');
 
         $this->db->join("config_leave cl", "ul.config_leave_id=cl.config_leave_id", "LEFT");
         $this->db->join("master_leave ml", "cl.leave_id=ml.leave_id", "LEFT");
