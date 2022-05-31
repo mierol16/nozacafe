@@ -23,7 +23,11 @@ class Attendance
                 'type' => 'DATE',
                 'null' => TRUE
             ),
-            'attendance_time' => array(
+            'attendance_time_in' => array(
+                'type' => 'TIME',
+                'null' => TRUE
+            ),
+            'attendance_time_out' => array(
                 'type' => 'TIME',
                 'null' => TRUE
             ),
