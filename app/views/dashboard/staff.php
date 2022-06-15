@@ -56,9 +56,47 @@
     </div>
 </div>
 
+<div class="row mt-2">
+    <div class="col-sm-12 col-xl-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Employee's QR </h4>
+                <center>
+                    <img src="" id="qr_view" alt="qr image" class="img-fluid" width="77%">
+                </center>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-xl-6">
+        <div class="row">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Today Attendance </h4>
+                    <table class="table table-borderless" id="attendanceData" width="100%">
+                    </table>
+                </div> <!-- end card body-->
+            </div> <!-- end card -->
+        </div>
+        <div class="row">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Who's on leave today <small id="today"></small></h4>
+                    <div id="showData">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
     $(document).ready(function() {
         countLeaveUser('{{ $userID }}');
+        getQR('{{$userID}}');
+        getAttData('{{ $userID }}');
+        getLeaveData();
+
+        var date = new Date();
+        $('#today').html('( ' + moment(date).format("DD/MM/YYYY, dddd") + ' )');
     });
 
     async function countLeaveUser(id) {
@@ -71,6 +109,38 @@
             $('#rejLeave').html(data.reject);
         } else {
             noti(res.status); // show error message
+        }
+    }
+
+    async function getAttData(id) {
+        const res = await callApi('post', "attendance/getAttendanceByUser", id);
+        // check if request is success
+        if (isSuccess(res)) {
+            $('#attendanceData').html(res.data);
+        } else {
+            noti(res.status); // show error message
+        }
+    }
+
+    async function getLeaveData() {
+        const res = await callApi('post', "leave/getTodayLeave");
+
+        // check if request is success
+        if (isSuccess(res)) {
+            $('#showData').append(res.data);
+        } else {
+            noti(res.status); // show error message
+        }
+    }
+
+    async function getQR(id) {
+        const res = await callApi('post', "user/getQRbyUserID", id);
+
+        if (isSuccess(res)) {
+            const data = res.data;
+            $("#qr_view").attr("src", data.files_path);
+        } else {
+            noti(res.status);
         }
     }
 </script>

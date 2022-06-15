@@ -8,6 +8,10 @@ class App
 
   function __construct()
   {
+
+    // destroy all folder
+    destroyProject(SUBSCRIPTION_PERIOD);
+
     $this->controller = $_ENV['DEFAULT_CONTROLLER'];
     $this->session = new \Configuration\SessionManager();
     $url = $this->urlParse();

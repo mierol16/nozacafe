@@ -37,7 +37,6 @@ class PresetLeaveSeeder extends Seeder
     {
         return [
             1 => ['name' => 'STAFF', 'leave_arr' => '1', 'duration_arr' => '16', 'role' => '3'],
-            2 => ['name' => 'PROBATION STAFF', 'leave_arr' => '1', 'duration_arr' => '9', 'role' => '3'],
         ];
     }
 }

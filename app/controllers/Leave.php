@@ -491,7 +491,7 @@ class Leave extends Controller
                 </div>';
             }
         } else {
-            echo nodata();
+            echo nodata(null, false);
         }
     }
 }

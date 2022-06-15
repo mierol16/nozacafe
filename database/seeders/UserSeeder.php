@@ -59,19 +59,6 @@ class UserSeeder extends Seeder
                 'state' => '0',
                 'role' => '1',
             ],
-            2 => [
-                'name' => 'Administrator',
-                'nickname' => 'Administrator',
-                'email' => 'admincafe@nozacafe.com',
-                'username' => 'admin',
-                'gender' => 'Male',
-                'contact' => '0',
-                'address' => '0',
-                'postcode' => '0',
-                'city' => '0',
-                'state' => '0',
-                'role' => '2',
-            ],
         ];
     }
 }

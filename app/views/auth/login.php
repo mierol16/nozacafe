@@ -54,9 +54,9 @@
                 <div class="col-md-8 col-lg-6 col-xl-4">
                     <div class="text-center">
                         <a href="index.html">
-                            <img src="{{ asset('images/logo-sm.png') }}" alt="" height="22" class="mx-auto">
+                            <img src="{{ asset('images/logosdtc.png') }}" alt="" width="100%" height="auto" class="mx-auto">
                         </a>
-                        <h4 class="text-muted text-dark mt-2 mb-4">Noza Cafe</h4>
+                        <h3 class="text-muted text-dark mt-2 mb-4">Noza Cafe</h3>
 
                     </div>
                     <div class="card">
@@ -85,6 +85,12 @@
                                     <input class="form-control" type="password" id="password" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password">
                                 </div>
 
+                                <div class="mb-3 text-center">
+                                    <a href="javascript:void(0)" onclick="viewTnC()" class="text-info">
+                                    <u> Terms & Conditions </u>
+                                    </a>
+                                </div>
+
                                 <div class="mb-3 d-grid text-center">
                                     <button type="submit" id="loginBtn" class="btn btn-primary"> Log In </button>
                                 </div>
@@ -94,11 +100,11 @@
                     </div>
                     <!-- end card -->
 
-                    <div class="row mt-3">
+                    <!-- <div class="row mt-3">
                         <div class="col-12 text-center">
                             <p class="text-muted">Don't have an account? <a href="pages-register.html" class="text-dark ms-1"><b>Sign Up</b></a></p>
-                        </div> <!-- end col -->
-                    </div>
+                        </div>
+                    </div> -->
                     <!-- end row -->
 
                 </div> <!-- end col -->
@@ -122,34 +128,9 @@
     <script src="{{ asset('js/app.min.js') }}"></script>
 
     <script>
-        // $("#formAuthentication").submit(
-        //     async function(e) {
-        //         e.preventDefault();
-
-        //         const form = $(this);
-        //         var username = $('#username').val();
-        //         var password = $('#password').val();
-
-        //         if (username != '' && password != '') {
-        //             var submitBtnText = $('#submitBtn').html();
-        //             const res = await submitApi("auth/authorize", form.serializeArray(), 'formAuthentication', null, false)
-        //             if (isSuccess(res)) {
-        //                 alert('submitted haha');
-        //             } else {
-        //                 alert(res.status)
-        //             }
-        //         } else {
-        //             if (username == '' && password == '') {
-        //                 noti(500, 'Please enter your password');
-        //                 noti(500, 'Please enter your email/username');
-        //             } else if (username == '') {
-        //                 noti(500, 'Please enter your email/username');
-        //             } else if (password == '') {
-        //                 noti(500, 'Please enter your email/username');
-        //             }
-        //         }
-
-        //     });
+        function viewTnC(data = null) {
+            loadFileContent('auth/_modalView.php', 'generalContent', 'lg', 'Term & Condition', null, 'offcanvas');
+        }
 
         $("#formAuthentication").submit(function(event) {
             event.preventDefault();
@@ -198,7 +179,8 @@
             }
         });
     </script>
-
+@include('app.views.modals._modalGeneral')
+@include('public.framework.php.general')
 </body>
 
 </html>

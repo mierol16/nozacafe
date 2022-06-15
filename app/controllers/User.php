@@ -188,9 +188,9 @@ class User extends Controller
                             <font color="#666666" face="Open Sans, Helvetica Neue, Helvetica, Arial, sans-serif"><span style="font-size: 10px; letter-spacing: normal;">(This is an auto-generated email. Please do not reply this email)</span></font>
                             <p style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;">&copy; <strong>nozacafe.canthinksolution.com</strong></p>';
                 
+                sentMail(['recipient_name' => $userData['user_fullname'], 'recipient_email' => $userData['user_email'], 'subject' => 'User Registration'], $content);
             }
                         
-            sentMail(['recipient_name' => $userData['user_fullname'], 'recipient_email' => $userData['user_email'], 'subject' => 'User Registration'], $content);
             
             // register contact person
             if (isset($_POST['contact_name'])) {
@@ -214,18 +214,22 @@ class User extends Controller
                 $leave_id = explode(",", $preset['leave_id_array']);
                 $duration = explode(",", $preset['leave_duration_array']);
 
-                foreach ($leave_id as $key => $value) {
-                    $leave = CLM::save(
-                        [
-                            'config_leave_id' => $_POST['config_leave_id'],
-                            'leave_id' => $value,
-                            'preset_id' => $_POST['leave_preset'],
-                            'preset_duration' => $duration[$key],
-                            'leave_year' => date('Y'),
-                            'user_id' => $userID,
-                        ]
-                    );
-                }
+                $dataLeave  = CLM::where(['user_id' => $userID, 'leave_year' => date('Y')]);
+                
+                if (empty($dataLeave)) {
+                    foreach ($leave_id as $key => $value) {
+                        $leave = CLM::save(
+                            [
+                                'config_leave_id' => $_POST['config_leave_id'],
+                                'leave_id' => $value,
+                                'preset_id' => $_POST['leave_preset'],
+                                'preset_duration' => $duration[$key],
+                                'leave_year' => date('Y'),
+                                'user_id' => $userID,
+                            ]
+                        );
+                    }
+                } 
             }
 
             // register education
@@ -296,6 +300,16 @@ class User extends Controller
     {
         $data = users::countAllData(['role_id' => '3']);
         json($data);
+    }
+
+    public function getSelectUser()
+    {
+        $data = users::where(['role_id' => '3']);
+
+        echo '<option value=""> - Select - </option>';
+        foreach ($data as $row) {
+            echo '<option value="' . $row['user_id'] . '"> ' . $row['user_fullname'] . '</option>';
+        }
     }
 }
 

@@ -24,6 +24,21 @@
             </ul>
         </div>
     </li>
+
+    <li class="menuitem-<?= ($currentSubSidebar == 'attendance') ? 'active' : '' ?>">
+        <a href="{{ url('attendance/record') }}">
+            <i class="mdi mdi-clock-check-outline"></i>
+            <span>Attendance</span>
+        </a>
+    </li>
+
+    <li class="menuitem-<?= ($currentSubSidebar == 'performance') ? 'active' : '' ?>">
+        <a href="{{ url('performance/record') }}">
+            <i class="mdi mdi-star"></i>
+            <span>Performance</span>
+        </a>
+    </li>
+
     <li>
         <a href="#leave" data-bs-toggle="collapse">
             <i class="mdi mdi-calendar-multiple-check"></i>

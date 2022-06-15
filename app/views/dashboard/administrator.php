@@ -54,6 +54,7 @@
             <div class="card-body">
                 <h4 class="card-title">Who's on leave today <small id="today"></small></h4>
                 <div id="showData">
+                </div>
             </div>
         </div>
     </div>

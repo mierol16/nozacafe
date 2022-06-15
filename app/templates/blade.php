@@ -47,18 +47,17 @@
     <!-- <script src="{{ asset('libs/simplebar/simplebar.min.js') }}"></script> -->
     <script src="{{ asset('libs/node-waves/waves.min.js') }}"></script>
     <script src="{{ asset('libs/waypoints/lib/jquery.waypoints.min.js') }}"></script>
-    <!-- <script src="{{ asset('libs/jquery.counterup/jquery.counterup.min.js') }}"></script> -->
+    <script src="{{ asset('libs/jquery.counterup/jquery.counterup.min.js') }}"></script>
     <script src="{{ asset('libs/feather-icons/feather.min.js') }}"></script>
     <script src="{{ asset('libs/moment/min/moment.min.js') }}"></script>
-    <script src="{{ asset('libs/fullcalendar/main.min.js') }}"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/printThis/1.15.0/printThis.js" integrity="sha512-Fd3EQng6gZYBGzHbKd52pV76dXZZravPY7lxfg01nPx5mdekqS8kX4o1NfTtWiHqQyKhEGaReSf4BrtfKc+D5w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <!--begin::Javascript-->
     <!--begin::Global Javascript Bundle(used by all pages)-->
     <script src="{{ asset('framework/js/axios.min.js') }}"></script>
     <script src="{{ asset('framework/js/common.js') }}"></script>
     <!--end::Global Javascript Bundle-->
-
 
 </head>
 <!--end::Head-->
@@ -288,42 +287,39 @@
     <!-- Dashboar init js-->
     <!-- <script src="{{ asset('js/pages/dashboard.init.js') }}"></script> -->
 
-    <!-- Calendar init -->
-    <!-- <script src="{{ asset('js/pages/calendar.init.js') }}"></script> -->
-
     <script src="{{ asset('libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
     <script src="{{ asset('libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('libs/fullcalendar/main.min.js') }}"></script>
+
+    <!-- Calendar init -->
+    <script src="{{ asset('js/pages/calendar.init.js') }}"></script>
 
     <!-- App js-->
     <script src="{{ asset('js/app.min.js') }}"></script>
 
     <script>
-         $(document).ready(function() {
+        $(document).ready(function() {
             getNotification();
         });
 
-        async function markAllRead()
-        {
+        async function markAllRead() {
             const res = await callApi('post', "notification/markAllRead");
-            if(isSuccess(res.status))
-            {
+            if (isSuccess(res.status)) {
                 getNotification();
             }
         }
 
-        async function getNotification()
-        {
+        async function getNotification() {
             const res = await callApi('post', "notification/getListNotiByUser");
 
-            if(isSuccess(res.status))
-            {
+            if (isSuccess(res.status)) {
                 const data = res.data;
                 const count = data.countUnread;
                 const notiArr = data.listNoti;
                 $('#countUnreadNoti').text(count);
-                if(count > 0){
+                if (count > 0) {
                     $('#listnotification').empty(); // reset list
                     notiArr.forEach(function(data) {
                         var typeDisplay = '';
@@ -333,28 +329,28 @@
                         var name = data.user_preferred_name;
                         // var date = moment(data.created_at).format("DD/MM/YYYY");
                         var date = '';
-                        
-                        if(type == 1) {
+
+                        if (type == 1) {
                             typeDisplay = '<i class="mdi mdi-calendar-alert"></i>';
-                        } else if(type == 2) {
+                        } else if (type == 2) {
                             typeDisplay = '<i class="mdi mdi-file-alert"></i>';
                         }
-                        
-                        var url = 'redirectNoti("'+data.noti_redirect+'",'+notiID+')';
-                        var redirect = (data.noti_redirect != null) ? 'onclick='+url : '';
-                        var noti = '<a href="javascript:void(0)" class="dropdown-item notify-item" '+redirect+'>\
+
+                        var url = 'redirectNoti("' + data.noti_redirect + '",' + notiID + ')';
+                        var redirect = (data.noti_redirect != null) ? 'onclick=' + url : '';
+                        var noti = '<a href="javascript:void(0)" class="dropdown-item notify-item" ' + redirect + '>\
                                         <div class="notify-icon bg-primary">\
-                                            '+typeDisplay+'\
+                                            ' + typeDisplay + '\
                                         </div>\
-                                        <p class="notify-details text-bold">'+ucfirst(name)+'</p>\
+                                        <p class="notify-details text-bold">' + ucfirst(name) + '</p>\
                                         <p class="text-muted mb-0 user-msg">\
-                                            <small>'+text+'</small>\
+                                            <small>' + text + '</small>\
                                         </p>\
                                     </a>';
 
                         $('#listnotification').append(noti);
                     });
-                }else{
+                } else {
                     $('#listnotification').empty();
                     var noti = '<li class="list-group-item list-group-item-action dropdown-notifications-item">\
                                     <div class="d-flex">\
@@ -366,30 +362,25 @@
             }
         }
 
-        async function readNoti(id)
-        {
+        async function readNoti(id) {
             const res = await callApi('post', "notification/read", id);
-            if(isSuccess(res.status))
-            {
+            if (isSuccess(res.status)) {
                 getNotification();
             }
         }
 
-        function redirectNoti(url, id)
-        {
+        function redirectNoti(url, id) {
             readNoti(id);
             setTimeout(function() {
                 window.location.href = url;
             }, 250);
-        
+
         }
 
-        async function removeNoti(id)
-        {
+        async function removeNoti(id) {
             const res = await callApi('post', "notification/delete", id);
 
-            if(isSuccess(res.status))
-            {
+            if (isSuccess(res.status)) {
                 getNotification();
             }
             // alert(id);
@@ -402,7 +393,7 @@
             $('#previewPdfModal').modal('show');
             $('#previewPdfModal').css('z-index', 1500);
             $('#showPDF').css('display', 'block');
-            $('#showPDF').append('<object type="' + fileMime + '" data="' + fileLoc + '" width="100%" height="'+ height +'"></object>');
+            $('#showPDF').append('<object type="' + fileMime + '" data="' + fileLoc + '" width="100%" height="' + height + '"></object>');
         }
 
         function downloadPDF(fileLoc, fileType) {
@@ -414,6 +405,20 @@
             document.body.append(a);
             a.click();
             a.remove();
+        }
+
+        function print(idToPrint, idBtn = 'printBtn') {
+            $("#" + idToPrint).printThis({
+                importCSS: true,
+                importStyle: true,
+                beforePrintEvent: $("#" + idBtn).html('<i class="fas fa-spinner"> </i> Being processed...'),
+                beforePrint: $("#" + idBtn).attr('disabled', true),
+            });
+
+            setTimeout(function() {
+                $("#" + idBtn).html('<i class="fas fa-print"> </i> Print');
+                $("#" + idBtn).attr('disabled', false);
+            }, 800);
         }
     </script>
 

@@ -20,6 +20,11 @@ class Auth extends Controller
         view('auth/register', ['title' => 'Register']);
     }
 
+    public function forgot()
+    {
+        view('auth/forgotPass', ['title' => 'Reset Password']);
+    }
+
     public function authorize()
     {
         $username = escape($_POST['username']);
@@ -72,6 +77,24 @@ class Auth extends Controller
         }
 
         json(["response" => $response, "message" => $message, "redirectUrl" => $redirectUrl]);
+    }
+
+    public function emailPass()
+    {
+        $data = users::find($_POST['user_email'], 'user_email');
+        json($data);
+    }
+
+    public function resetPass()
+    {
+        $new_password = escape($_POST['user_password']);
+        $data = users::save(
+            [
+                'user_id' => $_POST['user_id'],
+                'user_password' => password_hash($new_password, PASSWORD_DEFAULT),
+            ]
+        );
+        json($data);
     }
 
     public function logout()

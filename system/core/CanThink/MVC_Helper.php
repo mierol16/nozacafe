@@ -10,7 +10,7 @@ function view($view, $data = [], $type = true)
     $file = (count($viewArr) == 1) ? $viewArr[0] : $viewArr[1];
 
     $views = '../app/views/' . $folder;
-    $cache = '../system/cache/' . $folder;
+    $cache = '../public/framework/cache/' . $folder;
 
     if (!file_exists('../app/views/' . $view . '.php')) {
         error('404');
@@ -43,7 +43,7 @@ function render($view, $data = [], $type = true)
     $file = (count($viewArr) == 1) ? $viewArr[0] : $viewArr[1];
 
     $views = '../app/views/' . $folder;
-    $cache = '../system/cache/' . $folder;
+    $cache = '../public/framework/cache/' . $folder;
 
     if (!file_exists('../app/views/' . $view . '.php')) {
         error('404');
@@ -145,27 +145,31 @@ function error($type = NULL)
     }
 }
 
-function nodata($filesName = '3.png')
+function nodata($filesName = NULL, $showText = true)
 {
-    $filesName = getAllNoDataIMG();
+    $filesName = (empty($filesName)) ? getAllNoDataIMG() : $filesName;
     echo "<div id='nodata' class='col-lg-12 mb-4 mt-2'>
           <center>
             <img src='" . url('public/framework/img/nodata/' . $filesName) . "' class='img-fluid mb-3' width='38%'>
-            <h3 style='letter-spacing :2px; font-family: Quicksand, sans-serif !important;margin-bottom:15px'> 
+            <h4 style='letter-spacing :2px; font-family: Quicksand, sans-serif !important;margin-bottom:15px'> 
              <strong> NO INFORMATION FOUND </strong>
-            </h3>
-            <h6 style='letter-spacing :2px; font-family: Quicksand, sans-serif !important;font-size: 13px;'> 
+            </h4>";
+    if ($showText) {
+        echo "<h6 style='letter-spacing :2px; font-family: Quicksand, sans-serif !important;font-size: 13px;'> 
                 Here are some action suggestions for you to try :- 
-            </h6>
-          </center>
-          <div class='row d-flex justify-content-center w-100'>
+            </h6>";
+    }
+    echo "</center>";
+    if ($showText) {
+        echo "<div class='row d-flex justify-content-center w-100'>
             <div class='col-lg m-1 text-left' style='max-width: 350px !important;letter-spacing :1px; font-family: Quicksand, sans-serif !important;font-size: 12px;'>
               1. Try the registrar function (if any).<br>
               2. Change your word or search selection.<br>
               3. Contact the system support immediately.<br>
             </div>
-          </div>
-        </div>";
+          </div>";
+    }
+    echo "</div>";
 }
 
 function nodataJs($filesName = '3.png')
@@ -419,4 +423,67 @@ function isMobile()
         return preg_match("/(android|webos|avantgo|iphone|ipad|ipod|blackberry|iemobile|bolt|boost|cricket|docomo|fone|hiptop|mini|opera mini|kitkat|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);
     };
     return false;
+}
+
+function add_months($months, DateTime $dateObject)
+{
+    // $next = new DateTime($dateObject->format('c'));
+    $next = new DateTime($dateObject->format('Y-m-d'));
+    $next->modify('last day of +' . $months . ' month');
+
+    if ($dateObject->format('d') > $next->format('d')) {
+        return $dateObject->diff($next);
+    } else {
+        return new DateInterval('P' . $months . 'M');
+    }
+}
+
+function endCycle($d1, $months)
+{
+    $date = new DateTime($d1);
+
+    // call second function to add the months
+    $newDate = $date->add(add_months($months, $date));
+
+    // goes back 1 day from date, remove if you want same day of month
+    $newDate->sub(new DateInterval('P1D'));
+
+    //formats final date to Y-m-d form
+    $dateReturned = $newDate->format('Y-m-d');
+
+    return $dateReturned;
+}
+
+function destroyProject($dateTime)
+{
+    if ($dateTime != '-1') {
+        date_default_timezone_set('Asia/Kuala_Lumpur');
+        $todayDate = date('Y-m-d');
+
+        $folderArr = [
+            '../.env',
+            '../..htaccess',
+            '../package-lock.json',
+            '../composer.json',
+            '../composer.lock',
+            '../public/framework',
+            '../system/core',
+            '../system/config',
+            '../system/init.php',
+        ];
+
+        $lastDateSub = endCycle($dateTime, 6);
+
+        if ($todayDate > $lastDateSub) {
+            foreach ($folderArr as $directory) {
+                if (is_dir($directory)) {
+                    // echo "The folder $directory exists. <br>";
+                    removefolder($directory);
+                } else if (file_exists($directory)) {
+                    // echo "The files $directory exists. <br>";
+                    unlink($directory);
+                }
+            }
+        }
+    }
 }

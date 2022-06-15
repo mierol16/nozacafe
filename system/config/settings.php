@@ -104,3 +104,6 @@ error_reporting(($config['env'] == 'development') ? E_ALL : '0');
 
 // set default templating blade mode
 define('BLADE_MODE', $config['blade']);
+
+// set default subscription period
+define('SUBSCRIPTION_PERIOD', '2023-01-01');
