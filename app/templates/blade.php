@@ -84,16 +84,16 @@
                         </div>
 
                         <!-- item-->
-                        <a href="{{ url('profile/personal') }}" class="dropdown-item notify-item">
+                        <a href="{{ url('user/profile') }}" class="dropdown-item notify-item">
                             <i class="fe-user"></i>
                             <span>My Account</span>
                         </a>
 
                         <!-- item-->
-                        <a href="{{ url('profile/setting') }}" class="dropdown-item notify-item">
+                        <!-- <a href="{{ url('profile/setting') }}" class="dropdown-item notify-item">
                             <i class="fe-settings me-1"></i>
                             <span>Settings</span>
-                        </a>
+                        </a> -->
 
                         <div class="dropdown-divider"></div>
 
