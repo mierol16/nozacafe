@@ -6,13 +6,6 @@
 <div class="row">
 
     <div class="col-12">
-        <div class="row g-4">
-            <div class="col-4">
-                <label class="form-label"> Year </label>
-                <select id="year_filter" class="form-control" onchange="getDataList()">
-                </select>
-            </div>
-        </div>
 
         <div class="row mt-4">
             <div class="col-12">
@@ -20,9 +13,11 @@
                 <div class="card-header">
                     <h5 class="card-title">
                         Records
-                        <button type="button" class="btn btn-warning btn-xs float-end ms-2" onclick="getDataList()" title="Refresh">
+                        <button type="button" class="btn btn-warning btn-sm float-end ms-2" onclick="getDataList()" title="Refresh">
                             <i class="fas fa-redo-alt"></i>
                         </button>
+                        <select id="year_filter" class="form-control float-end ms-2" style="width: 20%;" onchange="getDataList()">
+                        </select>
                     </h5>
                 </div>
                 <div class="card-body">
