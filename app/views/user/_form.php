@@ -22,7 +22,7 @@
             <div class="row mt-2">
                 <div class="col-md-6">
                     <label class="form-label">NRIC No. <span class="text-danger">*</span></label>
-                    <input type="text" id="user_nric" name="user_nric" class="form-control" maxlength="15" autocomplete="off" required>
+                    <input type="text" id="user_nric" name="user_nric" class="form-control" maxlength="15" autocomplete="off" onkeypress="return isNumberKey(event)" required>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Email <span class="text-danger">*</span></label>
