@@ -44,7 +44,6 @@
     <!-- Vendor -->
     <script src="{{ asset('libs/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <!-- <script src="{{ asset('libs/simplebar/simplebar.min.js') }}"></script> -->
     <script src="{{ asset('libs/node-waves/waves.min.js') }}"></script>
     <script src="{{ asset('libs/waypoints/lib/jquery.waypoints.min.js') }}"></script>
     <script src="{{ asset('libs/jquery.counterup/jquery.counterup.min.js') }}"></script>
@@ -286,7 +285,7 @@
 
     <!-- Dashboar init js-->
     <!-- <script src="{{ asset('js/pages/dashboard.init.js') }}"></script> -->
-
+    <script src="{{ asset('libs/simplebar/simplebar.min.js') }}"></script>
     <script src="{{ asset('libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
     <script src="{{ asset('libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
