@@ -3,11 +3,19 @@
 require_once '../vendor/autoload.php';
 
 // import env
-require_once 'core/MVC/Config.php';
+// require_once 'core/MVC/Config.php';
 
-use Configuration\Config;
+// use Configuration\Config;
 
-(new Config('../.env'))->load();
+// (new Config('../.env'))->load();
+
+if (file_exists(dirname(__DIR__) . '/.env')) {
+    $fileEnvPath = dirname(__DIR__);
+    $dotenv = Dotenv\Dotenv::createImmutable($fileEnvPath);
+    $dotenv->load();
+} else {
+    die('env not found');
+}
 
 require_once 'config/app.php';
 
