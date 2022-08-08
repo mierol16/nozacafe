@@ -65,12 +65,20 @@ class Preset_leave_model extends Model
 
         $this->serversideDt->edit('preset_leave_id', function ($data) {
             $del = $edit = '';
-            $del = '<button onclick="deletePresetRecord(' . $data[$this->primaryKey] . ')" data-toggle="confirm" data-id="' . $data[$this->primaryKey] . '" class="btn btn-xs btn-danger" title="Remove"> <i class="fa fa-trash"></i> </button>';
+            if ($this->countLeaveInConfig($data['preset_leave_id']) == 0) {
+                $del = '<button onclick="deletePresetRecord(' . $data[$this->primaryKey] . ')" data-toggle="confirm" data-id="' . $data[$this->primaryKey] . '" class="btn btn-xs btn-danger" title="Remove"> <i class="fa fa-trash"></i> </button>';
+            }
             $edit = '<button class="btn btn-xs btn-info" onclick="updatePresetRecord(' . $data[$this->primaryKey] . ')" title="Edit"><i class="fa fa-edit"></i> </button>';
 
             return "<center> $del $edit </center>";
         });
 
         echo $this->serversideDt->generate();
+    }
+
+    function countLeaveInConfig($presetID)
+    {
+        $this->db->where('preset_id', $presetID);
+        return $this->db->getValue('config_leave', "count(*)");
     }
 }

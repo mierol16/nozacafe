@@ -49,7 +49,7 @@ class Master_leave_model extends Model
         //  server side datatables
         $cols = array(
             "leave_name",
-            "leave_description", // dummy field
+            "leave_description",
             "leave_id",
         );
 
@@ -58,12 +58,29 @@ class Master_leave_model extends Model
 
         $this->serversideDt->edit('leave_id', function ($data) {
             $del = $edit = '';
-            $del = '<button onclick="deleteRecord(' . $data[$this->primaryKey] . ')" data-toggle="confirm" data-id="' . $data[$this->primaryKey] . '" class="btn btn-xs btn-danger" title="Remove"> <i class="fa fa-trash"></i> </button>';
+            if ($this->countLeaveInPreset($data['leave_id']) == 0) {
+                $del = '<button onclick="deleteRecord(' . $data[$this->primaryKey] . ')" data-toggle="confirm" data-id="' . $data[$this->primaryKey] . '" class="btn btn-xs btn-danger" title="Remove"> <i class="fa fa-trash"></i> </button>';
+            }
             $edit = '<button class="btn btn-xs btn-info" onclick="updateRecord(' . $data[$this->primaryKey] . ')" title="Edit"><i class="fa fa-edit"></i> </button>';
 
             return "<center> $del $edit </center>";
         });
 
         echo $this->serversideDt->generate();
+    }
+
+    function countLeaveInPreset($leaveID)
+    {
+        $preset = $this->db->get('preset_leave', null);
+        $count = 0;
+
+        foreach ($preset as $row) {
+            $leaveList = explode(",", $row['leave_id_array']);
+            if (in_array($leaveID, $leaveList)) {
+                $count++;
+            }
+        }
+
+        return $count;
     }
 }
