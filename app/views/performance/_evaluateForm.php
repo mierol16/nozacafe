@@ -120,7 +120,8 @@
                                 Gred 1 = 0%-20%, 2 = 21%-40%, 3 = 41%-60%, 4 = 61%-80%, 5 = 81%-100%
                             </center>
                         </td>
-                        <td> <center> <input type="text" class="form-control" style="text-align:center;" name="total_mark" id="total_mark" value="%" readonly> </center></td>
+                        <td> <center> <span id="mark_view" style="text-align:center;"></span>
+                        <input type="hidden" class="form-control" style="text-align:center;" name="total_mark" id="total_mark" readonly> </center></td>
                     </tr>
                     <tr id="performance_comment">
                         <td> &nbsp;&nbsp; Comments </td>
@@ -246,7 +247,8 @@
             grade = 5
         }
 
-        $('#total_mark').val(Math.round(total) + ' %');
+        $('#total_mark').val(Math.round(total));
+        $('#mark_view').text(Math.round(total) + ' %');
         $('#performance_gred').val(grade);
     }
 </script>
