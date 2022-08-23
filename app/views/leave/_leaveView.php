@@ -94,7 +94,7 @@
 
         if (data.files) {
             var files = data.files;
-            $('#preview_file').attr("onclick", "previewPDF('" + files.files_path + "', '" + files.files_extension + "')");
+            $('#preview_file').attr("onclick", "previewPDF('" + files.files_path + "', '" + files.files_mime + "')");
         } else {
             $('#preview_file').attr("disabled", true);
             $('#preview_file').attr("class", "btn btn-xs btn-danger");
