@@ -16,13 +16,13 @@
         <div class="col-lg-6">
             <div class="form-group">
                 <label> Date From <span class="text-danger">*</span> </label>
-                <input type="date" id="leave_date_from" name="leave_date_from" onchange="countDays()" class="form-control" required>
+                <input type="date" id="leave_date_from" name="leave_date_from" onchange="countDays()" class="form-control leave_date_from" required>
             </div>
         </div>
         <div class="col-lg-6">
             <div class="form-group">
                 <label> Date To <span class="text-danger">*</span> </label>
-                <input type="date" id="leave_date_to" name="leave_date_to" onchange="countDays()" class="form-control" required>
+                <input type="date" id="leave_date_to" name="leave_date_to" onchange="countDays()" class="form-control leave_date_to" required>
             </div>
         </div>
         <span id="alertLeave" class="text-danger"></span>
@@ -97,6 +97,11 @@
 
     function getPassData(baseUrl, token, data) {
         getSelectLeave();
+        var today = getCurrentDate();
+        document.getElementsByClassName("leave_date_from")[0].setAttribute("min", today);
+        document.getElementsByClassName("leave_date_from")[0].setAttribute("value", today);
+        document.getElementsByClassName("leave_date_to")[0].setAttribute("min", today);
+        document.getElementsByClassName("leave_date_to")[0].setAttribute("value", today);
     }
 
     async function getSelectLeave() {
@@ -110,6 +115,17 @@
     }
 
     async function countDays() {
+        var leave_from = $('#leave_date_from').val();
+        var leave_to = $('#leave_date_to').val();
+
+        if (leave_from != '') {
+            document.getElementsByClassName("leave_date_to")[0].setAttribute("min", leave_from);
+            document.getElementsByClassName("leave_date_to")[0].setAttribute("value", leave_from);
+        } else {
+            document.getElementsByClassName("leave_date_from")[0].setAttribute("max", leave_to);
+            document.getElementsByClassName("leave_date_from")[0].setAttribute("value", leave_to);
+        }
+
         var leave_id = $('#config_leave_id').val();
         if (leave_id == "" || leave_id == null) {
             return noti(500, 'Leave type is required');
